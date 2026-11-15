@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Khoa tu hoc automation test: Python + Playwright, Maestro, Appium + Java, JMeter va dung AI cho tester.">
+<meta name="description" content="Khoa tu hoc: automation test (Playwright, Maestro, Appium, JMeter), AI cho tester va lap trinh Flutter.">
 <title>Lộ trình Automation Tester</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -9346,6 +9346,4818 @@ Viết một đoạn 5–7 câu trả lời câu hỏi *"Bạn dùng AI trong c�
 Thứ không đổi qua cả 8 bài: **AI sinh bản nháp, bạn chịu trách nhiệm bản cuối.** Công cụ sẽ thay đổi liên tục, nguyên tắc này thì không.
 </script>
 
+<script type="text/markdown" data-id="fl-0" data-nav="Bài 0 · Cài Flutter và app đầu tiên">
+# Bài 0 — Cài Flutter và chạy app đầu tiên
+
+**Mục tiêu:** máy cài được Flutter, `flutter doctor` không còn lỗi đỏ, và bạn thấy app chạy trên máy ảo.
+
+## Flutter là gì
+
+Flutter là bộ công cụ của Google để viết app. Điểm mạnh: **viết một lần, chạy cả Android và iOS** (và cả web, desktop), giao diện đẹp sẵn, sửa code thấy kết quả ngay nhờ hot reload.
+
+Flutter dùng ngôn ngữ **Dart**. Đây là lý do Phần 1 của khoá học Dart trước — không biết Dart thì không viết được Flutter.
+
+| Thứ | Vai trò |
+| --- | --- |
+| Dart | Ngôn ngữ lập trình |
+| Flutter | Bộ công cụ và thư viện giao diện |
+| Flutter SDK | Trình biên dịch, lệnh `flutter`, thư viện chuẩn |
+| Widget | Mọi thứ hiển thị trên màn hình đều là widget |
+
+## 1. Cài Flutter SDK
+
+Vào `docs.flutter.dev/install`, chọn hệ điều hành, tải bản **stable** mới nhất (hiện là 3.44).
+
+**Windows:** giải nén vào `C:\src\flutter` — **không** đặt trong `Program Files` hay thư mục có dấu cách, sẽ lỗi. Rồi thêm `C:\src\flutter\bin` vào biến môi trường Path:
+
+```powershell
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\src\flutter\bin", "User")
+```
+
+**macOS:** cách gọn nhất là dùng Homebrew:
+
+```bash
+brew install --cask flutter
+```
+
+Đóng Terminal, mở lại, kiểm tra:
+
+```bash
+flutter --version
+```
+
+## 2. Cài Android Studio và máy ảo
+
+Tải tại `developer.android.com/studio`. Cài xong mở lên, để Setup Wizard tải Android SDK.
+
+Tạo máy ảo: **More Actions** → **Virtual Device Manager** → **Create Device** → Pixel 6 → System Image API 34 (bản x86_64) → Finish.
+
+Nếu bạn đã làm khoá Appium hoặc Maestro thì máy ảo có sẵn rồi, dùng lại luôn.
+
+## 3. Cài editor
+
+Chọn một trong hai, cả hai đều tốt:
+
+| Editor | Cài thêm gì |
+| --- | --- |
+| **VS Code** (nhẹ, nhanh) | Extension **Flutter** (tự kèm Dart) |
+| **Android Studio** (nặng, đủ đồ) | Plugin **Flutter** trong Settings → Plugins |
+
+Khoá này viết theo VS Code, nhưng mọi thứ làm được trên Android Studio.
+
+## 4. flutter doctor — bước quan trọng nhất
+
+```bash
+flutter doctor
+```
+
+Lệnh này kiểm tra mọi thứ và báo thiếu gì:
+
+```text
+[✓] Flutter (Channel stable, 3.44.0)
+[✓] Android toolchain - develop for Android devices
+[!] Android Studio (version 2026.1)
+    ✗ Android license status unknown.
+[✓] VS Code (version 1.9x)
+[✓] Connected device (1 available)
+```
+
+Thấy dòng `Android license status unknown` thì chạy:
+
+```bash
+flutter doctor --android-licenses
+```
+
+Rồi gõ `y` cho từng câu hỏi. Chỉ cần quan tâm tới dấu ✗; dấu `!` liên quan tới iOS hay Chrome thì bỏ qua nếu bạn chỉ làm Android.
+
+## 5. Tạo và chạy app đầu tiên
+
+```bash
+flutter create my_app
+cd my_app
+flutter run
+```
+
+Tên project phải viết thường, nối bằng `_`, không dấu cách. Khởi động máy ảo trước khi chạy `flutter run`.
+
+Lần đầu build mất 2–5 phút. App mẫu hiện ra với một nút dấu cộng và bộ đếm.
+
+## 6. Hot reload — thứ khiến Flutter dễ học
+
+App đang chạy, mở `lib/main.dart`, tìm dòng:
+
+```dart
+'You have pushed the button this many times:'
+```
+
+Sửa thành `'Bạn đã bấm nút bao nhiêu lần:'`, lưu file. Màn hình app đổi **ngay lập tức**, không phải build lại, và bộ đếm vẫn giữ nguyên số.
+
+| Phím trong terminal đang chạy | Tác dụng |
+| --- | --- |
+| `r` | Hot reload — giữ trạng thái |
+| `R` | Hot restart — chạy lại từ đầu |
+| `q` | Thoát |
+
+Trong VS Code chỉ cần Ctrl+S là tự hot reload.
+
+## Cấu trúc project
+
+```text
+my_app/
+├── lib/
+│   └── main.dart        ← code của bạn nằm ở đây
+├── android/             ← cấu hình riêng cho Android
+├── ios/                 ← cấu hình riêng cho iOS
+├── test/                ← test (Bài 21)
+├── assets/              ← ảnh, font (bạn tự tạo, Bài 19)
+└── pubspec.yaml         ← khai báo thư viện và asset
+```
+
+99% thời gian bạn làm việc trong `lib/` và `pubspec.yaml`.
+
+## Lỗi hay gặp
+
+| Lỗi | Cách sửa |
+| --- | --- |
+| `flutter: command not found` | Chưa thêm `bin` vào PATH, mở Terminal mới |
+| `Unable to locate Android SDK` | Cài Android Studio và mở nó ít nhất một lần |
+| `No devices found` | Máy ảo chưa bật, kiểm tra bằng `flutter devices` |
+| Build đứng rất lâu lần đầu | Bình thường, Gradle đang tải; đừng ngắt |
+| `cmdline-tools component is missing` | Android Studio → SDK Manager → SDK Tools → tick **Android SDK Command-line Tools** |
+
+## Bài tập
+
+1. Chạy `flutter doctor` cho đến khi không còn dấu ✗ nào liên quan Android.
+2. Tạo project `my_app` và chạy được trên máy ảo.
+3. Sửa dòng chữ trên màn hình, lưu và xem hot reload hoạt động.
+4. Đổi `primarySwatch` hoặc `seedColor` trong `main.dart` sang màu khác, xem app đổi màu.
+5. Bấm `R` trong terminal, quan sát khác biệt với hot reload.
+</script>
+
+<script type="text/markdown" data-id="fl-1" data-nav="Bài 1 · Dart: biến và kiểu dữ liệu">
+# Bài 1 — Dart: biến và kiểu dữ liệu
+
+**Mục tiêu:** viết được chương trình Dart đầu tiên, nắm biến và 5 kiểu dữ liệu.
+
+## Nơi luyện Dart
+
+Không cần tạo project Flutter để học Dart. Vào **dartpad.dev** — viết và chạy Dart ngay trên trình duyệt. Dùng nó cho hết Phần 1.
+
+## Chương trình đầu tiên
+
+```dart
+void main() {
+  print('Xin chào Flutter!');
+  print('1 + 1 = ${1 + 1}');
+}
+```
+
+`main()` là nơi chương trình bắt đầu chạy. Mỗi câu lệnh kết thúc bằng dấu `;`.
+
+## Khai báo biến
+
+```dart
+void main() {
+  String ten = 'Trang';
+  int tuoi = 30;
+  double diem = 9.5;
+  bool dangHoc = true;
+
+  var thanhPho = 'Huế';        // Dart tự hiểu là String
+  final ngaySinh = 1996;        // gán một lần, không đổi được
+  const PI = 3.14;              // hằng số biết trước lúc biên dịch
+
+  print('$ten, $tuoi tuổi, ở $thanhPho');
+}
+```
+
+| Cách khai báo | Khi nào dùng |
+| --- | --- |
+| `String ten = ...` | Ghi rõ kiểu — rõ ràng nhất cho người mới |
+| `var` | Dart tự đoán kiểu từ giá trị |
+| `final` | Giá trị gán một lần rồi không đổi |
+| `const` | Hằng số cố định từ lúc viết code |
+
+Khác biệt `final` và `const`: `final ngayHomNay = DateTime.now();` chạy được vì giá trị chỉ biết lúc chạy. `const ngayHomNay = DateTime.now();` báo lỗi.
+
+Trong Flutter bạn sẽ thấy `const` rất nhiều trước các widget — nó giúp app chạy nhanh hơn, Bài 7 sẽ nói rõ.
+
+## 5 kiểu dữ liệu cơ bản
+
+| Kiểu | Lưu gì | Ví dụ |
+| --- | --- | --- |
+| `String` | Chữ | `'Trang'` |
+| `int` | Số nguyên | `30` |
+| `double` | Số thực | `9.5` |
+| `bool` | Đúng/sai | `true` |
+| `dynamic` | Kiểu gì cũng được | Hạn chế dùng |
+
+Dart dùng nháy đơn `'...'` là chính, nháy kép `"..."` cũng được.
+
+## Chèn biến vào chuỗi
+
+```dart
+String ten = 'Trang';
+int tuoi = 30;
+
+print('Tên: $ten');                      // bien don gian: dau $
+print('Sang năm: ${tuoi + 1}');          // co tinh toan: ${...}
+print('Tên viết hoa: ${ten.toUpperCase()}');
+```
+
+Cách này gọi là *string interpolation*, dùng suốt khi viết Flutter.
+
+## Null safety — điểm quan trọng của Dart
+
+Mặc định biến **không được phép null**:
+
+```dart
+String ten = 'Trang';
+ten = null;        // LỖI
+```
+
+Muốn cho phép null thì thêm dấu `?`:
+
+```dart
+String? ten;              // duoc phep null, mac dinh la null
+print(ten);               // null
+
+ten = 'Trang';
+print(ten.length);        // LOI: Dart khong chac ten co null khong
+print(ten?.length);       // an toan: null thi tra ve null
+print(ten!.length);       // ! nghia la "toi chac chan khong null"
+```
+
+| Ký hiệu | Nghĩa |
+| --- | --- |
+| `String?` | Biến này có thể null |
+| `?.` | Gọi nếu không null, ngược lại trả về null |
+| `??` | Giá trị thay thế khi null: `ten ?? 'Chưa có tên'` |
+| `!` | Khẳng định không null — sai là app crash |
+
+Dùng `!` ít thôi. Nó tắt phần bảo vệ mà Dart dựng ra cho bạn.
+
+## Chuyển kiểu
+
+```dart
+String soChu = '25';
+int so = int.parse(soChu);
+double thuc = double.parse('9.5');
+
+int tuoi = 30;
+String chu = tuoi.toString();
+
+print(9.7.round());      // 10
+print(9.7.toInt());      // 9 - cat phan thap phan
+```
+
+## Lỗi hay gặp
+
+| Lỗi | Nghĩa | Cách sửa |
+| --- | --- | --- |
+| `Expected to find ';'` | Thiếu dấu chấm phẩy | Thêm `;` |
+| `The non-nullable variable must be assigned` | Khai báo mà chưa gán | Gán giá trị, hoặc thêm `?` |
+| `can't be unconditionally invoked because the receiver can be null` | Gọi method trên biến có thể null | Dùng `?.` hoặc kiểm tra null trước |
+| `A value of type 'String' can't be assigned to 'int'` | Gán sai kiểu | Dùng `int.parse()` |
+
+## Bài tập
+
+1. Mở dartpad.dev, in ra tên, tuổi và nơi ở của bạn bằng string interpolation.
+2. Khai báo một biến `final` rồi thử gán lại, đọc lỗi.
+3. Khai báo `String? ghiChu;` và in ra `ghiChu ?? 'Không có ghi chú'`.
+4. Nhập chuỗi `'42'`, chuyển sang số rồi cộng thêm 8.
+5. Thử gọi `.length` trên một biến `String?` chưa gán, đọc lỗi và sửa bằng `?.`.
+</script>
+
+<script type="text/markdown" data-id="fl-2" data-nav="Bài 2 · Dart: điều kiện và vòng lặp">
+# Bài 2 — Dart: toán tử, điều kiện và vòng lặp
+
+**Mục tiêu:** cho chương trình ra quyết định và lặp công việc.
+
+## Toán tử
+
+```dart
+int a = 10, b = 3;
+
+print(a + b);     // 13
+print(a - b);     // 7
+print(a * b);     // 30
+print(a / b);     // 3.3333... (luon ra double)
+print(a ~/ b);    // 3  - chia lay phan nguyen
+print(a % b);     // 1  - chia lay du
+```
+
+`~/` là toán tử riêng của Dart, nhiều ngôn ngữ khác không có.
+
+So sánh và logic:
+
+| Toán tử | Nghĩa |
+| --- | --- |
+| `==` `!=` | Bằng, khác (dùng được cho cả chuỗi) |
+| `>` `<` `>=` `<=` | So sánh số |
+| `&&` | Và |
+| `\|\|` | Hoặc |
+| `!` | Phủ định |
+
+Khác Java: trong Dart so sánh chuỗi dùng `==` bình thường, không cần `.equals()`.
+
+## if / else
+
+```dart
+int diem = 8;
+
+if (diem >= 8) {
+  print('Giỏi');
+} else if (diem >= 5) {
+  print('Đạt');
+} else {
+  print('Chưa đạt');
+}
+```
+
+Viết gọn bằng toán tử ba ngôi — dùng rất nhiều trong Flutter:
+
+```dart
+String ketQua = diem >= 5 ? 'Đạt' : 'Chưa đạt';
+```
+
+Đọc là: nếu `diem >= 5` thì lấy `'Đạt'`, ngược lại lấy `'Chưa đạt'`.
+
+## switch
+
+```dart
+String vaiTro = 'admin';
+
+switch (vaiTro) {
+  case 'admin':
+    print('Toàn quyền');
+  case 'user':
+    print('Quyền thường');
+  default:
+    print('Khách');
+}
+```
+
+Dart 3 không cần `break` nữa. Viết gọn hơn:
+
+```dart
+String mo = switch (vaiTro) {
+  'admin' => 'Toàn quyền',
+  'user' => 'Quyền thường',
+  _ => 'Khách',
+};
+```
+
+Dấu `_` nghĩa là "các trường hợp còn lại".
+
+## Vòng lặp for
+
+```dart
+for (int i = 1; i <= 5; i++) {
+  print('Lần $i');
+}
+
+// for-in: duyet danh sach
+List<String> mon = ['Toán', 'Lý', 'Hoá'];
+for (String m in mon) {
+  print(m);
+}
+
+// forEach
+mon.forEach((m) => print(m));
+```
+
+Dạng `for-in` là dạng bạn dùng nhiều nhất.
+
+## while và do-while
+
+```dart
+int dem = 0;
+while (dem < 3) {
+  print('Đếm $dem');
+  dem++;
+}
+
+do {
+  print('Chạy ít nhất một lần');
+  dem++;
+} while (dem < 3);
+```
+
+Khác biệt: `do-while` luôn chạy ít nhất một lần, vì nó kiểm tra điều kiện sau khi chạy.
+
+## break và continue
+
+```dart
+for (int i = 1; i <= 10; i++) {
+  if (i == 3) continue;     // bo qua vong nay
+  if (i == 6) break;        // thoat han
+  print(i);                 // 1 2 4 5
+}
+```
+
+## Ví dụ gộp
+
+```dart
+void main() {
+  List<int> diem = [8, 5, 9, 3, 7];
+  int tongDiem = 0;
+  int soDat = 0;
+
+  for (int d in diem) {
+    tongDiem += d;
+    if (d >= 5) soDat++;
+  }
+
+  double trungBinh = tongDiem / diem.length;
+
+  print('Trung bình: ${trungBinh.toStringAsFixed(1)}');
+  print('Số môn đạt: $soDat/${diem.length}');
+  print(trungBinh >= 5 ? 'Qua môn' : 'Học lại');
+}
+```
+
+`toStringAsFixed(1)` làm tròn còn 1 chữ số thập phân — hay dùng khi hiển thị giá tiền hoặc điểm số trong app.
+
+## Bài tập
+
+1. In các số từ 1 đến 20, số chia hết cho 3 thì in `Fizz` thay cho số.
+2. Có `List<int> gia = [25000, 40000, 15000];`, tính tổng và in ra giá cao nhất.
+3. Viết chương trình phân loại điểm bằng `switch` kiểu mới của Dart 3.
+4. Dùng toán tử ba ngôi in ra `'Còn hàng'` hoặc `'Hết hàng'` dựa trên biến `int soLuong`.
+5. Viết vòng `while` cộng dồn 1+2+3... cho đến khi tổng vượt 100, in ra số dừng lại.
+</script>
+
+<script type="text/markdown" data-id="fl-3" data-nav="Bài 3 · Dart: List, Map, Set">
+# Bài 3 — Dart: List, Map và Set
+
+**Mục tiêu:** chứa nhiều dữ liệu. Trong Flutter, mọi danh sách sản phẩm, danh sách tin nhắn, dữ liệu từ API đều là `List` và `Map`.
+
+## List — danh sách
+
+```dart
+List<String> monHoc = ['Toán', 'Lý', 'Hoá'];
+
+print(monHoc[0]);            // Toán - dem tu 0
+print(monHoc.length);        // 3
+print(monHoc.first);         // Toán
+print(monHoc.last);          // Hoá
+print(monHoc.isEmpty);       // false
+
+monHoc.add('Sinh');
+monHoc.insert(0, 'Văn');
+monHoc.remove('Lý');
+monHoc.removeAt(0);
+
+print(monHoc.contains('Hoá'));   // true
+print(monHoc.indexOf('Hoá'));    // vi tri
+```
+
+`List<String>` nghĩa là danh sách chứa chuỗi. Phần trong `< >` cho Dart biết kiểu phần tử, nhờ vậy editor bắt lỗi khi bạn thêm nhầm kiểu.
+
+## Các method biến đổi danh sách
+
+Đây là phần dùng nhiều nhất khi làm app:
+
+```dart
+List<int> gia = [25000, 40000, 15000, 60000];
+
+// map: bien doi tung phan tu
+List<String> hienThi = gia.map((g) => '$g đ').toList();
+
+// where: loc
+List<int> giaRe = gia.where((g) => g < 30000).toList();
+
+// reduce / fold: gop lai thanh mot gia tri
+int tong = gia.reduce((a, b) => a + b);
+
+// sort: sap xep
+gia.sort();                            // tang dan
+gia.sort((a, b) => b.compareTo(a));    // giam dan
+
+// any / every
+print(gia.any((g) => g > 50000));      // co cai nao > 50k khong
+print(gia.every((g) => g > 10000));    // tat ca deu > 10k chu
+```
+
+Nhớ `.toList()` ở cuối `map` và `where` — thiếu nó bạn nhận về một `Iterable`, không phải `List`, và Flutter sẽ báo lỗi kiểu.
+
+## Map — cặp khoá và giá trị
+
+```dart
+Map<String, dynamic> sanPham = {
+  'ten': 'Áo thun',
+  'gia': 150000,
+  'conHang': true,
+};
+
+print(sanPham['ten']);                       // Áo thun
+print(sanPham['mauSac'] ?? 'Chưa có');       // Chưa có
+
+sanPham['mauSac'] = 'Xanh';
+sanPham.remove('conHang');
+
+print(sanPham.keys);      // tat ca khoa
+print(sanPham.values);    // tat ca gia tri
+print(sanPham.containsKey('gia'));
+
+sanPham.forEach((khoa, giaTri) {
+  print('$khoa: $giaTri');
+});
+```
+
+`Map<String, dynamic>` là kiểu bạn gặp liên tục ở Bài 15, vì dữ liệu JSON từ API trả về đúng dạng này.
+
+## List của Map — cấu trúc hay gặp nhất
+
+```dart
+List<Map<String, dynamic>> danhSach = [
+  {'ten': 'Áo thun', 'gia': 150000},
+  {'ten': 'Quần jean', 'gia': 350000},
+  {'ten': 'Mũ lưỡi trai', 'gia': 90000},
+];
+
+for (var sp in danhSach) {
+  print('${sp['ten']}: ${sp['gia']} đ');
+}
+
+// loc san pham duoi 200k
+var giaRe = danhSach.where((sp) => sp['gia'] < 200000).toList();
+print(giaRe.length);
+```
+
+## Set — không trùng lặp
+
+```dart
+Set<String> the = {'mới', 'giảm giá', 'mới'};
+print(the);          // {mới, giảm giá} - tu loai trung
+print(the.length);   // 2
+
+List<String> coTrung = ['a', 'b', 'a', 'c'];
+print(coTrung.toSet().toList());   // [a, b, c]
+```
+
+## Collection if và for — đặc sản của Dart
+
+Viết điều kiện và vòng lặp **ngay trong danh sách**. Flutter dùng cái này rất nhiều để dựng giao diện có điều kiện:
+
+```dart
+bool laAdmin = true;
+
+List<String> menu = [
+  'Trang chủ',
+  'Sản phẩm',
+  if (laAdmin) 'Quản trị',          // chi them khi laAdmin = true
+  ...['Liên hệ', 'Giới thiệu'],      // ... rai phan tu cua list khac vao
+];
+
+print(menu);
+
+// collection for
+List<int> so = [1, 2, 3];
+List<String> nhan = [for (int s in so) 'Mục $s'];
+print(nhan);     // [Mục 1, Mục 2, Mục 3]
+```
+
+Dấu `...` gọi là *spread operator*. Bài 8 sẽ dùng nó để ghép các widget vào một cột.
+
+## Bài tập
+
+1. Tạo `List<String>` 5 món đồ, thêm 1, xoá 1, in danh sách cuối cùng.
+2. Có `List<int> diem = [8, 5, 9, 3, 7];` — dùng `where` lọc điểm từ 5 trở lên, dùng `reduce` tính tổng.
+3. Tạo `Map` mô tả một sản phẩm gồm tên, giá, số lượng. In từng cặp khoá–giá trị.
+4. Tạo `List<Map<String, dynamic>>` gồm 4 sản phẩm, sắp xếp theo giá tăng dần rồi in ra.
+5. Dùng collection if dựng danh sách menu có mục 'Quản trị' chỉ khi `laAdmin == true`.
+</script>
+
+<script type="text/markdown" data-id="fl-4" data-nav="Bài 4 · Dart: hàm">
+# Bài 4 — Dart: hàm
+
+**Mục tiêu:** viết hàm với các kiểu tham số của Dart. Flutter dùng hàm ở khắp nơi, nhất là tham số đặt tên.
+
+## Hàm cơ bản
+
+```dart
+// Ham khong tra ve gi
+void chao(String ten) {
+  print('Xin chào $ten');
+}
+
+// Ham co tra ve
+int cong(int a, int b) {
+  return a + b;
+}
+
+// Arrow function: than ham chi co 1 dong
+int nhan(int a, int b) => a * b;
+
+void main() {
+  chao('Trang');
+  print(cong(3, 4));
+  print(nhan(3, 4));
+}
+```
+
+`=>` là cách viết tắt của `{ return ...; }`. Flutter dùng dạng này rất nhiều.
+
+## Tham số đặt tên — quan trọng nhất cho Flutter
+
+```dart
+void taoUser({
+  required String ten,
+  int tuoi = 18,
+  String? email,
+}) {
+  print('$ten, $tuoi tuổi, email: ${email ?? "chưa có"}');
+}
+
+void main() {
+  taoUser(ten: 'Trang');
+  taoUser(ten: 'Nam', tuoi: 25, email: 'nam@test.com');
+  taoUser(tuoi: 30, ten: 'Lan');     // thu tu khong quan trong
+}
+```
+
+| Từ khoá | Nghĩa |
+| --- | --- |
+| `{ }` quanh tham số | Tham số đặt tên — gọi phải ghi `ten:` |
+| `required` | Bắt buộc phải truyền |
+| `= 18` | Giá trị mặc định nếu không truyền |
+| `String?` | Có thể không truyền, mặc định null |
+
+Đây chính là cách mọi widget Flutter nhận tham số:
+
+```dart
+Text('Xin chào', style: TextStyle(fontSize: 20))
+Container(width: 100, height: 50, color: Colors.blue)
+```
+
+Hiểu tham số đặt tên là hiểu được cú pháp Flutter.
+
+## Tham số vị trí tuỳ chọn
+
+```dart
+String ghep(String a, [String? b, String? c]) {
+  return '$a ${b ?? ""} ${c ?? ""}'.trim();
+}
+
+print(ghep('Xin'));                  // Xin
+print(ghep('Xin', 'chào', 'bạn'));   // Xin chào bạn
+```
+
+Ít dùng hơn tham số đặt tên.
+
+## Hàm là một giá trị
+
+Trong Dart, hàm có thể gán vào biến và truyền vào hàm khác:
+
+```dart
+void main() {
+  // gan ham vao bien
+  var tinh = (int a, int b) => a + b;
+  print(tinh(2, 3));
+
+  // truyen ham vao ham khac
+  List<int> so = [1, 2, 3];
+  so.forEach((s) => print(s * 2));
+}
+```
+
+Hàm không tên như `(s) => print(s * 2)` gọi là *anonymous function*. Khi bạn viết `onPressed: () { ... }` trong Flutter, đó chính là một anonymous function.
+
+## Callback — hàm chạy khi có việc xảy ra
+
+```dart
+void bamNut(String nhan, void Function() khiBam) {
+  print('Nút "$nhan" được bấm');
+  khiBam();
+}
+
+void main() {
+  bamNut('Lưu', () {
+    print('Đang lưu dữ liệu...');
+  });
+}
+```
+
+`void Function()` là kiểu "hàm không tham số, không trả về". Mọi nút bấm trong Flutter nhận đúng kiểu này.
+
+## Hàm trả về nhiều giá trị
+
+Dart 3 có **record**:
+
+```dart
+(String, int) layThongTin() {
+  return ('Trang', 30);
+}
+
+void main() {
+  var (ten, tuoi) = layThongTin();
+  print('$ten - $tuoi');
+}
+```
+
+## Bài tập
+
+1. Viết hàm `tinhTB(List<int> diem)` trả về điểm trung bình kiểu `double`.
+2. Viết hàm `taoSanPham({required String ten, required int gia, int soLuong = 1})` in ra thông tin.
+3. Viết hàm `xepLoai(double diem)` trả về `'Giỏi'`, `'Khá'`, `'Trung bình'` hoặc `'Yếu'`, dùng arrow function nếu được.
+4. Viết hàm nhận một callback và gọi nó 3 lần.
+5. Viết hàm trả về record gồm tên và giá của sản phẩm rẻ nhất trong một list.
+</script>
+
+<script type="text/markdown" data-id="fl-5" data-nav="Bài 5 · Dart: class và OOP">
+# Bài 5 — Dart: class và lập trình hướng đối tượng
+
+**Mục tiêu:** viết class để mô tả dữ liệu. Mọi widget Flutter đều là class, và mọi dữ liệu từ API đều được chuyển thành class.
+
+## Class đầu tiên
+
+```dart
+class SanPham {
+  String ten;
+  int gia;
+  bool conHang;
+
+  SanPham(this.ten, this.gia, this.conHang);
+
+  void hienThi() {
+    print('$ten - $gia đ - ${conHang ? "Còn hàng" : "Hết hàng"}');
+  }
+}
+
+void main() {
+  var ao = SanPham('Áo thun', 150000, true);
+  ao.hienThi();
+  print(ao.gia);
+}
+```
+
+Dòng `SanPham(this.ten, this.gia, this.conHang);` là **constructor** — hàm chạy khi tạo đối tượng. Cú pháp `this.ten` là cách viết tắt của Dart: nhận tham số và gán thẳng vào thuộc tính.
+
+Dart không cần từ khoá `new`, viết `SanPham(...)` là đủ.
+
+## Constructor với tham số đặt tên
+
+Đây mới là dạng bạn dùng trong Flutter:
+
+```dart
+class SanPham {
+  final String ten;
+  final int gia;
+  final int soLuong;
+
+  SanPham({
+    required this.ten,
+    required this.gia,
+    this.soLuong = 1,
+  });
+
+  int get thanhTien => gia * soLuong;
+}
+
+void main() {
+  var ao = SanPham(ten: 'Áo thun', gia: 150000, soLuong: 2);
+  print(ao.thanhTien);    // 300000
+}
+```
+
+Để thuộc tính là `final` khi dữ liệu không đổi sau khi tạo — an toàn hơn và giúp Flutter tối ưu.
+
+`get thanhTien` là **getter**: một giá trị tính ra từ các thuộc tính khác, gọi như thuộc tính chứ không phải method (không có dấu ngoặc).
+
+## Chuyển đổi với JSON
+
+Phần quan trọng nhất của bài này — Bài 15 sẽ dùng liên tục:
+
+```dart
+class SanPham {
+  final String ten;
+  final int gia;
+
+  SanPham({required this.ten, required this.gia});
+
+  // Tu Map (JSON) sang object
+  factory SanPham.fromJson(Map<String, dynamic> json) {
+    return SanPham(
+      ten: json['ten'] ?? '',
+      gia: json['gia'] ?? 0,
+    );
+  }
+
+  // Tu object sang Map
+  Map<String, dynamic> toJson() {
+    return {'ten': ten, 'gia': gia};
+  }
+}
+
+void main() {
+  var json = {'ten': 'Áo thun', 'gia': 150000};
+  var sp = SanPham.fromJson(json);
+  print(sp.ten);
+  print(sp.toJson());
+}
+```
+
+`factory` là constructor đặc biệt, cho phép xử lý trước khi trả về đối tượng. Dùng `?? ''` và `?? 0` để app không crash khi API thiếu trường.
+
+## Kế thừa
+
+```dart
+class NguoiDung {
+  final String ten;
+  NguoiDung(this.ten);
+
+  void gioiThieu() {
+    print('Tôi là $ten');
+  }
+}
+
+class Admin extends NguoiDung {
+  final List<String> quyen;
+
+  Admin(String ten, this.quyen) : super(ten);
+
+  @override
+  void gioiThieu() {
+    super.gioiThieu();
+    print('Tôi có ${quyen.length} quyền');
+  }
+}
+
+void main() {
+  var a = Admin('Trang', ['xoa', 'sua']);
+  a.gioiThieu();
+}
+```
+
+| Từ khoá | Nghĩa |
+| --- | --- |
+| `extends` | Kế thừa class khác |
+| `super(...)` | Gọi constructor của class cha |
+| `@override` | Viết đè method của class cha |
+| `super.method()` | Gọi method gốc của class cha |
+
+Khi viết Flutter bạn sẽ gõ `extends StatelessWidget` và `@override Widget build(...)` ở mọi màn hình.
+
+## abstract class
+
+```dart
+abstract class HinhHoc {
+  double dienTich();       // chua co than ham
+
+  void inRa() {
+    print('Diện tích: ${dienTich()}');
+  }
+}
+
+class HinhTron extends HinhHoc {
+  final double banKinh;
+  HinhTron(this.banKinh);
+
+  @override
+  double dienTich() => 3.14 * banKinh * banKinh;
+}
+```
+
+`abstract` nghĩa là không tạo đối tượng trực tiếp được, chỉ dùng để class khác kế thừa. Nó bắt class con phải viết các method chưa có thân.
+
+## copyWith — mẫu rất hay dùng
+
+Tạo bản sao với vài trường đổi:
+
+```dart
+class SanPham {
+  final String ten;
+  final int gia;
+
+  SanPham({required this.ten, required this.gia});
+
+  SanPham copyWith({String? ten, int? gia}) {
+    return SanPham(
+      ten: ten ?? this.ten,
+      gia: gia ?? this.gia,
+    );
+  }
+}
+
+void main() {
+  var ao = SanPham(ten: 'Áo thun', gia: 150000);
+  var aoGiamGia = ao.copyWith(gia: 99000);
+  print('${aoGiamGia.ten} - ${aoGiamGia.gia}');
+}
+```
+
+Bài 14 sẽ dùng `copyWith` khi quản lý state.
+
+## Bài tập
+
+1. Viết class `SinhVien` có tên, tuổi, danh sách điểm; thêm getter `diemTB`.
+2. Viết constructor dùng tham số đặt tên với `required` và giá trị mặc định.
+3. Thêm `fromJson` và `toJson` cho class đó.
+4. Viết `abstract class ConVat` có method `keu()`, rồi tạo `Cho` và `Meo` kế thừa nó.
+5. Thêm `copyWith` cho class `SanPham` và tạo một bản sao đổi giá.
+</script>
+
+<script type="text/markdown" data-id="fl-6" data-nav="Bài 6 · Dart: async và Future">
+# Bài 6 — Dart: async, await và Future
+
+**Mục tiêu:** xử lý việc mất thời gian — gọi API, đọc file, truy vấn database. Không hiểu phần này thì không gọi được API ở Bài 15.
+
+## Vấn đề
+
+Gọi API mất 1–2 giây. Nếu chương trình đứng chờ, app sẽ đơ, người dùng bấm gì cũng không được. Dart giải quyết bằng cách cho việc đó chạy nền và báo lại khi xong.
+
+## Future — một giá trị sẽ có trong tương lai
+
+```dart
+Future<String> layTenNguoiDung() async {
+  await Future.delayed(Duration(seconds: 2));    // gia lap goi API
+  return 'Trang';
+}
+
+void main() async {
+  print('Bắt đầu');
+  String ten = await layTenNguoiDung();
+  print('Tên: $ten');
+  print('Kết thúc');
+}
+```
+
+Kết quả: in `Bắt đầu`, chờ 2 giây, rồi in `Tên: Trang` và `Kết thúc`.
+
+| Từ khoá | Nghĩa |
+| --- | --- |
+| `Future<String>` | Hứa sẽ trả về một `String`, nhưng chưa có ngay |
+| `async` | Đánh dấu hàm này có việc chờ bên trong |
+| `await` | Dừng ở đây, chờ kết quả rồi mới chạy tiếp |
+
+Quy tắc: **có `await` thì hàm phải có `async`.** Thiếu `async` là lỗi ngay.
+
+## Quên await thì sao
+
+```dart
+void main() async {
+  String ten = await layTenNguoiDung();   // Trang
+  var ten2 = layTenNguoiDung();           // Instance of 'Future<String>'
+  print(ten2);
+}
+```
+
+Không `await` thì bạn nhận về cái hộp, không phải giá trị bên trong. Đây là lỗi phổ biến nhất khi mới học async.
+
+## Bắt lỗi
+
+```dart
+Future<String> layDuLieu() async {
+  await Future.delayed(Duration(seconds: 1));
+  throw Exception('Mất kết nối mạng');
+}
+
+void main() async {
+  try {
+    String kq = await layDuLieu();
+    print(kq);
+  } catch (e) {
+    print('Lỗi: $e');
+  } finally {
+    print('Đã xử lý xong');
+  }
+}
+```
+
+Mọi lệnh gọi API trong app thật đều phải bọc `try/catch`. Thiếu nó, mạng yếu là app crash.
+
+## Chạy nhiều việc cùng lúc
+
+```dart
+void main() async {
+  // Cach cham: 3 giay
+  var a = await viecMotGiay();
+  var b = await viecMotGiay();
+  var c = await viecMotGiay();
+
+  // Cach nhanh: 1 giay - chay song song
+  var kq = await Future.wait([
+    viecMotGiay(),
+    viecMotGiay(),
+    viecMotGiay(),
+  ]);
+  print(kq);
+}
+```
+
+`Future.wait` dùng khi màn hình cần gọi nhiều API độc lập nhau — ví dụ vừa lấy danh sách sản phẩm vừa lấy thông tin người dùng.
+
+## Stream — nhiều giá trị theo thời gian
+
+`Future` trả về **một** giá trị. `Stream` trả về **nhiều** giá trị liên tiếp — như tin nhắn mới, vị trí GPS, dữ liệu realtime.
+
+```dart
+Stream<int> demNguoc(int tu) async* {
+  for (int i = tu; i >= 0; i--) {
+    await Future.delayed(Duration(seconds: 1));
+    yield i;                  // phat ra mot gia tri
+  }
+}
+
+void main() async {
+  await for (int so in demNguoc(3)) {
+    print(so);                // 3, 2, 1, 0 - moi giay mot so
+  }
+}
+```
+
+| Khái niệm | Future | Stream |
+| --- | --- | --- |
+| Trả về | Một giá trị | Nhiều giá trị theo thời gian |
+| Khai báo hàm | `async` | `async*` |
+| Trả giá trị | `return` | `yield` |
+| Nhận giá trị | `await` | `await for` |
+| Widget tương ứng | `FutureBuilder` | `StreamBuilder` |
+
+Bài 15 dùng `FutureBuilder`; Bài 22 dùng `StreamBuilder` khi lấy dữ liệu realtime từ Firebase.
+
+## Ví dụ gần với app thật
+
+```dart
+class SanPham {
+  final String ten;
+  final int gia;
+  SanPham(this.ten, this.gia);
+}
+
+Future<List<SanPham>> taiSanPham() async {
+  await Future.delayed(Duration(seconds: 2));
+  return [
+    SanPham('Áo thun', 150000),
+    SanPham('Quần jean', 350000),
+  ];
+}
+
+void main() async {
+  print('Đang tải...');
+  try {
+    var ds = await taiSanPham();
+    for (var sp in ds) {
+      print('${sp.ten}: ${sp.gia} đ');
+    }
+  } catch (e) {
+    print('Không tải được: $e');
+  }
+}
+```
+
+Đúng cấu trúc bạn sẽ viết ở Bài 15, chỉ khác là thay `Future.delayed` bằng lệnh gọi API thật.
+
+## Bài tập
+
+1. Viết hàm `Future<int> tinhTong()` chờ 1 giây rồi trả về tổng của một list.
+2. Gọi hàm đó cả có `await` lẫn không `await`, so sánh kết quả in ra.
+3. Viết hàm ném lỗi và bắt bằng `try/catch/finally`.
+4. Dùng `Future.wait` chạy 3 hàm cùng lúc, đo thời gian bằng `DateTime.now()`.
+5. Viết `Stream` phát ra 5 số ngẫu nhiên, mỗi giây một số, và in ra bằng `await for`.
+</script>
+
+<script type="text/markdown" data-id="fl-7" data-nav="Bài 7 · Widget đầu tiên">
+# Bài 7 — Widget: viên gạch của Flutter
+
+**Mục tiêu:** hiểu widget và tự viết màn hình đầu tiên. Từ bài này trở đi là Flutter thật.
+
+## Mọi thứ đều là widget
+
+Chữ, nút, ảnh, khoảng trắng, cả màn hình — đều là widget. Giao diện Flutter là một **cây widget**: widget chứa widget khác.
+
+```text
+MaterialApp
+└── Scaffold
+    ├── AppBar
+    │   └── Text('Trang chủ')
+    └── Center
+        └── Text('Xin chào')
+```
+
+## App đầu tiên viết tay
+
+Xoá hết `lib/main.dart` và thay bằng:
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App đầu tiên',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        useMaterial3: true,
+      ),
+      home: const TrangChu(),
+    );
+  }
+}
+
+class TrangChu extends StatelessWidget {
+  const TrangChu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Trang chủ'),
+      ),
+      body: const Center(
+        child: Text(
+          'Xin chào Flutter!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+```
+
+Chạy `flutter run`.
+
+## Giải thích từng phần
+
+| Dòng | Nghĩa |
+| --- | --- |
+| `import 'package:flutter/material.dart'` | Nạp bộ widget Material Design, luôn có ở mọi file |
+| `runApp(...)` | Khởi động app với widget gốc |
+| `extends StatelessWidget` | Widget không có trạng thái thay đổi |
+| `const MyApp({super.key})` | Constructor chuẩn của widget |
+| `Widget build(BuildContext context)` | Hàm vẽ ra giao diện, Flutter tự gọi |
+| `MaterialApp` | Widget gốc, cấu hình theme và điều hướng |
+| `Scaffold` | Khung một màn hình: appBar, body, nút nổi, menu |
+| `AppBar` | Thanh tiêu đề trên cùng |
+| `body` | Phần nội dung chính |
+| `Center` | Căn giữa widget con |
+
+`build` là hàm quan trọng nhất: Flutter gọi nó mỗi khi cần vẽ lại màn hình.
+
+## Scaffold — khung một màn hình
+
+```dart
+Scaffold(
+  appBar: AppBar(title: const Text('Tiêu đề')),
+  body: const Center(child: Text('Nội dung')),
+  floatingActionButton: FloatingActionButton(
+    onPressed: () {},
+    child: const Icon(Icons.add),
+  ),
+  bottomNavigationBar: BottomNavigationBar(
+    items: const [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Cá nhân'),
+    ],
+  ),
+)
+```
+
+## Vì sao có const ở khắp nơi
+
+```dart
+const Text('Xin chào')      // tot
+Text('Xin chào')            // chay duoc nhung cham hon
+```
+
+`const` nói với Flutter: widget này không bao giờ đổi, không cần vẽ lại. Thêm `const` ở đâu được thì thêm — VS Code tự gợi ý.
+
+Chỉ dùng `const` khi mọi giá trị bên trong đều cố định. `Text(ten)` với `ten` là biến thì không `const` được.
+
+## Tách widget thành class riêng
+
+Đừng viết một hàm `build` dài 300 dòng. Tách ra:
+
+```dart
+class TheSanPham extends StatelessWidget {
+  final String ten;
+  final int gia;
+
+  const TheSanPham({super.key, required this.ten, required this.gia});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text(ten),
+        subtitle: Text('$gia đ'),
+        trailing: const Icon(Icons.chevron_right),
+      ),
+    );
+  }
+}
+```
+
+Dùng:
+
+```dart
+body: Column(
+  children: const [
+    TheSanPham(ten: 'Áo thun', gia: 150000),
+    TheSanPham(ten: 'Quần jean', gia: 350000),
+  ],
+)
+```
+
+Đây chính là class và tham số đặt tên ở Bài 4 và 5 — giờ bạn thấy nó dùng để làm gì.
+
+## Xem cây widget
+
+Flutter DevTools cho bạn nhìn toàn bộ cây widget đang chạy. Trong VS Code: mở Command Palette (Ctrl+Shift+P) → **Flutter: Open DevTools** → tab **Widget Inspector**.
+
+Rất hữu ích khi giao diện hiển thị sai mà bạn không biết widget nào gây ra.
+
+## Lỗi hay gặp
+
+| Lỗi | Nguyên nhân | Cách sửa |
+| --- | --- | --- |
+| `No MaterialLocalizations found` | Dùng widget Material ngoài `MaterialApp` | Bọc trong `MaterialApp` |
+| `Scaffold.of() called with a context that does not contain a Scaffold` | Gọi sai chỗ | Tách widget con ra class riêng |
+| `The argument type 'Widget' can't be assigned to 'List<Widget>'` | `children:` nhận list, bạn truyền một widget | Bọc trong `[ ]` |
+| Màn hình trắng trơn | Quên `home:` hoặc `body:` | Kiểm tra cấu trúc |
+
+## Bài tập
+
+1. Viết lại `main.dart` theo mẫu trên, đổi tiêu đề và nội dung thành của bạn.
+2. Đổi `seedColor` sang màu khác, xem toàn bộ app đổi tông màu.
+3. Thêm `floatingActionButton` hình dấu cộng.
+4. Tạo widget `TheSanPham` riêng và hiển thị 3 sản phẩm.
+5. Mở DevTools và tìm widget `Text` của bạn trong cây widget.
+</script>
+
+<script type="text/markdown" data-id="fl-8" data-nav="Bài 8 · Layout: sắp xếp giao diện">
+# Bài 8 — Layout: sắp xếp widget trên màn hình
+
+**Mục tiêu:** đặt widget đúng chỗ mình muốn. Đây là bài quyết định bạn dựng được giao diện hay không.
+
+## Column và Row — hai widget quan trọng nhất
+
+```dart
+// Xep doc
+Column(
+  children: const [
+    Text('Dòng 1'),
+    Text('Dòng 2'),
+    Text('Dòng 3'),
+  ],
+)
+
+// Xep ngang
+Row(
+  children: const [
+    Icon(Icons.star),
+    Text('4.5'),
+    Text('(120 đánh giá)'),
+  ],
+)
+```
+
+## Căn chỉnh trong Column và Row
+
+```dart
+Column(
+  mainAxisAlignment: MainAxisAlignment.center,      // doc: tren-duoi
+  crossAxisAlignment: CrossAxisAlignment.start,     // ngang: trai-phai
+  children: [...],
+)
+```
+
+Quy tắc dễ nhớ:
+
+| Widget | mainAxis | crossAxis |
+| --- | --- | --- |
+| `Column` | Dọc (trên–dưới) | Ngang (trái–phải) |
+| `Row` | Ngang (trái–phải) | Dọc (trên–dưới) |
+
+Giá trị hay dùng:
+
+| Giá trị | Kết quả |
+| --- | --- |
+| `start` | Dồn về đầu |
+| `center` | Vào giữa |
+| `end` | Dồn về cuối |
+| `spaceBetween` | Dàn đều, sát hai mép |
+| `spaceEvenly` | Dàn đều kể cả hai đầu |
+| `spaceAround` | Dàn đều, hai đầu nửa khoảng |
+
+```dart
+// Ten san pham ben trai, gia ben phai
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: const [
+    Text('Áo thun'),
+    Text('150.000 đ'),
+  ],
+)
+```
+
+## Container — hộp vạn năng
+
+```dart
+Container(
+  width: 200,
+  height: 100,
+  padding: const EdgeInsets.all(16),
+  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  decoration: BoxDecoration(
+    color: Colors.teal.shade50,
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: Colors.teal),
+    boxShadow: const [
+      BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
+    ],
+  ),
+  child: const Text('Nội dung'),
+)
+```
+
+| Thuộc tính | Nghĩa |
+| --- | --- |
+| `padding` | Khoảng cách **bên trong**, giữa viền và nội dung |
+| `margin` | Khoảng cách **bên ngoài**, đẩy các widget khác ra |
+| `decoration` | Màu nền, bo góc, viền, đổ bóng |
+
+Lưu ý: đặt `color` cùng lúc với `decoration` sẽ báo lỗi. Có `decoration` thì màu đặt bên trong nó.
+
+Cách viết EdgeInsets:
+
+```dart
+EdgeInsets.all(16)                                 // 4 phia
+EdgeInsets.symmetric(horizontal: 16, vertical: 8)  // ngang/doc
+EdgeInsets.only(left: 16, top: 8)                  // tung phia
+```
+
+## Expanded và Flexible — chia không gian
+
+```dart
+Row(
+  children: [
+    Expanded(
+      flex: 2,
+      child: Container(height: 100, color: Colors.teal),
+    ),
+    Expanded(
+      flex: 1,
+      child: Container(height: 100, color: Colors.orange),
+    ),
+  ],
+)
+```
+
+`Expanded` bảo widget chiếm hết chỗ còn trống. `flex: 2` và `flex: 1` nghĩa là chia theo tỷ lệ 2:1.
+
+Đây cũng là cách sửa lỗi tràn phổ biến nhất: `Text` dài trong `Row` bị tràn thì bọc nó trong `Expanded`.
+
+## SizedBox — khoảng trống và kích thước
+
+```dart
+const SizedBox(height: 16)      // khoang cach doc
+const SizedBox(width: 8)        // khoang cach ngang
+SizedBox(
+  width: double.infinity,        // rong het man hinh
+  child: ElevatedButton(onPressed: () {}, child: const Text('Lưu')),
+)
+```
+
+`SizedBox` nhẹ hơn `Container` khi chỉ cần tạo khoảng trống. Dùng nó thay vì `Container(height: 16)`.
+
+## Stack — chồng lớp
+
+```dart
+Stack(
+  children: [
+    Image.network('https://picsum.photos/400/200'),
+    Positioned(
+      right: 8,
+      top: 8,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        color: Colors.red,
+        child: const Text('-20%', style: TextStyle(color: Colors.white)),
+      ),
+    ),
+  ],
+)
+```
+
+Dùng cho nhãn giảm giá đè lên ảnh, nút đè lên bản đồ, avatar có chấm online.
+
+## SingleChildScrollView — cho nội dung dài
+
+`Column` không tự cuộn. Nội dung dài hơn màn hình sẽ báo lỗi tràn:
+
+```dart
+SingleChildScrollView(
+  child: Column(
+    children: [ ... nhieu widget ... ],
+  ),
+)
+```
+
+Danh sách nhiều phần tử thì dùng `ListView` ở Bài 10 thay vì cách này.
+
+## Ví dụ: thẻ sản phẩm hoàn chỉnh
+
+```dart
+Card(
+  margin: const EdgeInsets.all(12),
+  child: Padding(
+    padding: const EdgeInsets.all(12),
+    child: Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            'https://picsum.photos/80',
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text('Áo thun cotton',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              SizedBox(height: 4),
+              Text('Còn 12 sản phẩm',
+                  style: TextStyle(color: Colors.grey, fontSize: 13)),
+              SizedBox(height: 8),
+              Text('150.000 đ',
+                  style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+)
+```
+
+Đọc kỹ ví dụ này: nó gộp `Card`, `Padding`, `Row`, `Expanded`, `Column`, `SizedBox` — đúng những thứ bạn dùng 90% thời gian.
+
+## Lỗi tràn — lỗi phổ biến nhất
+
+Màn hình hiện sọc vàng đen kèm dòng `RenderFlex overflowed by 42 pixels`:
+
+| Tình huống | Cách sửa |
+| --- | --- |
+| `Text` dài trong `Row` | Bọc `Expanded` |
+| `Column` dài hơn màn hình | Bọc `SingleChildScrollView` |
+| Ảnh quá to | Đặt `width`, `height` và `fit: BoxFit.cover` |
+| Bàn phím đẩy giao diện lên | Bọc `SingleChildScrollView`, hoặc dùng `ListView` |
+
+## Bài tập
+
+1. Dựng màn hình có tiêu đề ở giữa, 3 nút xếp dọc cách nhau 16px.
+2. Dùng `Row` + `spaceBetween` đặt tên sản phẩm bên trái, giá bên phải.
+3. Dùng `Expanded` với `flex` 2:1 chia màn hình thành hai khối màu.
+4. Dựng lại thẻ sản phẩm ở ví dụ trên.
+5. Cố tình tạo lỗi tràn bằng một `Text` rất dài trong `Row`, rồi sửa bằng `Expanded`.
+</script>
+
+<script type="text/markdown" data-id="fl-9" data-nav="Bài 9 · Text, ảnh, icon, theme">
+# Bài 9 — Hiển thị nội dung và theme
+
+**Mục tiêu:** trình bày chữ, ảnh, icon cho đẹp và thống nhất toàn app.
+
+## Text và kiểu chữ
+
+```dart
+Text(
+  'Áo thun cotton',
+  style: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,      // w100 den w900, hoac bold/normal
+    color: Colors.teal,
+    letterSpacing: 0.5,
+    height: 1.5,                       // gian dong
+    fontStyle: FontStyle.italic,
+    decoration: TextDecoration.lineThrough,
+  ),
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,     // dai qua thi hien ...
+  textAlign: TextAlign.center,
+)
+```
+
+`maxLines` + `overflow` là cặp bắt buộc khi hiển thị nội dung từ API — tên sản phẩm dài bất ngờ sẽ làm vỡ giao diện.
+
+## Dùng style từ theme
+
+Thay vì gõ `fontSize` ở mọi chỗ, lấy từ theme:
+
+```dart
+Text('Tiêu đề', style: Theme.of(context).textTheme.headlineSmall)
+Text('Nội dung', style: Theme.of(context).textTheme.bodyMedium)
+```
+
+Sửa theme một chỗ thì cả app đổi theo. Đây là cách làm đúng cho app thật.
+
+## Text nhiều kiểu trong một dòng
+
+```dart
+RichText(
+  text: TextSpan(
+    style: DefaultTextStyle.of(context).style,
+    children: const [
+      TextSpan(text: 'Tổng: '),
+      TextSpan(
+        text: '450.000 đ',
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+      ),
+    ],
+  ),
+)
+```
+
+## Ảnh
+
+```dart
+// Anh tu mang
+Image.network(
+  'https://picsum.photos/400/200',
+  width: double.infinity,
+  height: 200,
+  fit: BoxFit.cover,
+  loadingBuilder: (context, child, progress) {
+    if (progress == null) return child;
+    return const Center(child: CircularProgressIndicator());
+  },
+  errorBuilder: (context, error, stack) =>
+      const Icon(Icons.broken_image, size: 48),
+)
+
+// Anh trong app (Bai 19 se huong dan khai bao)
+Image.asset('assets/images/logo.png', width: 120)
+```
+
+Luôn có `errorBuilder` cho ảnh mạng. Link hỏng mà không xử lý thì màn hình hiện ô lỗi xấu, hoặc app văng.
+
+| `fit` | Kết quả |
+| --- | --- |
+| `BoxFit.cover` | Lấp đầy khung, cắt phần thừa — dùng nhiều nhất |
+| `BoxFit.contain` | Hiện trọn ảnh, có thể còn chỗ trống |
+| `BoxFit.fill` | Kéo giãn cho vừa, ảnh bị méo |
+
+Bo góc ảnh:
+
+```dart
+ClipRRect(
+  borderRadius: BorderRadius.circular(12),
+  child: Image.network(url, fit: BoxFit.cover),
+)
+```
+
+## Icon
+
+```dart
+const Icon(Icons.shopping_cart, size: 28, color: Colors.teal)
+const Icon(Icons.favorite_border)
+const Icon(Icons.star, color: Colors.amber)
+```
+
+Gõ `Icons.` trong editor rồi xem gợi ý — có hàng nghìn icon sẵn, không cần cài gì.
+
+## Card và ListTile
+
+```dart
+Card(
+  elevation: 2,
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  child: ListTile(
+    leading: const CircleAvatar(child: Icon(Icons.person)),
+    title: const Text('Nguyễn Văn A'),
+    subtitle: const Text('Đơn hàng #1234'),
+    trailing: const Icon(Icons.chevron_right),
+    onTap: () {},
+  ),
+)
+```
+
+`ListTile` dựng sẵn bố cục "icon bên trái, hai dòng chữ ở giữa, icon bên phải" — dùng cho danh sách, menu, cài đặt. Tiết kiệm rất nhiều code.
+
+## Theme — thống nhất toàn app
+
+```dart
+MaterialApp(
+  theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+    useMaterial3: true,
+    appBarTheme: const AppBarTheme(centerTitle: true),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    ),
+  ),
+  darkTheme: ThemeData.dark(useMaterial3: true),
+  themeMode: ThemeMode.system,      // theo cai dat dien thoai
+  home: const TrangChu(),
+)
+```
+
+`ColorScheme.fromSeed` sinh ra cả bảng màu hài hoà từ một màu gốc. Đây là cách nhanh nhất để app trông chuyên nghiệp.
+
+Lấy màu từ theme trong widget:
+
+```dart
+Container(color: Theme.of(context).colorScheme.primary)
+Text('abc', style: TextStyle(color: Theme.of(context).colorScheme.onSurface))
+```
+
+## Màu
+
+```dart
+Colors.teal
+Colors.teal.shade700
+Colors.black54                      // den 54% do dam
+const Color(0xFF009688)             // ma hex: FF la do trong suot
+Colors.teal.withValues(alpha: 0.5)
+```
+
+## Bài tập
+
+1. Hiển thị tên sản phẩm dài, giới hạn 2 dòng, dài hơn thì hiện dấu ba chấm.
+2. Hiển thị ảnh từ mạng có vòng xoay lúc tải và icon lỗi khi link hỏng.
+3. Dựng một `Card` + `ListTile` cho một đơn hàng.
+4. Đổi `seedColor` và thêm `darkTheme`, bật chế độ tối trên máy ảo để kiểm tra.
+5. Thay mọi `TextStyle(fontSize: ...)` trong app của bạn bằng style lấy từ `Theme.of(context)`.
+</script>
+
+<script type="text/markdown" data-id="fl-10" data-nav="Bài 10 · ListView và GridView">
+# Bài 10 — Danh sách: ListView và GridView
+
+**Mục tiêu:** hiển thị danh sách dài mượt mà. Gần như app nào cũng có ít nhất một danh sách.
+
+## ListView đơn giản
+
+```dart
+ListView(
+  children: const [
+    ListTile(title: Text('Mục 1')),
+    ListTile(title: Text('Mục 2')),
+    ListTile(title: Text('Mục 3')),
+  ],
+)
+```
+
+Dùng khi biết trước số phần tử và số đó nhỏ. `ListView` tự cuộn được, khác `Column`.
+
+## ListView.builder — dạng dùng nhiều nhất
+
+```dart
+class DanhSachSanPham extends StatelessWidget {
+  final List<Map<String, dynamic>> sanPham = const [
+    {'ten': 'Áo thun', 'gia': 150000},
+    {'ten': 'Quần jean', 'gia': 350000},
+    {'ten': 'Mũ lưỡi trai', 'gia': 90000},
+  ];
+
+  const DanhSachSanPham({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: sanPham.length,
+      itemBuilder: (context, index) {
+        final sp = sanPham[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: ListTile(
+            leading: CircleAvatar(child: Text('${index + 1}')),
+            title: Text(sp['ten']),
+            subtitle: Text('${sp['gia']} đ'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {},
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+Vì sao `builder` tốt hơn: nó **chỉ dựng những phần tử đang nhìn thấy**. Danh sách 10.000 sản phẩm vẫn mượt, vì Flutter chỉ vẽ khoảng 10 cái trên màn hình.
+
+| Tham số | Nghĩa |
+| --- | --- |
+| `itemCount` | Tổng số phần tử |
+| `itemBuilder` | Hàm dựng widget cho phần tử thứ `index` |
+| `index` | Số thứ tự, đếm từ 0 |
+
+## ListView.separated — có đường kẻ giữa các mục
+
+```dart
+ListView.separated(
+  itemCount: sanPham.length,
+  separatorBuilder: (context, index) => const Divider(height: 1),
+  itemBuilder: (context, index) => ListTile(title: Text(sanPham[index]['ten'])),
+)
+```
+
+## GridView — dạng lưới
+
+```dart
+GridView.builder(
+  padding: const EdgeInsets.all(12),
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,          // 2 cot
+    crossAxisSpacing: 12,
+    mainAxisSpacing: 12,
+    childAspectRatio: 0.75,     // ty le rong/cao cua moi o
+  ),
+  itemCount: sanPham.length,
+  itemBuilder: (context, index) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Image.network(
+              'https://picsum.photos/200?random=$index',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(sanPham[index]['ten']),
+          ),
+        ],
+      ),
+    );
+  },
+)
+```
+
+`childAspectRatio` nhỏ hơn 1 nghĩa là ô cao hơn rộng. Chỉnh số này khi nội dung bị tràn trong ô lưới.
+
+## Danh sách ngang
+
+```dart
+SizedBox(
+  height: 120,
+  child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: 10,
+    itemBuilder: (context, index) => Container(
+      width: 100,
+      margin: const EdgeInsets.all(8),
+      color: Colors.teal.shade100,
+      child: Center(child: Text('$index')),
+    ),
+  ),
+)
+```
+
+Danh sách ngang **bắt buộc có chiều cao cố định**, thường bọc trong `SizedBox`. Thiếu là lỗi ngay.
+
+## Kéo để làm mới
+
+```dart
+RefreshIndicator(
+  onRefresh: () async {
+    await Future.delayed(const Duration(seconds: 1));
+    // tai lai du lieu
+  },
+  child: ListView.builder(...),
+)
+```
+
+## Danh sách rỗng
+
+Luôn xử lý trường hợp không có dữ liệu:
+
+```dart
+sanPham.isEmpty
+    ? const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.inbox, size: 64, color: Colors.grey),
+            SizedBox(height: 12),
+            Text('Chưa có sản phẩm nào'),
+          ],
+        ),
+      )
+    : ListView.builder(...)
+```
+
+Màn hình trắng trơn khi chưa có dữ liệu là lỗi trải nghiệm hay gặp nhất ở app của người mới. Bài 18 nói kỹ hơn.
+
+## ListView lồng trong Column
+
+Lỗi kinh điển: đặt `ListView` trong `Column` sẽ báo lỗi vì cả hai đều muốn chiếm chiều cao vô hạn.
+
+```dart
+Column(
+  children: [
+    const Text('Tiêu đề'),
+    Expanded(                   // bat buoc
+      child: ListView.builder(...),
+    ),
+  ],
+)
+```
+
+Nếu danh sách ngắn và không cần cuộn riêng:
+
+```dart
+ListView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  ...
+)
+```
+
+Chỉ dùng `shrinkWrap` cho danh sách ngắn — với danh sách dài nó làm mất ưu điểm hiệu năng của `builder`.
+
+## Bài tập
+
+1. Tạo `List` 20 sản phẩm bằng vòng lặp, hiển thị bằng `ListView.builder`.
+2. Đổi sang `ListView.separated` có `Divider` giữa các mục.
+3. Hiển thị cùng danh sách đó bằng `GridView` 2 cột, chỉnh `childAspectRatio` cho vừa.
+4. Thêm danh sách ngang các danh mục ở đầu màn hình.
+5. Thêm trạng thái rỗng và `RefreshIndicator` cho danh sách.
+</script>
+
+<script type="text/markdown" data-id="fl-11" data-nav="Bài 11 · StatefulWidget và setState">
+# Bài 11 — StatefulWidget: giao diện thay đổi được
+
+**Mục tiêu:** làm giao diện phản ứng với thao tác người dùng. Đây là bước ngoặt từ "màn hình tĩnh" sang "app thật".
+
+## Hai loại widget
+
+| | StatelessWidget | StatefulWidget |
+| --- | --- | --- |
+| Dữ liệu đổi được | Không | Có |
+| Dùng cho | Hiển thị cố định | Bộ đếm, form, danh sách thay đổi, tải dữ liệu |
+| Cách vẽ lại | Không cần | Gọi `setState()` |
+
+Nguyên tắc: dùng `StatelessWidget` trước, chỉ đổi sang `StatefulWidget` khi thật sự cần thay đổi.
+
+## StatefulWidget đầu tiên
+
+```dart
+class BoDem extends StatefulWidget {
+  const BoDem({super.key});
+
+  @override
+  State<BoDem> createState() => _BoDemState();
+}
+
+class _BoDemState extends State<BoDem> {
+  int _dem = 0;
+
+  void _tang() {
+    setState(() {
+      _dem++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Bộ đếm')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Đã bấm $_dem lần',
+                style: const TextStyle(fontSize: 24)),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _tang,
+              child: const Text('Bấm tôi'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+Cấu trúc gồm hai class: class widget và class state. Trong VS Code gõ `stful` rồi Tab, editor sinh sẵn khung này.
+
+Dấu `_` đầu tên (`_dem`, `_BoDemState`) nghĩa là **riêng tư trong file** — quy ước của Dart.
+
+## setState làm gì
+
+```dart
+// SAI: doi gia tri nhung man hinh khong doi
+_dem++;
+
+// DUNG: doi gia tri va bao Flutter ve lai
+setState(() {
+  _dem++;
+});
+```
+
+`setState` báo cho Flutter: dữ liệu đã đổi, hãy chạy lại `build`. Quên `setState` là lỗi phổ biến nhất của người mới — code đúng, giá trị đổi thật, nhưng màn hình đứng im.
+
+Đặt **mọi lệnh thay đổi dữ liệu** vào trong `setState`, đừng để ngoài.
+
+## Ví dụ thực tế: giỏ hàng
+
+```dart
+class GioHang extends StatefulWidget {
+  const GioHang({super.key});
+
+  @override
+  State<GioHang> createState() => _GioHangState();
+}
+
+class _GioHangState extends State<GioHang> {
+  final List<Map<String, dynamic>> _gio = [];
+
+  void _them(String ten, int gia) {
+    setState(() {
+      _gio.add({'ten': ten, 'gia': gia});
+    });
+  }
+
+  void _xoa(int index) {
+    setState(() {
+      _gio.removeAt(index);
+    });
+  }
+
+  int get _tong => _gio.fold(0, (tong, sp) => tong + (sp['gia'] as int));
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Giỏ hàng (${_gio.length})')),
+      body: _gio.isEmpty
+          ? const Center(child: Text('Giỏ hàng trống'))
+          : ListView.builder(
+              itemCount: _gio.length,
+              itemBuilder: (context, index) => ListTile(
+                title: Text(_gio[index]['ten']),
+                subtitle: Text('${_gio[index]['gia']} đ'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: () => _xoa(index),
+                ),
+              ),
+            ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text('Tổng: $_tong đ',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _them('Sản phẩm ${_gio.length + 1}', 100000),
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+
+Bài này gộp đủ: `StatefulWidget`, `setState`, `ListView.builder`, trạng thái rỗng, getter tính tổng.
+
+## Vòng đời của State
+
+```dart
+class _ManHinhState extends State<ManHinh> {
+  @override
+  void initState() {
+    super.initState();
+    // Chay MOT LAN khi widget duoc tao
+    // Dung de: tai du lieu lan dau, khoi tao controller
+  }
+
+  @override
+  void dispose() {
+    // Chay khi widget bi huy
+    // Dung de: huy controller, dong stream
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => const SizedBox();
+}
+```
+
+| Method | Chạy khi nào | Dùng để |
+| --- | --- | --- |
+| `initState` | Một lần, lúc tạo | Tải dữ liệu lần đầu |
+| `build` | Mỗi lần vẽ lại | Dựng giao diện |
+| `dispose` | Lúc huỷ | Dọn dẹp, tránh rò rỉ bộ nhớ |
+
+Quên `dispose` các controller là nguyên nhân rò rỉ bộ nhớ thường gặp. Bài 12 sẽ dùng đến.
+
+## Truyền dữ liệu từ widget vào state
+
+```dart
+class ChiTiet extends StatefulWidget {
+  final String ten;
+  const ChiTiet({super.key, required this.ten});
+
+  @override
+  State<ChiTiet> createState() => _ChiTietState();
+}
+
+class _ChiTietState extends State<ChiTiet> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(widget.ten);     // dung widget. de lay tham so
+  }
+}
+```
+
+Trong class state, truy cập tham số của widget qua `widget.<tên>`.
+
+## Lỗi hay gặp
+
+| Hiện tượng | Nguyên nhân | Cách sửa |
+| --- | --- | --- |
+| Bấm nút không thấy gì đổi | Quên `setState` | Bọc thay đổi trong `setState` |
+| `setState() called after dispose()` | Gọi setState sau khi màn hình đóng | Kiểm tra `if (mounted)` trước khi gọi |
+| Dữ liệu reset khi xoay màn hình | Dữ liệu khai trong `build` | Chuyển lên khai trong class state |
+| `setState` trong `build` | Lặp vô tận | Chỉ gọi `setState` trong hàm xử lý sự kiện |
+
+## Bài tập
+
+1. Viết bộ đếm có cả nút tăng, giảm và đặt lại về 0.
+2. Viết màn hình có nút chuyển đổi giữa chế độ sáng và tối của một `Container`.
+3. Dựng lại ví dụ giỏ hàng, thêm nút tăng giảm số lượng cho từng món.
+4. Thêm `initState` in ra console, mở và thoát màn hình để xem nó chạy lúc nào.
+5. Cố tình đổi biến mà không gọi `setState`, quan sát màn hình không đổi.
+</script>
+
+<script type="text/markdown" data-id="fl-12" data-nav="Bài 12 · Form và nhập liệu">
+# Bài 12 — Form, nhập liệu và kiểm tra dữ liệu
+
+**Mục tiêu:** làm màn hình đăng nhập, đăng ký, thêm sản phẩm — có kiểm tra dữ liệu đầy đủ.
+
+## TextField cơ bản
+
+```dart
+class _FormState extends State<FormDemo> {
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();      // bat buoc, tranh ro ri bo nho
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextField(
+          controller: _emailController,
+          decoration: const InputDecoration(
+            labelText: 'Email',
+            hintText: 'nhap@email.com',
+            prefixIcon: Icon(Icons.email_outlined),
+            border: OutlineInputBorder(),
+          ),
+          keyboardType: TextInputType.emailAddress,
+        ),
+        ElevatedButton(
+          onPressed: () => print(_emailController.text),
+          child: const Text('Gửi'),
+        ),
+      ],
+    );
+  }
+}
+```
+
+`TextEditingController` giữ nội dung ô nhập. Lấy giá trị bằng `.text`. **Luôn gọi `dispose()`** — đây là lý do Bài 11 dạy `dispose`.
+
+| `keyboardType` | Bàn phím hiện ra |
+| --- | --- |
+| `TextInputType.text` | Thường |
+| `TextInputType.emailAddress` | Có dấu @ |
+| `TextInputType.number` | Chỉ số |
+| `TextInputType.phone` | Bàn phím điện thoại |
+
+## Ô mật khẩu có nút hiện/ẩn
+
+```dart
+bool _an = true;
+
+TextField(
+  obscureText: _an,
+  decoration: InputDecoration(
+    labelText: 'Mật khẩu',
+    border: const OutlineInputBorder(),
+    suffixIcon: IconButton(
+      icon: Icon(_an ? Icons.visibility_off : Icons.visibility),
+      onPressed: () => setState(() => _an = !_an),
+    ),
+  ),
+)
+```
+
+## Form với kiểm tra dữ liệu
+
+Đây mới là cách làm đúng cho app thật:
+
+```dart
+class DangKy extends StatefulWidget {
+  const DangKy({super.key});
+
+  @override
+  State<DangKy> createState() => _DangKyState();
+}
+
+class _DangKyState extends State<DangKy> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _matKhauController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _matKhauController.dispose();
+    super.dispose();
+  }
+
+  void _guiForm() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đăng ký: ${_emailController.text}')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Đăng ký')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (giaTri) {
+                  if (giaTri == null || giaTri.isEmpty) {
+                    return 'Vui lòng nhập email';
+                  }
+                  if (!giaTri.contains('@') || !giaTri.contains('.')) {
+                    return 'Email không hợp lệ';
+                  }
+                  return null;          // null = hop le
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _matKhauController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Mật khẩu',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (giaTri) {
+                  if (giaTri == null || giaTri.length < 8) {
+                    return 'Mật khẩu tối thiểu 8 ký tự';
+                  }
+                  if (!giaTri.contains(RegExp(r'[0-9]'))) {
+                    return 'Mật khẩu phải có ít nhất một chữ số';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _guiForm,
+                  child: const Text('Đăng ký'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+Ba thứ phối hợp với nhau:
+
+| Thành phần | Vai trò |
+| --- | --- |
+| `Form` + `GlobalKey<FormState>` | Quản lý cả nhóm ô nhập |
+| `TextFormField` | Ô nhập có kiểm tra (khác `TextField` thường) |
+| `validator` | Trả về chuỗi lỗi, hoặc `null` nếu hợp lệ |
+| `_formKey.currentState!.validate()` | Chạy mọi validator cùng lúc |
+
+Dùng `ListView` thay cho `Column` trong form: khi bàn phím hiện lên, nội dung cuộn được thay vì bị tràn.
+
+## Các widget nhập liệu khác
+
+```dart
+// Checkbox
+CheckboxListTile(
+  title: const Text('Tôi đồng ý với điều khoản'),
+  value: _dongY,
+  onChanged: (v) => setState(() => _dongY = v ?? false),
+)
+
+// Radio
+RadioListTile<String>(
+  title: const Text('Nam'),
+  value: 'nam',
+  groupValue: _gioiTinh,
+  onChanged: (v) => setState(() => _gioiTinh = v!),
+)
+
+// Switch
+SwitchListTile(
+  title: const Text('Nhận thông báo'),
+  value: _nhanThongBao,
+  onChanged: (v) => setState(() => _nhanThongBao = v),
+)
+
+// Dropdown
+DropdownButtonFormField<String>(
+  initialValue: _tinh,
+  decoration: const InputDecoration(labelText: 'Tỉnh/Thành'),
+  items: const [
+    DropdownMenuItem(value: 'QB', child: Text('Quảng Bình')),
+    DropdownMenuItem(value: 'HUE', child: Text('Huế')),
+  ],
+  onChanged: (v) => setState(() => _tinh = v),
+)
+
+// Chon ngay
+final ngay = await showDatePicker(
+  context: context,
+  initialDate: DateTime.now(),
+  firstDate: DateTime(2000),
+  lastDate: DateTime(2100),
+);
+```
+
+## Phản hồi cho người dùng
+
+```dart
+// Thong bao ngan
+ScaffoldMessenger.of(context).showSnackBar(
+  const SnackBar(content: Text('Đã lưu')),
+);
+
+// Hop thoai xac nhan
+final xacNhan = await showDialog<bool>(
+  context: context,
+  builder: (context) => AlertDialog(
+    title: const Text('Xác nhận'),
+    content: const Text('Bạn chắc chắn muốn xoá?'),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.pop(context, false),
+        child: const Text('Huỷ'),
+      ),
+      FilledButton(
+        onPressed: () => Navigator.pop(context, true),
+        child: const Text('Xoá'),
+      ),
+    ],
+  ),
+);
+
+if (xacNhan == true) {
+  // thuc hien xoa
+}
+```
+
+## Lỗi hay gặp
+
+| Lỗi | Nguyên nhân | Cách sửa |
+| --- | --- | --- |
+| Bàn phím che mất nút | Dùng `Column` | Đổi sang `ListView` hoặc bọc `SingleChildScrollView` |
+| `validator` không chạy | Dùng `TextField` thay vì `TextFormField` | Đổi sang `TextFormField` |
+| `A RenderFlex overflowed` khi mở bàn phím | Như trên | Như trên |
+| Giá trị ô nhập bị mất khi vẽ lại | Không dùng controller | Khai controller trong class state |
+| Cảnh báo rò rỉ bộ nhớ | Quên `dispose` controller | Thêm vào `dispose()` |
+
+## Bài tập
+
+1. Dựng form đăng nhập có email và mật khẩu, kiểm tra cả hai trường.
+2. Thêm nút hiện/ẩn mật khẩu.
+3. Thêm checkbox "Ghi nhớ đăng nhập" và dropdown chọn tỉnh.
+4. Hiện `SnackBar` khi đăng nhập thành công.
+5. Thêm hộp thoại xác nhận trước khi xoá một mục trong danh sách ở Bài 11.
+</script>
+
+<script type="text/markdown" data-id="fl-13" data-nav="Bài 13 · Điều hướng nhiều màn hình">
+# Bài 13 — Điều hướng giữa các màn hình
+
+**Mục tiêu:** app có nhiều màn hình, chuyển qua lại và truyền dữ liệu được.
+
+## Chuyển màn hình
+
+```dart
+// Di toi man hinh moi
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => const ChiTietSanPham()),
+);
+
+// Quay lai
+Navigator.pop(context);
+```
+
+Flutter quản lý màn hình theo kiểu chồng đĩa: `push` đặt màn hình mới lên trên, `pop` lấy ra. Nút back của Android tự gọi `pop`.
+
+## Truyền dữ liệu sang màn hình mới
+
+```dart
+// Man hinh danh sach
+ListTile(
+  title: Text(sp['ten']),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChiTietSanPham(
+          ten: sp['ten'],
+          gia: sp['gia'],
+        ),
+      ),
+    );
+  },
+)
+
+// Man hinh chi tiet
+class ChiTietSanPham extends StatelessWidget {
+  final String ten;
+  final int gia;
+
+  const ChiTietSanPham({super.key, required this.ten, required this.gia});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(ten)),
+      body: Center(child: Text('Giá: $gia đ')),
+    );
+  }
+}
+```
+
+Truyền dữ liệu qua constructor — đúng như tham số đặt tên ở Bài 4.
+
+## Nhận kết quả trả về
+
+```dart
+// Mo man hinh va cho ket qua
+final ketQua = await Navigator.push<String>(
+  context,
+  MaterialPageRoute(builder: (context) => const ManHinhChon()),
+);
+
+if (ketQua != null) {
+  setState(() => _daChon = ketQua);
+}
+
+// Trong ManHinhChon: tra ve gia tri
+Navigator.pop(context, 'Quảng Bình');
+```
+
+Dùng cho màn hình chọn tỉnh, chọn danh mục, chọn ảnh.
+
+## Named routes — cho app nhiều màn hình
+
+Khai báo một lần trong `MaterialApp`:
+
+```dart
+MaterialApp(
+  initialRoute: '/',
+  routes: {
+    '/': (context) => const TrangChu(),
+    '/gio-hang': (context) => const GioHang(),
+    '/ca-nhan': (context) => const CaNhan(),
+  },
+)
+```
+
+Dùng:
+
+```dart
+Navigator.pushNamed(context, '/gio-hang');
+```
+
+Gọn hơn khi app có nhiều màn hình và nhiều chỗ cùng dẫn tới một màn hình.
+
+## Các kiểu chuyển màn hình khác
+
+```dart
+// Thay the man hinh hien tai (khong quay lai duoc)
+Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (_) => const TrangChu()),
+);
+
+// Xoa het va mo man hinh moi - dung khi dang xuat
+Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(builder: (_) => const DangNhap()),
+  (route) => false,
+);
+```
+
+`pushReplacement` dùng sau khi đăng nhập thành công — người dùng không nên bấm back về lại màn hình đăng nhập.
+
+## BottomNavigationBar — thanh điều hướng dưới
+
+```dart
+class ManHinhChinh extends StatefulWidget {
+  const ManHinhChinh({super.key});
+
+  @override
+  State<ManHinhChinh> createState() => _ManHinhChinhState();
+}
+
+class _ManHinhChinhState extends State<ManHinhChinh> {
+  int _chiSo = 0;
+
+  final _manHinh = const [
+    TrangChu(),
+    DanhSachSanPham(),
+    GioHang(),
+    CaNhan(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _manHinh[_chiSo],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _chiSo,
+        onDestinationSelected: (i) => setState(() => _chiSo = i),
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Trang chủ'),
+          NavigationDestination(icon: Icon(Icons.grid_view), label: 'Sản phẩm'),
+          NavigationDestination(icon: Icon(Icons.shopping_cart_outlined), label: 'Giỏ'),
+          NavigationDestination(icon: Icon(Icons.person_outline), label: 'Cá nhân'),
+        ],
+      ),
+    );
+  }
+}
+```
+
+`NavigationBar` là bản Material 3 của `BottomNavigationBar`, giao diện mới hơn.
+
+Lưu ý: cách này **vẽ lại màn hình mỗi lần chuyển tab**. Muốn giữ nguyên trạng thái từng tab thì bọc trong `IndexedStack`:
+
+```dart
+body: IndexedStack(index: _chiSo, children: _manHinh),
+```
+
+## TabBar — tab ngang
+
+```dart
+DefaultTabController(
+  length: 3,
+  child: Scaffold(
+    appBar: AppBar(
+      title: const Text('Đơn hàng'),
+      bottom: const TabBar(
+        tabs: [
+          Tab(text: 'Chờ xác nhận'),
+          Tab(text: 'Đang giao'),
+          Tab(text: 'Đã giao'),
+        ],
+      ),
+    ),
+    body: const TabBarView(
+      children: [
+        Center(child: Text('Chờ xác nhận')),
+        Center(child: Text('Đang giao')),
+        Center(child: Text('Đã giao')),
+      ],
+    ),
+  ),
+)
+```
+
+## Drawer — menu trượt
+
+```dart
+Scaffold(
+  appBar: AppBar(title: const Text('Trang chủ')),
+  drawer: Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        const DrawerHeader(
+          decoration: BoxDecoration(color: Colors.teal),
+          child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text('Cài đặt'),
+          onTap: () {
+            Navigator.pop(context);           // dong drawer truoc
+            Navigator.pushNamed(context, '/cai-dat');
+          },
+        ),
+      ],
+    ),
+  ),
+)
+```
+
+Có `drawer:` thì `AppBar` tự hiện nút ba gạch, không cần viết thêm.
+
+## Lỗi hay gặp
+
+| Lỗi | Nguyên nhân | Cách sửa |
+| --- | --- | --- |
+| `Navigator operation requested with a context that does not include a Navigator` | Gọi `Navigator` từ context bên ngoài `MaterialApp` | Tách widget ra class riêng |
+| Bấm back thoát app luôn | Dùng `pushReplacement` nhầm chỗ | Dùng `push` thường |
+| Trạng thái tab mất khi chuyển qua lại | Vẽ lại mỗi lần | Dùng `IndexedStack` |
+| Drawer không đóng khi bấm mục | Thiếu `Navigator.pop` | Thêm `Navigator.pop(context)` trước |
+
+## Bài tập
+
+1. Làm 2 màn hình: danh sách sản phẩm và chi tiết, bấm vào mục thì chuyển và truyền tên, giá.
+2. Thêm màn hình chọn danh mục, trả giá trị về màn hình trước.
+3. Dựng app 4 tab bằng `NavigationBar`, dùng `IndexedStack` để giữ trạng thái.
+4. Thêm `TabBar` 3 tab trạng thái đơn hàng.
+5. Thêm `Drawer` có 3 mục dẫn tới 3 màn hình khác nhau.
+</script>
+
+<script type="text/markdown" data-id="fl-14" data-nav="Bài 14 · Quản lý state với Provider">
+# Bài 14 — Quản lý state: khi setState không đủ
+
+**Mục tiêu:** chia sẻ dữ liệu giữa nhiều màn hình. Đây là ranh giới giữa app bài tập và app thật.
+
+## Vấn đề của setState
+
+Giỏ hàng cần hiển thị ở: màn hình danh sách (số trên icon), màn hình chi tiết (nút đã thêm chưa), màn hình giỏ (danh sách), màn hình thanh toán (tổng tiền).
+
+Với `setState`, dữ liệu nằm trong một màn hình. Muốn màn hình khác dùng, bạn phải truyền qua constructor từng cấp — gọi là *prop drilling*, và nó rối rất nhanh.
+
+## Các cách quản lý state
+
+| Cách | Phù hợp khi |
+| --- | --- |
+| `setState` | Dữ liệu chỉ dùng trong một màn hình |
+| **Provider** | App vừa và nhỏ, dễ học nhất — khoá này dùng |
+| Riverpod | Nâng cấp của Provider, an toàn kiểu hơn |
+| Bloc | App lớn, nhiều người, luồng dữ liệu phức tạp |
+| GetX | Nhanh, nhiều tiện ích, nhưng dễ viết lộn xộn |
+
+Học Provider trước. Hiểu nguyên lý rồi chuyển sang cái khác rất nhanh.
+
+## Cài Provider
+
+Mở `pubspec.yaml`, thêm vào mục `dependencies`:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+```
+
+Rồi chạy:
+
+```bash
+flutter pub get
+```
+
+## Tạo lớp chứa dữ liệu
+
+`lib/providers/gio_hang_provider.dart`:
+
+```dart
+import 'package:flutter/foundation.dart';
+
+class SanPham {
+  final String ten;
+  final int gia;
+  int soLuong;
+
+  SanPham({required this.ten, required this.gia, this.soLuong = 1});
+}
+
+class GioHangProvider extends ChangeNotifier {
+  final List<SanPham> _gio = [];
+
+  List<SanPham> get gio => List.unmodifiable(_gio);
+  int get soLuong => _gio.fold(0, (t, sp) => t + sp.soLuong);
+  int get tongTien => _gio.fold(0, (t, sp) => t + sp.gia * sp.soLuong);
+
+  void them(SanPham sp) {
+    final i = _gio.indexWhere((e) => e.ten == sp.ten);
+    if (i >= 0) {
+      _gio[i].soLuong++;
+    } else {
+      _gio.add(sp);
+    }
+    notifyListeners();            // bao cho giao dien ve lai
+  }
+
+  void xoa(String ten) {
+    _gio.removeWhere((sp) => sp.ten == ten);
+    notifyListeners();
+  }
+
+  void doiSoLuong(String ten, int soLuongMoi) {
+    final i = _gio.indexWhere((e) => e.ten == ten);
+    if (i < 0) return;
+    if (soLuongMoi <= 0) {
+      _gio.removeAt(i);
+    } else {
+      _gio[i].soLuong = soLuongMoi;
+    }
+    notifyListeners();
+  }
+
+  void xoaHet() {
+    _gio.clear();
+    notifyListeners();
+  }
+}
+```
+
+`notifyListeners()` chính là `setState` ở phạm vi toàn app: nó báo mọi widget đang nghe rằng dữ liệu đã đổi.
+
+Trả về `List.unmodifiable(_gio)` để bên ngoài không sửa trộm danh sách — mọi thay đổi phải đi qua method của provider.
+
+## Đăng ký provider ở gốc app
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => GioHangProvider()),
+        // them provider khac o day
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+```
+
+## Dùng trong widget
+
+Ba cách, chọn theo nhu cầu:
+
+```dart
+// 1. watch: doc du lieu VA ve lai khi doi
+final gio = context.watch<GioHangProvider>();
+Text('${gio.soLuong} sản phẩm');
+
+// 2. read: chi goi method, KHONG ve lai
+context.read<GioHangProvider>().them(sanPham);
+
+// 3. Consumer: chi ve lai phan ben trong
+Consumer<GioHangProvider>(
+  builder: (context, gio, child) => Text('${gio.tongTien} đ'),
+)
+```
+
+Quy tắc dễ nhớ:
+
+| Dùng | Khi nào |
+| --- | --- |
+| `context.watch<T>()` | Trong `build`, cần hiển thị dữ liệu |
+| `context.read<T>()` | Trong `onPressed`, chỉ gọi hành động |
+| `Consumer<T>` | Muốn giới hạn phạm vi vẽ lại cho nhẹ |
+
+Lỗi hay gặp: dùng `watch` trong `onPressed` — sẽ báo lỗi. Dùng `read` ở đó.
+
+## Màn hình giỏ hàng dùng Provider
+
+```dart
+class GioHangScreen extends StatelessWidget {
+  const GioHangScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final gio = context.watch<GioHangProvider>();
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Giỏ hàng (${gio.soLuong})')),
+      body: gio.gio.isEmpty
+          ? const Center(child: Text('Giỏ hàng trống'))
+          : ListView.builder(
+              itemCount: gio.gio.length,
+              itemBuilder: (context, i) {
+                final sp = gio.gio[i];
+                return ListTile(
+                  title: Text(sp.ten),
+                  subtitle: Text('${sp.gia} đ x ${sp.soLuong}'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () => context
+                            .read<GioHangProvider>()
+                            .doiSoLuong(sp.ten, sp.soLuong - 1),
+                      ),
+                      Text('${sp.soLuong}'),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => context
+                            .read<GioHangProvider>()
+                            .doiSoLuong(sp.ten, sp.soLuong + 1),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text('Tổng: ${gio.tongTien} đ',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}
+```
+
+Icon giỏ hàng ở màn hình khác chỉ cần:
+
+```dart
+Badge(
+  label: Text('${context.watch<GioHangProvider>().soLuong}'),
+  child: const Icon(Icons.shopping_cart),
+)
+```
+
+Không cần truyền dữ liệu qua constructor nữa — đó là giá trị của Provider.
+
+## Lỗi hay gặp
+
+| Lỗi | Cách sửa |
+| --- | --- |
+| `Could not find the correct Provider above this widget` | Provider phải đăng ký **phía trên** widget trong cây; đặt ở `main()` |
+| `setState() or markNeedsBuild() called during build` | Gọi `read().method()` trong `build`; chuyển vào `onPressed` hoặc `initState` |
+| Giao diện không đổi dù dữ liệu đổi | Quên `notifyListeners()` |
+| Dùng `watch` trong `onPressed` | Đổi sang `read` |
+
+## Bài tập
+
+1. Cài `provider`, tạo `GioHangProvider` theo mẫu trên.
+2. Thêm nút "Thêm vào giỏ" ở màn hình sản phẩm, dùng `context.read`.
+3. Hiện số lượng trên icon giỏ ở AppBar của mọi màn hình.
+4. Làm màn hình giỏ hàng có tăng giảm số lượng và tổng tiền.
+5. Viết thêm `ThemeProvider` cho phép đổi sáng/tối toàn app từ màn hình cài đặt.
+</script>
+
+<script type="text/markdown" data-id="fl-15" data-nav="Bài 15 · Gọi API">
+# Bài 15 — Gọi API và hiển thị dữ liệu thật
+
+**Mục tiêu:** lấy dữ liệu từ server và hiện lên app. Đây là thứ phân biệt app demo với app thật.
+
+## Cài thư viện
+
+```yaml
+dependencies:
+  http: ^1.2.2
+```
+
+```bash
+flutter pub get
+```
+
+Android cần quyền internet. Mở `android/app/src/main/AndroidManifest.xml`, thêm trước thẻ `<application>`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+Thiếu dòng này, app chạy máy ảo vẫn gọi được nhưng bản release sẽ lỗi mạng.
+
+## Gọi API đầu tiên
+
+Dùng API công khai `jsonplaceholder.typicode.com` để luyện.
+
+```dart
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+Future<List<dynamic>> layBaiViet() async {
+  final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
+  final res = await http.get(url);
+
+  if (res.statusCode == 200) {
+    return jsonDecode(res.body);
+  } else {
+    throw Exception('Lỗi ${res.statusCode}');
+  }
+}
+```
+
+| Thành phần | Vai trò |
+| --- | --- |
+| `Uri.parse(...)` | Chuyển chuỗi thành địa chỉ |
+| `http.get(url)` | Gửi request, trả về `Future` |
+| `res.statusCode` | 200 là thành công, 404 không tìm thấy, 500 lỗi server |
+| `res.body` | Nội dung trả về, dạng chuỗi JSON |
+| `jsonDecode` | Chuyển chuỗi JSON thành `List`/`Map` của Dart |
+
+Đây là lý do Bài 6 dạy `async/await` và Bài 3 dạy `Map`.
+
+## Model class — đừng dùng Map trực tiếp
+
+```dart
+class BaiViet {
+  final int id;
+  final String tieuDe;
+  final String noiDung;
+
+  BaiViet({required this.id, required this.tieuDe, required this.noiDung});
+
+  factory BaiViet.fromJson(Map<String, dynamic> json) {
+    return BaiViet(
+      id: json['id'] ?? 0,
+      tieuDe: json['title'] ?? '',
+      noiDung: json['body'] ?? '',
+    );
+  }
+}
+```
+
+Vì sao nên có model:
+
+- Gõ `sp.tieuDe` được editor gợi ý; gõ `sp['title']` thì không.
+- Gõ sai tên trường, model báo lỗi lúc viết code; Map thì phải chạy mới biết.
+- `?? ''` và `?? 0` giúp app không crash khi API thiếu trường.
+
+Đây chính là `fromJson` ở Bài 5.
+
+## Tách thành service
+
+`lib/services/api_service.dart`:
+
+```dart
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class ApiService {
+  static const String _baseUrl = 'https://jsonplaceholder.typicode.com';
+
+  Future<List<BaiViet>> layDanhSach() async {
+    final res = await http.get(Uri.parse('$_baseUrl/posts'));
+
+    if (res.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(res.body);
+      return data.map((e) => BaiViet.fromJson(e)).toList();
+    }
+    throw Exception('Không tải được dữ liệu (${res.statusCode})');
+  }
+
+  Future<BaiViet> layChiTiet(int id) async {
+    final res = await http.get(Uri.parse('$_baseUrl/posts/$id'));
+    if (res.statusCode == 200) {
+      return BaiViet.fromJson(jsonDecode(res.body));
+    }
+    throw Exception('Không tìm thấy bài viết');
+  }
+
+  Future<BaiViet> taoMoi(String tieuDe, String noiDung) async {
+    final res = await http.post(
+      Uri.parse('$_baseUrl/posts'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'title': tieuDe, 'body': noiDung}),
+    );
+    if (res.statusCode == 201) {
+      return BaiViet.fromJson(jsonDecode(res.body));
+    }
+    throw Exception('Tạo thất bại');
+  }
+}
+```
+
+Giữ mọi lệnh gọi mạng trong service, không viết `http.get` rải rác trong widget. Bài 17 nói rõ lý do.
+
+## FutureBuilder — hiển thị dữ liệu bất đồng bộ
+
+```dart
+class DanhSachBaiViet extends StatefulWidget {
+  const DanhSachBaiViet({super.key});
+
+  @override
+  State<DanhSachBaiViet> createState() => _DanhSachBaiVietState();
+}
+
+class _DanhSachBaiVietState extends State<DanhSachBaiViet> {
+  late Future<List<BaiViet>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = ApiService().layDanhSach();
+  }
+
+  Future<void> _taiLai() async {
+    setState(() {
+      _future = ApiService().layDanhSach();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Bài viết')),
+      body: FutureBuilder<List<BaiViet>>(
+        future: _future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 12),
+                  Text('Lỗi: ${snapshot.error}'),
+                  const SizedBox(height: 12),
+                  ElevatedButton(onPressed: _taiLai, child: const Text('Thử lại')),
+                ],
+              ),
+            );
+          }
+
+          final ds = snapshot.data ?? [];
+          if (ds.isEmpty) {
+            return const Center(child: Text('Chưa có bài viết nào'));
+          }
+
+          return RefreshIndicator(
+            onRefresh: _taiLai,
+            child: ListView.builder(
+              itemCount: ds.length,
+              itemBuilder: (context, i) => ListTile(
+                leading: CircleAvatar(child: Text('${ds[i].id}')),
+                title: Text(ds[i].tieuDe, maxLines: 1,
+                    overflow: TextOverflow.ellipsis),
+                subtitle: Text(ds[i].noiDung, maxLines: 2,
+                    overflow: TextOverflow.ellipsis),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+Bốn trạng thái phải xử lý đủ: **đang tải, lỗi, rỗng, có dữ liệu**. Thiếu trạng thái nào là app có lúc hiện màn hình trắng.
+
+Gọi API trong `initState`, **không gọi trong `build`** — `build` chạy nhiều lần, gọi ở đó sẽ bắn request liên tục.
+
+## Bắt lỗi mạng
+
+```dart
+import 'dart:io';
+import 'dart:async';
+
+try {
+  final res = await http
+      .get(Uri.parse(url))
+      .timeout(const Duration(seconds: 15));
+  ...
+} on SocketException {
+  throw Exception('Không có kết nối mạng');
+} on TimeoutException {
+  throw Exception('Máy chủ phản hồi quá lâu');
+} catch (e) {
+  throw Exception('Đã xảy ra lỗi: $e');
+}
+```
+
+Luôn đặt `timeout`. Không có nó, mạng yếu sẽ làm app treo ở vòng xoay mãi mãi.
+
+## Bài tập
+
+1. Cài `http`, thêm quyền INTERNET, gọi `/posts` và in kết quả ra console.
+2. Viết model `BaiViet` với `fromJson`.
+3. Tách `ApiService` và hiển thị danh sách bằng `FutureBuilder` đủ 4 trạng thái.
+4. Làm màn hình chi tiết, bấm vào một bài thì gọi `/posts/{id}`.
+5. Thử tắt mạng máy ảo, kiểm tra app hiện thông báo lỗi và nút Thử lại.
+</script>
+
+<script type="text/markdown" data-id="fl-16" data-nav="Bài 16 · Lưu dữ liệu trên máy">
+# Bài 16 — Lưu dữ liệu trên máy
+
+**Mục tiêu:** dữ liệu còn nguyên sau khi tắt app — nhớ đăng nhập, lưu giỏ hàng, chế độ tối.
+
+## Chọn cách lưu nào
+
+| Cách | Lưu được gì | Dùng cho |
+| --- | --- | --- |
+| `shared_preferences` | Giá trị nhỏ: chuỗi, số, bool, list chuỗi | Cài đặt, token, chế độ tối |
+| `hive` | Đối tượng, danh sách lớn | Dữ liệu offline, giỏ hàng |
+| `sqflite` | Bảng dữ liệu, truy vấn SQL | Dữ liệu nhiều, cần lọc phức tạp |
+| `flutter_secure_storage` | Dữ liệu nhạy cảm, có mã hoá | Mật khẩu, token quan trọng |
+
+Khoá này dùng `shared_preferences` và `hive` — đủ cho phần lớn app.
+
+## shared_preferences
+
+```yaml
+dependencies:
+  shared_preferences: ^2.3.2
+```
+
+```dart
+import 'package:shared_preferences/shared_preferences.dart';
+
+class BoNho {
+  static const _KEY_TEN = 'ten_nguoi_dung';
+  static const _KEY_TOI = 'che_do_toi';
+
+  static Future<void> luuTen(String ten) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_KEY_TEN, ten);
+  }
+
+  static Future<String?> layTen() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_KEY_TEN);
+  }
+
+  static Future<void> luuCheDoToi(bool bat) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_KEY_TOI, bat);
+  }
+
+  static Future<bool> layCheDoToi() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_KEY_TOI) ?? false;
+  }
+
+  static Future<void> xoaHet() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+}
+```
+
+Các method có sẵn: `setString` `setInt` `setDouble` `setBool` `setStringList`, và `getString` `getInt`... tương ứng. Khoá đặt thành hằng số để không gõ sai.
+
+Dùng trong app:
+
+```dart
+@override
+void initState() {
+  super.initState();
+  _taiCaiDat();
+}
+
+Future<void> _taiCaiDat() async {
+  final toi = await BoNho.layCheDoToi();
+  if (!mounted) return;
+  setState(() => _cheDoToi = toi);
+}
+```
+
+Dòng `if (!mounted) return;` rất quan trọng: nếu người dùng thoát màn hình trước khi đọc xong, gọi `setState` sẽ báo lỗi.
+
+## Lưu đối tượng bằng JSON
+
+`shared_preferences` không lưu được object, nhưng lưu được chuỗi JSON:
+
+```dart
+import 'dart:convert';
+
+Future<void> luuGioHang(List<SanPham> gio) async {
+  final prefs = await SharedPreferences.getInstance();
+  final chuoi = jsonEncode(gio.map((sp) => sp.toJson()).toList());
+  await prefs.setString('gio_hang', chuoi);
+}
+
+Future<List<SanPham>> layGioHang() async {
+  final prefs = await SharedPreferences.getInstance();
+  final chuoi = prefs.getString('gio_hang');
+  if (chuoi == null) return [];
+  final List<dynamic> data = jsonDecode(chuoi);
+  return data.map((e) => SanPham.fromJson(e)).toList();
+}
+```
+
+Đây là lý do Bài 5 dạy `toJson` và `fromJson`.
+
+## Hive — nhanh hơn cho dữ liệu nhiều
+
+```yaml
+dependencies:
+  hive_ce: ^2.11.0
+  hive_ce_flutter: ^2.3.0
+```
+
+```dart
+import 'package:hive_ce_flutter/hive_flutter.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('gioHang');
+  runApp(const MyApp());
+}
+
+// Dung o bat ky dau
+final box = Hive.box('gioHang');
+
+box.put('ten', 'Áo thun');
+print(box.get('ten'));
+box.delete('ten');
+print(box.keys);
+
+// Hien thi va tu cap nhat khi du lieu doi
+ValueListenableBuilder(
+  valueListenable: Hive.box('gioHang').listenable(),
+  builder: (context, box, _) => Text('${box.length} sản phẩm'),
+)
+```
+
+`WidgetsFlutterBinding.ensureInitialized()` bắt buộc khi `main()` có `await` trước `runApp`.
+
+Ưu điểm của Hive so với shared_preferences: nhanh hơn nhiều với dữ liệu lớn, và có `listenable()` để giao diện tự cập nhật.
+
+## Ghép với Provider
+
+```dart
+class CaiDatProvider extends ChangeNotifier {
+  bool _cheDoToi = false;
+  bool get cheDoToi => _cheDoToi;
+
+  CaiDatProvider() {
+    _tai();
+  }
+
+  Future<void> _tai() async {
+    _cheDoToi = await BoNho.layCheDoToi();
+    notifyListeners();
+  }
+
+  Future<void> doiCheDo(bool bat) async {
+    _cheDoToi = bat;
+    notifyListeners();            // cap nhat giao dien ngay
+    await BoNho.luuCheDoToi(bat); // luu xuong may sau
+  }
+}
+```
+
+Thứ tự này quan trọng: cập nhật giao diện trước, ghi xuống máy sau. Người dùng thấy phản hồi tức thì.
+
+## Đường dẫn file
+
+Lưu file ảnh, PDF, file tải về:
+
+```yaml
+dependencies:
+  path_provider: ^2.1.4
+```
+
+```dart
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
+Future<void> ghiFile(String noiDung) async {
+  final thuMuc = await getApplicationDocumentsDirectory();
+  final file = File('${thuMuc.path}/ghi_chu.txt');
+  await file.writeAsString(noiDung);
+}
+
+Future<String> docFile() async {
+  try {
+    final thuMuc = await getApplicationDocumentsDirectory();
+    final file = File('${thuMuc.path}/ghi_chu.txt');
+    return await file.readAsString();
+  } catch (e) {
+    return '';
+  }
+}
+```
+
+## Bài tập
+
+1. Cài `shared_preferences`, lưu và đọc lại tên người dùng.
+2. Làm công tắc chế độ tối, tắt app mở lại vẫn giữ trạng thái.
+3. Lưu giỏ hàng dạng JSON, tắt app mở lại vẫn còn sản phẩm.
+4. Ghép `CaiDatProvider` vào app, đổi theme từ màn hình cài đặt.
+5. Thêm nút "Xoá dữ liệu" gọi `prefs.clear()` có hộp thoại xác nhận.
+</script>
+
+<script type="text/markdown" data-id="fl-17" data-nav="Bài 17 · Kiến trúc project">
+# Bài 17 — Tổ chức project cho dễ bảo trì
+
+**Mục tiêu:** sắp xếp code để project 5.000 dòng vẫn dễ sửa. Đây là thứ phân biệt người mới với người đi làm.
+
+## Vấn đề
+
+File `main.dart` 2.000 dòng chứa tất cả: giao diện, gọi API, xử lý dữ liệu. Sửa một chỗ hỏng ba chỗ, và không ai khác đọc nổi.
+
+## Cấu trúc thư mục đề xuất
+
+```text
+lib/
+├── main.dart
+├── models/              # lop du lieu
+│   ├── san_pham.dart
+│   └── nguoi_dung.dart
+├── services/            # goi API, luu tru
+│   ├── api_service.dart
+│   └── bo_nho_service.dart
+├── providers/           # quan ly state
+│   ├── gio_hang_provider.dart
+│   └── cai_dat_provider.dart
+├── screens/             # man hinh
+│   ├── trang_chu/
+│   │   └── trang_chu_screen.dart
+│   ├── san_pham/
+│   │   ├── danh_sach_screen.dart
+│   │   └── chi_tiet_screen.dart
+│   └── gio_hang/
+│       └── gio_hang_screen.dart
+├── widgets/             # widget dung lai nhieu noi
+│   ├── the_san_pham.dart
+│   ├── nut_chinh.dart
+│   └── trang_thai_rong.dart
+└── utils/               # tien ich, hang so
+    ├── dinh_dang.dart
+    └── hang_so.dart
+```
+
+Tên file viết thường, nối bằng `_` — quy ước của Dart.
+
+## Nguyên tắc chia lớp
+
+| Lớp | Được làm gì | Không được làm gì |
+| --- | --- | --- |
+| `models/` | Mô tả dữ liệu, `fromJson`, `toJson` | Gọi API, vẽ giao diện |
+| `services/` | Gọi mạng, đọc ghi máy | Vẽ giao diện |
+| `providers/` | Giữ state, gọi service | Vẽ giao diện |
+| `screens/` | Dựng giao diện, gọi provider | Gọi `http.get` trực tiếp |
+| `widgets/` | Widget nhỏ dùng lại | Giữ dữ liệu toàn cục |
+
+Quy tắc một câu: **màn hình không bao giờ gọi `http` trực tiếp.** Màn hình gọi provider, provider gọi service, service gọi mạng.
+
+Vì sao: đổi từ API này sang API khác chỉ sửa trong `services/`. Màn hình không phải động vào.
+
+## Luồng dữ liệu
+
+```text
+Màn hình  →  Provider  →  Service  →  API / Bộ nhớ máy
+    ↑                          │
+    └──── notifyListeners() ───┘
+```
+
+## Ví dụ hoàn chỉnh
+
+`models/san_pham.dart`:
+
+```dart
+class SanPham {
+  final int id;
+  final String ten;
+  final int gia;
+
+  const SanPham({required this.id, required this.ten, required this.gia});
+
+  factory SanPham.fromJson(Map<String, dynamic> json) => SanPham(
+        id: json['id'] ?? 0,
+        ten: json['ten'] ?? '',
+        gia: json['gia'] ?? 0,
+      );
+}
+```
+
+`services/san_pham_service.dart`:
+
+```dart
+class SanPhamService {
+  static const _baseUrl = 'https://api.example.com';
+
+  Future<List<SanPham>> layDanhSach() async {
+    final res = await http.get(Uri.parse('$_baseUrl/san-pham'));
+    if (res.statusCode != 200) throw Exception('Lỗi ${res.statusCode}');
+    final List data = jsonDecode(res.body);
+    return data.map((e) => SanPham.fromJson(e)).toList();
+  }
+}
+```
+
+`providers/san_pham_provider.dart`:
+
+```dart
+class SanPhamProvider extends ChangeNotifier {
+  final _service = SanPhamService();
+
+  List<SanPham> _danhSach = [];
+  bool _dangTai = false;
+  String? _loi;
+
+  List<SanPham> get danhSach => _danhSach;
+  bool get dangTai => _dangTai;
+  String? get loi => _loi;
+
+  Future<void> tai() async {
+    _dangTai = true;
+    _loi = null;
+    notifyListeners();
+
+    try {
+      _danhSach = await _service.layDanhSach();
+    } catch (e) {
+      _loi = e.toString();
+    } finally {
+      _dangTai = false;
+      notifyListeners();
+    }
+  }
+}
+```
+
+`screens/san_pham/danh_sach_screen.dart`:
+
+```dart
+class DanhSachScreen extends StatefulWidget {
+  const DanhSachScreen({super.key});
+
+  @override
+  State<DanhSachScreen> createState() => _DanhSachScreenState();
+}
+
+class _DanhSachScreenState extends State<DanhSachScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SanPhamProvider>().tai();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.watch<SanPhamProvider>();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sản phẩm')),
+      body: switch (p) {
+        _ when p.dangTai => const Center(child: CircularProgressIndicator()),
+        _ when p.loi != null => Center(child: Text(p.loi!)),
+        _ when p.danhSach.isEmpty => const Center(child: Text('Không có sản phẩm')),
+        _ => ListView.builder(
+            itemCount: p.danhSach.length,
+            itemBuilder: (_, i) => TheSanPham(sanPham: p.danhSach[i]),
+          ),
+      },
+    );
+  }
+}
+```
+
+`addPostFrameCallback` cho phép gọi provider an toàn trong `initState` — gọi thẳng sẽ báo lỗi "called during build".
+
+## Tách hằng số
+
+`utils/hang_so.dart`:
+
+```dart
+class AppMau {
+  static const chinh = Color(0xFF009688);
+  static const loi = Color(0xFFD32F2F);
+}
+
+class AppKhoangCach {
+  static const nho = 8.0;
+  static const vua = 16.0;
+  static const lon = 24.0;
+}
+```
+
+`utils/dinh_dang.dart`:
+
+```dart
+import 'package:intl/intl.dart';
+
+String dinhDangTien(int so) =>
+    NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(so);
+
+String dinhDangNgay(DateTime d) => DateFormat('dd/MM/yyyy').format(d);
+```
+
+Cần thêm `intl` vào `pubspec.yaml`. Hàm định dạng tiền dùng ở mọi chỗ hiển thị giá — viết một lần, sửa một chỗ.
+
+## Bài tập
+
+1. Tách project hiện tại của bạn theo cấu trúc thư mục trên.
+2. Chuyển mọi lệnh `http.get` từ màn hình vào `services/`.
+3. Tạo provider có đủ `dangTai`, `loi`, `danhSach` theo mẫu.
+4. Tách `TheSanPham` thành widget riêng trong `widgets/`.
+5. Tạo `utils/dinh_dang.dart` và thay mọi chỗ hiển thị giá bằng `dinhDangTien()`.
+</script>
+
+<script type="text/markdown" data-id="fl-18" data-nav="Bài 18 · Trạng thái và responsive">
+# Bài 18 — Trạng thái màn hình và giao diện co giãn
+
+**Mục tiêu:** app trông chuyên nghiệp ở mọi tình huống — đang tải, lỗi, rỗng, và trên mọi kích thước màn hình.
+
+## Bốn trạng thái của mọi màn hình có dữ liệu
+
+| Trạng thái | Hiện gì |
+| --- | --- |
+| Đang tải | Vòng xoay, hoặc khung xương |
+| Lỗi | Thông báo dễ hiểu + nút Thử lại |
+| Rỗng | Icon + câu giải thích + hành động gợi ý |
+| Có dữ liệu | Nội dung |
+
+Người mới hay chỉ làm trạng thái thứ tư. Ba trạng thái đầu là thứ khiến app trông được đầu tư.
+
+## Widget trạng thái dùng lại
+
+`widgets/trang_thai.dart`:
+
+```dart
+class TrangThaiRong extends StatelessWidget {
+  final IconData icon;
+  final String tieuDe;
+  final String? moTa;
+  final String? nhanNut;
+  final VoidCallback? khiBam;
+
+  const TrangThaiRong({
+    super.key,
+    this.icon = Icons.inbox_outlined,
+    required this.tieuDe,
+    this.moTa,
+    this.nhanNut,
+    this.khiBam,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 72, color: Colors.grey.shade400),
+            const SizedBox(height: 16),
+            Text(tieuDe,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center),
+            if (moTa != null) ...[
+              const SizedBox(height: 8),
+              Text(moTa!,
+                  style: TextStyle(color: Colors.grey.shade600),
+                  textAlign: TextAlign.center),
+            ],
+            if (nhanNut != null) ...[
+              const SizedBox(height: 20),
+              FilledButton(onPressed: khiBam, child: Text(nhanNut!)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+Chú ý `if (moTa != null) ...[ ... ]` — đây là collection if kết hợp spread ở Bài 3. Nó cho phép thêm nhiều widget có điều kiện vào `children`.
+
+Dùng:
+
+```dart
+const TrangThaiRong(
+  icon: Icons.shopping_cart_outlined,
+  tieuDe: 'Giỏ hàng trống',
+  moTa: 'Thêm sản phẩm để bắt đầu mua sắm',
+  nhanNut: 'Xem sản phẩm',
+)
+```
+
+## Viết thông báo lỗi cho người dùng
+
+| Đừng viết | Hãy viết |
+| --- | --- |
+| `Exception: SocketException...` | Không có kết nối mạng. Kiểm tra wifi rồi thử lại. |
+| `Error 404` | Không tìm thấy sản phẩm này. |
+| `null is not a subtype of String` | Đã xảy ra lỗi. Vui lòng thử lại. |
+
+Lỗi kỹ thuật ghi vào log cho lập trình viên; người dùng cần biết **chuyện gì xảy ra và làm gì tiếp**.
+
+## Khung xương khi tải
+
+Mượt hơn vòng xoay vì giữ bố cục ổn định:
+
+```dart
+Widget _khungXuong() => ListView.builder(
+      itemCount: 6,
+      itemBuilder: (_, __) => Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Container(width: 60, height: 60, color: Colors.grey.shade300),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(height: 14, color: Colors.grey.shade300),
+                  const SizedBox(height: 8),
+                  Container(
+                      height: 12, width: 120, color: Colors.grey.shade300),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+```
+
+Thư viện `shimmer` thêm hiệu ứng nhấp nháy nếu bạn muốn.
+
+## Giao diện co giãn theo màn hình
+
+Điện thoại nhỏ, điện thoại lớn, máy tính bảng — bố cục phải khác nhau.
+
+```dart
+LayoutBuilder(
+  builder: (context, rangBuoc) {
+    if (rangBuoc.maxWidth > 900) {
+      return _boCucMayTinh();        // 3 cot
+    } else if (rangBuoc.maxWidth > 600) {
+      return _boCucTablet();         // 2 cot
+    }
+    return _boCucDienThoai();        // 1 cot
+  },
+)
+```
+
+Lấy kích thước màn hình:
+
+```dart
+final kichThuoc = MediaQuery.of(context).size;
+final rong = kichThuoc.width;
+final doiNgang = MediaQuery.of(context).orientation == Orientation.landscape;
+final choBanPhim = MediaQuery.of(context).viewInsets.bottom;
+```
+
+GridView tự đổi số cột:
+
+```dart
+GridView.builder(
+  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 200,      // moi o rong toi da 200
+    crossAxisSpacing: 12,
+    mainAxisSpacing: 12,
+  ),
+  ...
+)
+```
+
+Cách này tốt hơn `crossAxisCount` cố định: màn hình to thì tự thêm cột.
+
+## Tránh tràn và chữ quá nhỏ
+
+```dart
+// Chu tu dong thu nho cho vua
+FittedBox(
+  fit: BoxFit.scaleDown,
+  child: Text('Nội dung dài'),
+)
+
+// Gioi han chieu rong
+ConstrainedBox(
+  constraints: const BoxConstraints(maxWidth: 600),
+  child: ...,
+)
+
+// Vung an toan - tranh tai tho va thanh dieu huong
+SafeArea(child: ...)
+```
+
+`SafeArea` cần cho màn hình không có `Scaffold`, hoặc khi nội dung sát mép.
+
+## Bài tập
+
+1. Viết widget `TrangThaiRong` và dùng cho màn hình giỏ hàng.
+2. Viết widget `TrangThaiLoi` có nút Thử lại.
+3. Đổi mọi thông báo lỗi kỹ thuật trong app sang câu dễ hiểu.
+4. Thêm khung xương khi tải cho danh sách sản phẩm.
+5. Dùng `LayoutBuilder` cho danh sách hiện 1 cột trên điện thoại, 2 cột khi xoay ngang.
+</script>
+
+<script type="text/markdown" data-id="fl-19" data-nav="Bài 19 · Ảnh, font, icon app">
+# Bài 19 — Asset, font, icon và màn hình chờ
+
+**Mục tiêu:** app có ảnh riêng, font riêng, icon riêng — trông như app thật chứ không phải bài tập.
+
+## Thêm ảnh vào app
+
+Tạo thư mục ở gốc project:
+
+```text
+assets/
+├── images/
+│   ├── logo.png
+│   └── banner.jpg
+└── fonts/
+    ├── BeVietnamPro-Regular.ttf
+    └── BeVietnamPro-Bold.ttf
+```
+
+Khai báo trong `pubspec.yaml` — **chú ý thụt lề, sai một dấu cách là lỗi**:
+
+```yaml
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+```
+
+Rồi chạy `flutter pub get`. Dùng:
+
+```dart
+Image.asset('assets/images/logo.png', width: 120)
+```
+
+Khai báo cả thư mục (có dấu `/` cuối) tiện hơn khai báo từng file.
+
+## Thêm font tiếng Việt
+
+Tải font từ `fonts.google.com` (Be Vietnam Pro, Inter, Roboto đều hỗ trợ tiếng Việt tốt), đặt file `.ttf` vào `assets/fonts/`:
+
+```yaml
+flutter:
+  fonts:
+    - family: BeVietnamPro
+      fonts:
+        - asset: assets/fonts/BeVietnamPro-Regular.ttf
+        - asset: assets/fonts/BeVietnamPro-Bold.ttf
+          weight: 700
+```
+
+Dùng cho toàn app:
+
+```dart
+MaterialApp(
+  theme: ThemeData(
+    fontFamily: 'BeVietnamPro',
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+  ),
+)
+```
+
+Cách nhanh hơn, không cần tải file:
+
+```yaml
+dependencies:
+  google_fonts: ^6.2.1
+```
+
+```dart
+import 'package:google_fonts/google_fonts.dart';
+
+theme: ThemeData(
+  textTheme: GoogleFonts.beVietnamProTextTheme(),
+)
+```
+
+Lưu ý: `google_fonts` tải font từ mạng lần đầu. App cần chạy offline hoàn toàn thì nên nhúng file `.ttf`.
+
+## Icon của app
+
+```yaml
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#009688"
+  adaptive_icon_foreground: "assets/images/app_icon_fg.png"
+```
+
+Ảnh gốc nên là PNG vuông 1024×1024. Chạy:
+
+```bash
+flutter pub get
+dart run flutter_launcher_icons
+```
+
+Công cụ tự sinh icon đủ kích thước cho cả Android và iOS.
+
+## Màn hình chờ khi mở app
+
+```yaml
+dev_dependencies:
+  flutter_native_splash: ^2.4.1
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/logo.png
+  color_dark: "#121212"
+  android_12:
+    image: assets/images/logo.png
+    color: "#ffffff"
+```
+
+```bash
+dart run flutter_native_splash:create
+```
+
+## Đổi tên app
+
+**Android** — `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<application
+    android:label="Tên App Của Bạn"
+    ...>
+```
+
+**iOS** — `ios/Runner/Info.plist`:
+
+```xml
+<key>CFBundleDisplayName</key>
+<string>Tên App Của Bạn</string>
+```
+
+## Tìm và chọn thư viện
+
+Mọi thư viện Flutter nằm ở **pub.dev**. Trước khi cài, kiểm tra 4 điểm:
+
+| Kiểm tra | Dấu hiệu tốt |
+| --- | --- |
+| Lần cập nhật cuối | Trong vòng 6 tháng |
+| Điểm likes và popularity | Càng cao càng nhiều người dùng |
+| Hỗ trợ nền tảng | Có đủ Android, iOS bạn cần |
+| Null safety | Bắt buộc, thư viện cũ không có sẽ không build được |
+
+Thư viện hay dùng:
+
+| Thư viện | Dùng để |
+| --- | --- |
+| `http` hoặc `dio` | Gọi API |
+| `provider` / `flutter_riverpod` | Quản lý state |
+| `shared_preferences` | Lưu cài đặt |
+| `intl` | Định dạng ngày, tiền |
+| `cached_network_image` | Ảnh mạng có cache |
+| `url_launcher` | Mở link, gọi điện, gửi mail |
+| `image_picker` | Chọn ảnh từ máy hoặc chụp |
+| `flutter_svg` | Hiển thị ảnh SVG |
+
+## cached_network_image — nên dùng thay Image.network
+
+```dart
+CachedNetworkImage(
+  imageUrl: url,
+  placeholder: (context, url) => const Center(
+    child: CircularProgressIndicator(),
+  ),
+  errorWidget: (context, url, error) => const Icon(Icons.broken_image),
+  fit: BoxFit.cover,
+)
+```
+
+Ảnh tải một lần rồi lưu lại, lần sau hiện ngay — danh sách cuộn mượt hơn hẳn.
+
+## Lỗi hay gặp
+
+| Lỗi | Cách sửa |
+| --- | --- |
+| `Unable to load asset` | Sai đường dẫn, hoặc quên khai trong `pubspec.yaml`, hoặc chưa `flutter pub get` |
+| Font không đổi | Sai thụt lề trong `pubspec.yaml`; thử `flutter clean` rồi chạy lại |
+| Icon app không đổi | Gỡ app khỏi máy ảo rồi cài lại |
+| `pubspec.yaml` báo lỗi khó hiểu | Kiểm tra thụt lề — YAML chỉ nhận dấu cách, không nhận Tab |
+
+## Bài tập
+
+1. Thêm một ảnh logo vào `assets/images/` và hiển thị ở màn hình chính.
+2. Thêm font Be Vietnam Pro và áp dụng cho toàn app.
+3. Tạo icon app bằng `flutter_launcher_icons`, gỡ cài lại để kiểm tra.
+4. Thêm màn hình chờ bằng `flutter_native_splash`.
+5. Thay mọi `Image.network` bằng `CachedNetworkImage`.
+</script>
+
+<script type="text/markdown" data-id="fl-20" data-nav="Bài 20 · Animation">
+# Bài 20 — Animation
+
+**Mục tiêu:** thêm chuyển động cho app. Animation đúng mức làm app mượt; quá tay làm app rối và chậm.
+
+## Animation tự động — dễ nhất
+
+Đổi `Container` thành `AnimatedContainer` là xong:
+
+```dart
+class ONhap extends StatefulWidget {
+  const ONhap({super.key});
+
+  @override
+  State<ONhap> createState() => _ONhapState();
+}
+
+class _ONhapState extends State<ONhap> {
+  bool _moRong = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => setState(() => _moRong = !_moRong),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        width: _moRong ? 300 : 150,
+        height: _moRong ? 200 : 100,
+        decoration: BoxDecoration(
+          color: _moRong ? Colors.teal : Colors.orange,
+          borderRadius: BorderRadius.circular(_moRong ? 24 : 8),
+        ),
+        child: const Center(child: Text('Bấm tôi')),
+      ),
+    );
+  }
+}
+```
+
+Chỉ cần `setState` đổi giá trị, Flutter tự chạy chuyển động từ giá trị cũ sang mới.
+
+## Các widget Animated có sẵn
+
+| Widget | Chuyển động |
+| --- | --- |
+| `AnimatedContainer` | Kích thước, màu, bo góc, padding |
+| `AnimatedOpacity` | Mờ dần, hiện dần |
+| `AnimatedPositioned` | Di chuyển trong `Stack` |
+| `AnimatedSwitcher` | Đổi hẳn widget này sang widget khác |
+| `AnimatedCrossFade` | Chuyển giữa đúng hai widget |
+| `AnimatedList` | Thêm, xoá mục trong danh sách |
+
+```dart
+AnimatedOpacity(
+  opacity: _hien ? 1.0 : 0.0,
+  duration: const Duration(milliseconds: 400),
+  child: const Text('Nội dung'),
+)
+
+AnimatedSwitcher(
+  duration: const Duration(milliseconds: 300),
+  child: _dangTai
+      ? const CircularProgressIndicator(key: ValueKey('tai'))
+      : const Text('Xong', key: ValueKey('xong')),
+)
+```
+
+`AnimatedSwitcher` cần `key` khác nhau cho mỗi widget con, nếu không Flutter không biết đã đổi.
+
+## Đường cong chuyển động
+
+| `Curves` | Cảm giác |
+| --- | --- |
+| `linear` | Đều, hơi máy móc |
+| `easeInOut` | Tự nhiên nhất, dùng mặc định |
+| `easeOut` | Nhanh rồi chậm dần — hợp khi mở ra |
+| `bounceOut` | Nảy ở cuối — vui mắt, dùng tiết chế |
+| `elasticOut` | Rung, dùng cho hiệu ứng đặc biệt |
+
+## Hero — chuyển ảnh giữa hai màn hình
+
+```dart
+// Man hinh danh sach
+Hero(
+  tag: 'sp-${sanPham.id}',
+  child: Image.network(sanPham.anh, width: 80, height: 80),
+)
+
+// Man hinh chi tiet
+Hero(
+  tag: 'sp-${sanPham.id}',
+  child: Image.network(sanPham.anh, width: double.infinity, height: 300),
+)
+```
+
+`tag` giống nhau ở hai màn hình là đủ — Flutter tự làm ảnh bay từ vị trí cũ sang vị trí mới. Rất ấn tượng mà gần như không tốn công.
+
+Lưu ý `tag` phải **duy nhất** trong một màn hình, nên gắn kèm id.
+
+## Animation thủ công — khi cần kiểm soát
+
+```dart
+class HieuUng extends StatefulWidget {
+  const HieuUng({super.key});
+
+  @override
+  State<HieuUng> createState() => _HieuUngState();
+}
+
+class _HieuUngState extends State<HieuUng>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();          // bat buoc
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _animation,
+      child: const Icon(Icons.favorite, size: 64, color: Colors.red),
+    );
+  }
+}
+```
+
+| Thành phần | Vai trò |
+| --- | --- |
+| `AnimationController` | Điều khiển thời gian, chạy từ 0 đến 1 |
+| `SingleTickerProviderStateMixin` | Cung cấp nhịp vẽ cho controller |
+| `Tween` | Ánh xạ 0–1 sang khoảng giá trị bạn muốn |
+| `_controller.forward()` | Chạy tới |
+| `_controller.repeat(reverse: true)` | Lặp qua lại |
+
+Luôn `dispose()` controller. Quên là rò rỉ bộ nhớ, và đây là lỗi hay bị bỏ sót.
+
+## Dùng animation có chừng mực
+
+| Nên | Không nên |
+| --- | --- |
+| 200–400 ms cho chuyển động giao diện | Trên 800 ms, người dùng thấy chậm |
+| Animation có mục đích: báo trạng thái đổi | Animation chỉ để đẹp ở mọi nút |
+| `Hero` cho chuyển màn hình | Năm hiệu ứng khác nhau trên một màn hình |
+
+App tốt thường chỉ có vài chỗ có animation, và người dùng không để ý — họ chỉ thấy "mượt".
+
+## Bài tập
+
+1. Làm thẻ sản phẩm phóng to khi bấm bằng `AnimatedContainer`.
+2. Làm nút tim đổi màu và phóng to khi bấm.
+3. Thêm `Hero` cho ảnh sản phẩm giữa màn hình danh sách và chi tiết.
+4. Dùng `AnimatedSwitcher` chuyển giữa vòng xoay và nội dung khi tải xong.
+5. Viết animation thủ công làm icon thông báo rung nhẹ khi có tin mới.
+</script>
+
+<script type="text/markdown" data-id="fl-21" data-nav="Bài 21 · Kiểm thử app Flutter">
+# Bài 21 — Kiểm thử app Flutter
+
+**Mục tiêu:** viết test cho chính app mình. Nếu bạn đã học các khoá kiểm thử trong trang này, bài này là chỗ hai mảng gặp nhau.
+
+## Ba cấp độ test trong Flutter
+
+| Loại | Kiểm gì | Tốc độ | Số lượng nên có |
+| --- | --- | --- | --- |
+| **Unit test** | Một hàm, một class — không có giao diện | Rất nhanh | Nhiều nhất |
+| **Widget test** | Một widget hiển thị và phản ứng đúng không | Nhanh | Vừa |
+| **Integration test** | Cả app chạy trên máy ảo, luồng đầy đủ | Chậm | Ít nhất |
+
+Đây đúng là hình tháp kiểm thử: nhiều test nhỏ ở đáy, ít test lớn ở đỉnh.
+
+## Unit test
+
+Flutter tạo sẵn thư mục `test/`. Tạo `test/gio_hang_test.dart`:
+
+```dart
+import 'package:flutter_test/flutter_test.dart';
+import 'package:my_app/providers/gio_hang_provider.dart';
+
+void main() {
+  group('GioHangProvider', () {
+    late GioHangProvider gio;
+
+    setUp(() {
+      gio = GioHangProvider();      // chay truoc moi test
+    });
+
+    test('gio hang moi tao phai rong', () {
+      expect(gio.gio.length, 0);
+      expect(gio.tongTien, 0);
+    });
+
+    test('them san pham thi so luong tang', () {
+      gio.them(SanPham(ten: 'Áo thun', gia: 150000));
+      expect(gio.gio.length, 1);
+      expect(gio.tongTien, 150000);
+    });
+
+    test('them cung san pham hai lan thi gop so luong', () {
+      gio.them(SanPham(ten: 'Áo thun', gia: 150000));
+      gio.them(SanPham(ten: 'Áo thun', gia: 150000));
+      expect(gio.gio.length, 1);
+      expect(gio.gio.first.soLuong, 2);
+      expect(gio.tongTien, 300000);
+    });
+
+    test('xoa san pham khoi gio', () {
+      gio.them(SanPham(ten: 'Áo thun', gia: 150000));
+      gio.xoa('Áo thun');
+      expect(gio.gio.isEmpty, true);
+    });
+
+    test('doi so luong ve 0 thi xoa khoi gio', () {
+      gio.them(SanPham(ten: 'Áo thun', gia: 150000));
+      gio.doiSoLuong('Áo thun', 0);
+      expect(gio.gio.isEmpty, true);
+    });
+  });
+}
+```
+
+| Hàm | Vai trò | Tương đương |
+| --- | --- | --- |
+| `group` | Gom test cùng chủ đề | class test |
+| `test` | Một test case | `def test_x()` / `@Test` |
+| `setUp` | Chạy trước mỗi test | fixture / `@BeforeMethod` |
+| `expect(thucTe, mongDoi)` | Assertion | `assert` / `Assert.assertEquals` |
+
+Chạy:
+
+```bash
+flutter test
+flutter test test/gio_hang_test.dart
+```
+
+## Widget test
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  testWidgets('bo dem tang khi bam nut', (WidgetTester tester) async {
+    // Dung widget
+    await tester.pumpWidget(const MaterialApp(home: BoDem()));
+
+    // Kiem tra trang thai ban dau
+    expect(find.text('Đã bấm 0 lần'), findsOneWidget);
+    expect(find.text('Đã bấm 1 lần'), findsNothing);
+
+    // Bam nut
+    await tester.tap(find.byType(ElevatedButton));
+    await tester.pump();            // ve lai sau khi setState
+
+    // Kiem tra ket qua
+    expect(find.text('Đã bấm 1 lần'), findsOneWidget);
+  });
+
+  testWidgets('form bao loi khi email trong', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: DangKy()));
+
+    await tester.tap(find.text('Đăng ký'));
+    await tester.pump();
+
+    expect(find.text('Vui lòng nhập email'), findsOneWidget);
+  });
+
+  testWidgets('nhap email roi gui thi khong con loi', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: DangKy()));
+
+    await tester.enterText(find.byType(TextFormField).first, 'a@b.com');
+    await tester.tap(find.text('Đăng ký'));
+    await tester.pump();
+
+    expect(find.text('Vui lòng nhập email'), findsNothing);
+  });
+}
+```
+
+Các cách tìm widget:
+
+```dart
+find.text('Đăng nhập')
+find.byType(ElevatedButton)
+find.byIcon(Icons.add)
+find.byKey(const Key('nut_luu'))         // ben nhat
+find.widgetWithText(ElevatedButton, 'Lưu')
+```
+
+Kết quả mong đợi:
+
+```dart
+findsOneWidget      // dung 1
+findsNothing        // khong co
+findsNWidgets(3)    // dung 3
+findsWidgets        // it nhat 1
+```
+
+Hai hàm vẽ lại:
+
+| Hàm | Dùng khi |
+| --- | --- |
+| `tester.pump()` | Vẽ lại một khung — sau `setState` |
+| `tester.pumpAndSettle()` | Vẽ cho đến khi hết animation — sau chuyển màn hình |
+
+## Gắn Key để test bám vào
+
+Giống việc đề nghị dev thêm `testID` ở khoá mobile automation — ở đây bạn vừa là dev vừa là tester:
+
+```dart
+ElevatedButton(
+  key: const Key('nut_dang_nhap'),
+  onPressed: _dangNhap,
+  child: const Text('Đăng nhập'),
+)
+```
+
+```dart
+await tester.tap(find.byKey(const Key('nut_dang_nhap')));
+```
+
+Locator bằng `Key` không hỏng khi bạn đổi chữ trên nút hay đổi ngôn ngữ app.
+
+## Integration test — chạy cả app
+
+```yaml
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+```
+
+`integration_test/app_test.dart`:
+
+```dart
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:my_app/main.dart' as app;
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('luong them san pham vao gio', (tester) async {
+    app.main();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Áo thun'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Thêm vào giỏ'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.shopping_cart));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Áo thun'), findsOneWidget);
+    expect(find.text('Tổng: 150000 đ'), findsOneWidget);
+  });
+}
+```
+
+Chạy trên máy ảo đang bật:
+
+```bash
+flutter test integration_test/app_test.dart
+```
+
+## Nên test gì trước
+
+| Ưu tiên | Test gì |
+| --- | --- |
+| 1 | Logic tính toán: tổng tiền, giảm giá, định dạng |
+| 2 | Provider: thêm, xoá, cập nhật state |
+| 3 | Validator của form |
+| 4 | Widget quan trọng: nút thanh toán, màn hình đăng nhập |
+| 5 | Luồng chính end-to-end: đăng nhập → mua hàng |
+
+Không cần test mọi widget. Test chỗ sai thì thiệt hại lớn.
+
+## Xem độ phủ
+
+```bash
+flutter test --coverage
+```
+
+Kết quả ở `coverage/lcov.info`. Độ phủ cao không đồng nghĩa test tốt — một test không có `expect` vẫn tính là đã chạy qua code.
+
+## Bài tập
+
+1. Viết 5 unit test cho `GioHangProvider` của bạn.
+2. Viết widget test cho màn hình đăng nhập: bỏ trống email phải báo lỗi.
+3. Thêm `Key` cho 3 nút quan trọng và viết test dùng `find.byKey`.
+4. Viết một integration test cho luồng thêm sản phẩm vào giỏ.
+5. Cố tình sửa logic `tongTien` cho sai, chạy `flutter test` và xác nhận test bắt được lỗi.
+</script>
+
+<script type="text/markdown" data-id="fl-22" data-nav="Bài 22 · Firebase">
+# Bài 22 — Firebase: đăng nhập và dữ liệu đám mây
+
+**Mục tiêu:** app có tài khoản người dùng và dữ liệu lưu trên mạng, nhiều máy xem chung.
+
+Firebase là dịch vụ backend của Google. Nó cho bạn đăng nhập, database, lưu ảnh mà không phải tự viết server — rất hợp khi bạn làm app một mình.
+
+## Chuẩn bị
+
+1. Vào `console.firebase.google.com`, tạo project mới.
+2. Cài công cụ dòng lệnh:
+
+```bash
+npm install -g firebase-tools
+firebase login
+dart pub global activate flutterfire_cli
+```
+
+3. Trong thư mục project Flutter:
+
+```bash
+flutterfire configure
+```
+
+Chọn project vừa tạo, chọn nền tảng Android. Lệnh này tự sinh file `lib/firebase_options.dart` và cấu hình Android.
+
+```yaml
+dependencies:
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.3
+```
+
+## Khởi động Firebase
+
+```dart
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
+```
+
+## Đăng ký và đăng nhập
+
+Bật trước trong Firebase Console: **Authentication** → **Sign-in method** → bật **Email/Password**.
+
+```dart
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AuthService {
+  final _auth = FirebaseAuth.instance;
+
+  User? get nguoiDungHienTai => _auth.currentUser;
+  Stream<User?> get trangThai => _auth.authStateChanges();
+
+  Future<String?> dangKy(String email, String matKhau) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: matKhau,
+      );
+      return null;                 // null = thanh cong
+    } on FirebaseAuthException catch (e) {
+      return switch (e.code) {
+        'weak-password' => 'Mật khẩu quá yếu, cần ít nhất 6 ký tự',
+        'email-already-in-use' => 'Email này đã được đăng ký',
+        'invalid-email' => 'Email không hợp lệ',
+        _ => 'Đăng ký thất bại: ${e.code}',
+      };
+    }
+  }
+
+  Future<String?> dangNhap(String email, String matKhau) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: matKhau,
+      );
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return switch (e.code) {
+        'user-not-found' || 'wrong-password' || 'invalid-credential' =>
+          'Email hoặc mật khẩu không đúng',
+        'too-many-requests' => 'Thử quá nhiều lần, vui lòng đợi',
+        _ => 'Đăng nhập thất bại: ${e.code}',
+      };
+    }
+  }
+
+  Future<void> dangXuat() => _auth.signOut();
+}
+```
+
+Chuyển mã lỗi của Firebase sang câu tiếng Việt dễ hiểu — đúng nguyên tắc ở Bài 18.
+
+## Tự chuyển màn hình theo trạng thái đăng nhập
+
+```dart
+StreamBuilder<User?>(
+  stream: FirebaseAuth.instance.authStateChanges(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return snapshot.hasData ? const TrangChu() : const DangNhap();
+  },
+)
+```
+
+Đây là `StreamBuilder` — anh em của `FutureBuilder`, dùng cho dữ liệu đến liên tục (Bài 6). Đăng nhập xong app tự vào trang chủ, đăng xuất tự về màn hình đăng nhập, không cần `Navigator`.
+
+## Firestore — database đám mây
+
+Bật trong Console: **Firestore Database** → **Create database** → chọn chế độ test lúc học.
+
+```dart
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class SanPhamService {
+  final _db = FirebaseFirestore.instance;
+
+  // Them
+  Future<void> them(String ten, int gia) async {
+    await _db.collection('sanPham').add({
+      'ten': ten,
+      'gia': gia,
+      'ngayTao': FieldValue.serverTimestamp(),
+    });
+  }
+
+  // Doc mot lan
+  Future<List<SanPham>> layDanhSach() async {
+    final snap = await _db.collection('sanPham').orderBy('ngayTao').get();
+    return snap.docs
+        .map((d) => SanPham.fromJson({...d.data(), 'id': d.id}))
+        .toList();
+  }
+
+  // Doc realtime - tu cap nhat khi du lieu doi
+  Stream<List<SanPham>> theoDoi() {
+    return _db.collection('sanPham').snapshots().map((snap) => snap.docs
+        .map((d) => SanPham.fromJson({...d.data(), 'id': d.id}))
+        .toList());
+  }
+
+  Future<void> sua(String id, int giaMoi) =>
+      _db.collection('sanPham').doc(id).update({'gia': giaMoi});
+
+  Future<void> xoa(String id) =>
+      _db.collection('sanPham').doc(id).delete();
+}
+```
+
+Hiển thị realtime:
+
+```dart
+StreamBuilder<List<SanPham>>(
+  stream: SanPhamService().theoDoi(),
+  builder: (context, snapshot) {
+    if (snapshot.hasError) return const Text('Có lỗi xảy ra');
+    if (!snapshot.hasData) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final ds = snapshot.data!;
+    if (ds.isEmpty) return const Text('Chưa có sản phẩm');
+
+    return ListView.builder(
+      itemCount: ds.length,
+      itemBuilder: (_, i) => ListTile(title: Text(ds[i].ten)),
+    );
+  },
+)
+```
+
+Sửa dữ liệu trên Console thì app đang mở **tự đổi ngay**, không cần tải lại. Đây là điểm mạnh nhất của Firestore.
+
+## Quy tắc bảo mật — đừng bỏ qua
+
+Chế độ test cho phép mọi người đọc ghi, và Firebase sẽ tự khoá sau 30 ngày. Trước khi phát hành, vào **Firestore** → **Rules**:
+
+```text
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sanPham/{id} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /donHang/{id} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == resource.data.userId;
+    }
+  }
+}
+```
+
+Ý nghĩa: ai cũng xem được sản phẩm, chỉ người đã đăng nhập mới thêm sửa; đơn hàng thì chỉ chủ đơn mới xem được đơn của mình.
+
+Để nguyên chế độ test khi phát hành nghĩa là bất kỳ ai cũng xoá sạch được database của bạn.
+
+## Bài tập
+
+1. Tạo project Firebase, chạy `flutterfire configure` thành công.
+2. Làm màn hình đăng ký và đăng nhập, hiện thông báo lỗi tiếng Việt.
+3. Dùng `StreamBuilder` tự chuyển giữa màn hình đăng nhập và trang chủ.
+4. Lưu danh sách sản phẩm lên Firestore, hiển thị realtime.
+5. Viết quy tắc bảo mật chỉ cho người đã đăng nhập được ghi dữ liệu.
+</script>
+
+<script type="text/markdown" data-id="fl-23" data-nav="Bài 23 · Build và phát hành">
+# Bài 23 — Build và phát hành app
+
+**Mục tiêu:** xuất file cài đặt và đưa app lên Google Play.
+
+## Kiểm tra trước khi build
+
+```bash
+flutter analyze        # tim loi va canh bao trong code
+flutter test           # chay toan bo test
+flutter clean          # xoa cache khi build loi la
+```
+
+`flutter analyze` nên sạch hoàn toàn trước khi phát hành.
+
+## Tạo khoá ký
+
+Android bắt buộc app phải được ký. **Giữ file khoá này cẩn thận** — mất là không cập nhật được app trên Play Store nữa, phải đăng app mới.
+
+```bash
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+Tạo `android/key.properties`:
+
+```text
+storePassword=mat_khau_cua_ban
+keyPassword=mat_khau_cua_ban
+keyAlias=upload
+storeFile=C:/Users/ten-ban/upload-keystore.jks
+```
+
+**Thêm file này vào `.gitignore`** — nó chứa mật khẩu, không được đẩy lên GitHub.
+
+Sửa `android/app/build.gradle.kts` (hoặc `.gradle` với project cũ), thêm trước `android {`:
+
+```kotlin
+import java.util.Properties
+import java.io.FileInputStream
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+```
+
+Trong khối `android { }`:
+
+```kotlin
+signingConfigs {
+    create("release") {
+        keyAlias = keystoreProperties["keyAlias"] as String
+        keyPassword = keystoreProperties["keyPassword"] as String
+        storeFile = file(keystoreProperties["storeFile"] as String)
+        storePassword = keystoreProperties["storePassword"] as String
+    }
+}
+
+buildTypes {
+    getByName("release") {
+        signingConfig = signingConfigs.getByName("release")
+        isMinifyEnabled = true
+        isShrinkResources = true
+    }
+}
+```
+
+## Build file cài đặt
+
+```bash
+# APK - gui truc tiep cho nguoi khac cai thu
+flutter build apk --release
+
+# APK tach theo kien truc - nhe hon
+flutter build apk --split-per-abi
+
+# App Bundle - bat buoc khi dua len Google Play
+flutter build appbundle --release
+```
+
+Vị trí file:
+
+| Lệnh | File nằm ở |
+| --- | --- |
+| `build apk` | `build/app/outputs/flutter-apk/app-release.apk` |
+| `build appbundle` | `build/app/outputs/bundle/release/app-release.aab` |
+
+APK gửi cho bạn bè cài thử. AAB mới là thứ tải lên Google Play.
+
+## Đổi thông tin app
+
+`android/app/build.gradle.kts`:
+
+```kotlin
+defaultConfig {
+    applicationId = "com.tenban.tenapp"   // duy nhat tren toan Play Store
+    minSdk = 23
+    targetSdk = 35
+    versionCode = 1                        // tang moi lan cap nhat
+    versionName = "1.0.0"                  // nguoi dung nhin thay
+}
+```
+
+Hoặc đơn giản hơn, đổi trong `pubspec.yaml`:
+
+```yaml
+version: 1.0.0+1      # versionName+versionCode
+```
+
+`versionCode` **phải tăng** mỗi lần tải bản mới lên Play, nếu không sẽ bị từ chối.
+
+## Đưa lên Google Play
+
+1. Đăng ký tài khoản nhà phát triển tại `play.google.com/console` — phí 25 USD, trả một lần.
+2. **Create app** → điền tên, ngôn ngữ, loại app.
+3. Chuẩn bị tài liệu bắt buộc:
+
+| Thứ | Yêu cầu |
+| --- | --- |
+| Icon | PNG 512×512 |
+| Ảnh bìa | 1024×500 |
+| Ảnh chụp màn hình | Tối thiểu 2 ảnh điện thoại |
+| Mô tả ngắn | Tối đa 80 ký tự |
+| Mô tả đầy đủ | Tối đa 4000 ký tự |
+| Chính sách quyền riêng tư | Một trang web công khai — bắt buộc |
+
+4. Tải file `.aab` lên mục **Production** hoặc **Internal testing**.
+5. Điền bảng câu hỏi về nội dung, đối tượng, quyền riêng tư.
+6. Gửi duyệt — thường 1–7 ngày.
+
+Lời khuyên: dùng **Internal testing** trước. Nó cho phép tối đa 100 người cài thử qua link, duyệt nhanh hơn nhiều, và bạn sửa lỗi trước khi công bố rộng.
+
+## Build cho iOS
+
+Cần máy macOS và tài khoản Apple Developer (99 USD/năm):
+
+```bash
+flutter build ios --release
+```
+
+Rồi mở `ios/Runner.xcworkspace` bằng Xcode để ký và tải lên App Store Connect.
+
+## Tự động build bằng GitHub Actions
+
+```yaml
+name: Build APK
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+```
+
+Đẩy một tag `v1.0.0` lên là GitHub tự build và cho bạn tải APK về.
+
+## Lỗi hay gặp khi build
+
+| Lỗi | Cách sửa |
+| --- | --- |
+| `Execution failed for task ':app:lintVitalRelease'` | Thêm `lint { checkReleaseBuilds = false }` vào `android {}` |
+| `Keystore file not found` | Kiểm tra đường dẫn trong `key.properties`, dùng dấu `/` |
+| APK chạy máy ảo nhưng bản release lỗi mạng | Thiếu quyền INTERNET trong AndroidManifest |
+| Build rất lâu lần đầu | Bình thường, Gradle đang tải phụ thuộc |
+| `minSdkVersion` quá thấp | Nâng `minSdk` lên 23 hoặc cao hơn |
+
+## Bài tập
+
+1. Chạy `flutter analyze` và sửa hết cảnh báo.
+2. Tạo keystore và cấu hình ký cho bản release.
+3. Build APK release và cài lên máy ảo hoặc điện thoại thật.
+4. Đổi `applicationId`, tên app và version.
+5. Thêm workflow GitHub Actions tự build APK khi đẩy tag.
+</script>
+
+<script type="text/markdown" data-id="fl-24" data-nav="Bài 24 · Dự án cuối Flutter">
+# Bài 24 — Dự án cuối: app hoàn chỉnh
+
+**Mục tiêu:** một app chạy được trên điện thoại thật, có repo GitHub, đưa được vào CV.
+
+## Đề bài
+
+Làm app **quản lý chi tiêu cá nhân**. Chọn đề này vì nó dùng hết kiến thức của khoá mà vẫn đủ nhỏ để hoàn thành.
+
+Muốn làm đề khác cũng được, miễn đủ các yêu cầu kỹ thuật bên dưới: app ghi chú, app to-do, app đọc tin tức, app danh bạ.
+
+## Chức năng
+
+| # | Màn hình | Chức năng |
+| --- | --- | --- |
+| 1 | Đăng nhập | Email và mật khẩu, kiểm tra dữ liệu đầu vào |
+| 2 | Trang chủ | Tổng thu, tổng chi, số dư tháng này; danh sách giao dịch gần đây |
+| 3 | Thêm giao dịch | Số tiền, loại thu/chi, danh mục, ngày, ghi chú |
+| 4 | Danh sách | Toàn bộ giao dịch, lọc theo tháng và danh mục |
+| 5 | Chi tiết | Xem, sửa, xoá một giao dịch |
+| 6 | Thống kê | Tổng theo danh mục, phần trăm từng mục |
+| 7 | Cài đặt | Chế độ tối, đổi đơn vị tiền, xoá dữ liệu, đăng xuất |
+
+## Yêu cầu kỹ thuật
+
+- [ ] Cấu trúc thư mục theo Bài 17: `models/`, `services/`, `providers/`, `screens/`, `widgets/`, `utils/`
+- [ ] Không có lệnh gọi mạng hay truy cập bộ nhớ nào nằm trong file màn hình
+- [ ] Quản lý state bằng Provider, tối thiểu 2 provider
+- [ ] Dữ liệu lưu được trên máy, tắt app mở lại vẫn còn
+- [ ] Mọi màn hình có dữ liệu xử lý đủ 4 trạng thái: tải, lỗi, rỗng, có dữ liệu
+- [ ] Form có kiểm tra dữ liệu đầy đủ, thông báo lỗi tiếng Việt dễ hiểu
+- [ ] Định dạng tiền và ngày bằng `intl`, dùng chung một hàm
+- [ ] Có chế độ sáng và tối, lưu lại lựa chọn
+- [ ] Điều hướng bằng `NavigationBar`, giữ trạng thái bằng `IndexedStack`
+- [ ] Tối thiểu 5 unit test và 2 widget test, chạy `flutter test` pass hết
+- [ ] `flutter analyze` không còn cảnh báo
+- [ ] Build được APK release, cài chạy trên máy thật
+- [ ] README có ảnh chụp màn hình và hướng dẫn chạy
+
+## Gợi ý mô hình dữ liệu
+
+```dart
+enum LoaiGiaoDich { thu, chi }
+
+class GiaoDich {
+  final String id;
+  final int soTien;
+  final LoaiGiaoDich loai;
+  final String danhMuc;
+  final DateTime ngay;
+  final String? ghiChu;
+
+  const GiaoDich({
+    required this.id,
+    required this.soTien,
+    required this.loai,
+    required this.danhMuc,
+    required this.ngay,
+    this.ghiChu,
+  });
+
+  factory GiaoDich.fromJson(Map<String, dynamic> json) => GiaoDich(
+        id: json['id'] ?? '',
+        soTien: json['soTien'] ?? 0,
+        loai: json['loai'] == 'thu' ? LoaiGiaoDich.thu : LoaiGiaoDich.chi,
+        danhMuc: json['danhMuc'] ?? 'Khác',
+        ngay: DateTime.tryParse(json['ngay'] ?? '') ?? DateTime.now(),
+        ghiChu: json['ghiChu'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'soTien': soTien,
+        'loai': loai.name,
+        'danhMuc': danhMuc,
+        'ngay': ngay.toIso8601String(),
+        'ghiChu': ghiChu,
+      };
+}
+```
+
+`enum` là kiểu liệt kê — an toàn hơn dùng chuỗi `'thu'` và `'chi'`, vì gõ sai sẽ báo lỗi ngay lúc viết code.
+
+## Thứ tự làm
+
+Đừng làm cả 7 màn hình cùng lúc. Làm từng mốc, mỗi mốc chạy được rồi mới đi tiếp:
+
+| Mốc | Làm gì | Xong thì |
+| --- | --- | --- |
+| 1 | Model + provider + lưu máy | Thêm giao dịch bằng code, in ra console |
+| 2 | Màn hình danh sách | Nhìn thấy dữ liệu trên app |
+| 3 | Màn hình thêm giao dịch | Thêm được bằng giao diện |
+| 4 | Trang chủ với tổng thu chi | Số liệu đúng |
+| 5 | Sửa, xoá, lọc | Đủ chức năng chính |
+| 6 | Thống kê, cài đặt, chế độ tối | Hoàn thiện |
+| 7 | Test, analyze, build APK | Sẵn sàng nộp |
+
+Commit lên GitHub sau mỗi mốc. Đó cũng là cách nhà tuyển dụng thấy bạn làm việc có quy trình.
+
+## README nên có gì
+
+```markdown
+# Quản lý chi tiêu
+
+App ghi chép thu chi cá nhân, viết bằng Flutter.
+
+## Ảnh chụp màn hình
+(3-4 ảnh: trang chủ, thêm giao dịch, thống kê, cài đặt)
+
+## Chức năng
+- Ghi giao dịch thu/chi theo danh mục
+- Thống kê theo tháng và theo danh mục
+- Lưu dữ liệu trên máy, dùng được offline
+- Chế độ sáng/tối
+
+## Công nghệ
+Flutter, Dart, Provider, shared_preferences, intl
+
+## Chạy thử
+    flutter pub get
+    flutter run
+
+## Kiểm thử
+    flutter test
+```
+
+## Đưa vào CV
+
+> **App Quản lý chi tiêu** — Flutter, Dart, Provider
+> Xây dựng ứng dụng Android ghi chép thu chi cá nhân với 7 màn hình. Áp dụng kiến trúc phân lớp tách biệt model, service, provider và giao diện; quản lý state bằng Provider; lưu dữ liệu offline. Viết unit test và widget test cho phần logic tính toán và form. Build và phát hành bản APK đã ký.
+> Link: github.com/&lt;tên-của-bạn&gt;/quan-ly-chi-tieu
+
+## Câu hỏi phỏng vấn hay gặp
+
+1. StatelessWidget và StatefulWidget khác nhau thế nào?
+2. `setState` làm gì, vì sao đổi biến mà không gọi nó thì màn hình không đổi?
+3. Vì sao cần Provider khi đã có `setState`?
+4. `FutureBuilder` và `StreamBuilder` khác nhau ở đâu?
+5. `const` trước widget có tác dụng gì?
+6. Vì sao phải `dispose` controller?
+7. Bạn xử lý lỗi mạng trong app như thế nào?
+8. Hot reload và hot restart khác nhau ra sao?
+
+## Học tiếp gì
+
+| Hướng | Nội dung |
+| --- | --- |
+| State nâng cao | Riverpod, Bloc — yêu cầu phổ biến trong JD |
+| Kiến trúc | Clean Architecture, repository pattern, dependency injection |
+| Hiệu năng | DevTools profiling, giảm rebuild, tối ưu danh sách dài |
+| Backend | Tự viết API bằng Node hoặc Python thay cho Firebase |
+| Kiểm thử app Flutter | Khoá Maestro và Appium trong trang này test được chính app bạn vừa làm |
+
+Mục cuối đáng chú ý nếu bạn theo hướng kiểm thử: tự làm app rồi tự viết automation test cho nó là cách hiểu sâu nhất cả hai phía.
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
@@ -9413,6 +14225,20 @@ Thứ không đổi qua cả 8 bài: **AI sinh bản nháp, bạn chịu trách 
       groups: [
         { n: "Phần 1", t: "Dùng AI trong công việc tester", ids: ["bai-26","bai-27","bai-28","bai-29"] },
         { n: "Phần 2", t: "Agent cho tester", ids: ["ag-0","ag-1","ag-2","ag-3"] }
+      ]
+    },
+    {
+      id: "flutter",
+      ten: "Lập trình Flutter — cơ bản đến nâng cao",
+      mo_ta: "Học Dart từ số 0 rồi tự làm app điện thoại hoàn chỉnh: giao diện, gọi API, lưu dữ liệu, kiểm thử và phát hành lên store.",
+      cap: "Từ số 0",
+      gio: "~55 giờ",
+      yeu_cau: "Không cần biết lập trình",
+      groups: [
+        { n: "Phần 1", t: "Dart từ số 0", ids: ["fl-0","fl-1","fl-2","fl-3","fl-4","fl-5","fl-6"] },
+        { n: "Phần 2", t: "Widget và giao diện", ids: ["fl-7","fl-8","fl-9","fl-10","fl-11","fl-12","fl-13"] },
+        { n: "Phần 3", t: "Ứng dụng thật", ids: ["fl-14","fl-15","fl-16","fl-17","fl-18","fl-19"] },
+        { n: "Phần 4", t: "Nâng cao và phát hành", ids: ["fl-20","fl-21","fl-22","fl-23","fl-24"] }
       ]
     },
     {
