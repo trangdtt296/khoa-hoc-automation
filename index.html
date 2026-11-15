@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Khoa tu hoc: automation test (Playwright, Maestro, Appium, JMeter), AI cho tester va lap trinh Flutter.">
+<meta name="description" content="Khoa tu hoc cho tester: Manual Testing, ISTQB, Playwright, Maestro, Appium, JMeter, AI va Flutter.">
 <title>Lộ trình Automation Tester</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -14158,11 +14158,3703 @@ Flutter, Dart, Provider, shared_preferences, intl
 Mục cuối đáng chú ý nếu bạn theo hướng kiểm thử: tự làm app rồi tự viết automation test cho nó là cách hiểu sâu nhất cả hai phía.
 </script>
 
+<script type="text/markdown" data-id="mt-0" data-nav="Bài 0 · Nghề tester làm gì">
+# Bài 0 — Tester làm gì trong một dự án phần mềm
+
+**Mục tiêu:** hiểu vị trí của mình trong nhóm, biết mình làm việc với ai và làm gì mỗi ngày.
+
+## Tester không phải người "bấm thử xem có lỗi không"
+
+Công việc thật của một tester:
+
+| Giai đoạn | Tester làm gì |
+| --- | --- |
+| Khi có yêu cầu mới | Đọc tài liệu, hỏi lại chỗ mơ hồ — tìm lỗi **trước khi** code được viết |
+| Khi dev đang code | Viết test case, chuẩn bị dữ liệu test, chuẩn bị môi trường |
+| Khi có bản build | Thực thi test, ghi kết quả, báo lỗi |
+| Khi gần release | Chạy regression, báo cáo, tư vấn có nên phát hành không |
+| Sau release | Theo dõi lỗi từ người dùng, bổ sung test case |
+
+Phần giá trị nhất nằm ở hàng đầu tiên. Một câu hỏi đúng lúc đọc tài liệu tiết kiệm nhiều ngày công hơn mười bug tìm được lúc cuối.
+
+## Các vai trò trong nhóm
+
+| Vai trò | Làm gì | Bạn làm việc với họ khi nào |
+| --- | --- | --- |
+| BA / PO | Viết yêu cầu, quyết định nghiệp vụ | Hỏi khi tài liệu chưa rõ |
+| Dev | Viết code | Báo bug, trao đổi cách tái hiện |
+| Designer | Thiết kế giao diện | Đối chiếu khi giao diện lệch thiết kế |
+| Tester (bạn) | Kiểm thử, báo cáo chất lượng | — |
+| QA Lead / Test Manager | Phân công, lập kế hoạch | Nhận việc, báo tiến độ |
+| DevOps | Môi trường, triển khai | Khi môi trường test lỗi |
+
+## QA và QC khác nhau
+
+Hai từ hay bị dùng lẫn lộn, và hay được hỏi khi phỏng vấn:
+
+| | QA (Quality Assurance) | QC (Quality Control) |
+| --- | --- | --- |
+| Mục tiêu | **Ngăn** lỗi xảy ra | **Tìm** lỗi đã có |
+| Tập trung vào | Quy trình | Sản phẩm |
+| Ví dụ | Đặt ra quy định review code trước khi merge | Chạy test case trên bản build |
+| Thời điểm | Suốt dự án | Khi đã có sản phẩm |
+
+Ở Việt Nam, vị trí ghi là "QA" thường thực chất làm công việc QC. Đừng bận tâm tên gọi, nhưng hiểu khác biệt để trả lời phỏng vấn.
+
+## Mô hình phát triển phần mềm
+
+Tester làm việc khác nhau tuỳ mô hình nhóm đang dùng:
+
+| Mô hình | Cách chạy | Tester tham gia khi nào |
+| --- | --- | --- |
+| **Waterfall** | Làm tuần tự: phân tích → thiết kế → code → test | Chỉ ở cuối, dễ bị dồn việc |
+| **Agile / Scrum** | Chia sprint 1–4 tuần, mỗi sprint ra một phần chạy được | Từ đầu sprint, cùng lúc với dev |
+| **V-Model** | Mỗi giai đoạn phát triển có một cấp độ test tương ứng | Lập kế hoạch test ngay từ đầu |
+
+Phần lớn công ty ở Việt Nam dùng Scrum hoặc biến thể của nó. Bài 16 nói kỹ về vai trò tester trong sprint.
+
+## Một ngày của tester trong nhóm Scrum
+
+| Thời điểm | Việc |
+| --- | --- |
+| Sáng | Daily meeting 15 phút: hôm qua làm gì, hôm nay làm gì, có gì vướng |
+| Trong ngày | Viết test case cho story mới, test story dev vừa xong, báo bug |
+| Khi dev fix xong | Verify lại bug, đóng ticket nếu đã sửa |
+| Cuối sprint | Chạy regression, tham gia demo và họp rút kinh nghiệm |
+
+## Kỹ năng cần có
+
+| Nhóm | Cụ thể |
+| --- | --- |
+| Tư duy | Đặt câu hỏi "nếu người dùng làm sai thì sao", nhìn ra trường hợp ngoài kịch bản chính |
+| Nghiệp vụ | Hiểu sản phẩm đang làm gì, phục vụ ai |
+| Kỹ thuật | Đọc được log, dùng DevTools, biết SQL cơ bản, hiểu API |
+| Giao tiếp | Viết bug report rõ ràng, trao đổi với dev không gây căng thẳng |
+| Tiếng Anh | Đọc tài liệu, thuật ngữ — rất nhiều JD yêu cầu |
+
+Kỹ năng quan trọng nhất là nhóm đầu. Công cụ học được trong một tuần; tư duy kiểm thử mất nhiều tháng.
+
+## Lộ trình nghề
+
+```text
+Fresher/Intern Manual Tester
+        ↓  6-18 thang
+Manual Tester co kinh nghiem
+        ↓  chon huong
+┌───────────────┬──────────────────┬─────────────────┐
+Automation      Test Lead /        Chuyen sau
+Tester          Test Manager       (Performance,
+                                    Security, BA)
+```
+
+Khoá Manual này là nền. Xong nó, các khoá automation trong trang sẽ dễ hơn nhiều, vì bạn đã biết **test cái gì** trước khi học **tự động hoá thế nào**.
+
+## Bài tập
+
+1. Chọn một app bạn hay dùng, viết ra 5 chức năng chính của nó.
+2. Với mỗi chức năng, nghĩ ra 2 tình huống người dùng có thể làm sai.
+3. Tìm 3 tin tuyển dụng Fresher Manual Tester, liệt kê những yêu cầu lặp lại ở cả 3 tin.
+4. Viết một đoạn ngắn phân biệt QA và QC bằng lời của bạn.
+</script>
+
+<script type="text/markdown" data-id="mt-1" data-nav="Bài 1 · 7 nguyên lý và quy trình">
+# Bài 1 — Bảy nguyên lý kiểm thử và quy trình test
+
+**Mục tiêu:** nắm nền tảng lý thuyết mà mọi tester phải biết. Phần này cũng nằm trong Chương 1 của kỳ thi ISTQB.
+
+## Bảy nguyên lý kiểm thử
+
+**1. Kiểm thử chỉ chứng minh có lỗi, không chứng minh không có lỗi**
+
+Test pass hết nghĩa là bạn chưa tìm thấy lỗi, không phải phần mềm không có lỗi. Đừng bao giờ nói "sản phẩm không còn bug".
+
+**2. Không thể kiểm thử toàn bộ**
+
+Một ô nhập số có vô số giá trị. Kiểm hết là bất khả thi. Vì vậy mới cần các kỹ thuật thiết kế test case ở Phần 2 — chọn ít trường hợp nhưng phủ được nhiều rủi ro.
+
+**3. Kiểm thử sớm tiết kiệm thời gian và tiền bạc**
+
+Lỗi tìm thấy lúc đọc tài liệu sửa mất vài phút. Cũng lỗi đó tìm thấy sau khi release có thể mất hàng tuần và mất cả uy tín.
+
+**4. Lỗi thường tụ lại một chỗ**
+
+Thực tế: phần lớn lỗi tập trung ở một số ít module. Module nào đã nhiều lỗi thì khả năng còn lỗi nữa rất cao — nên tập trung test kỹ chỗ đó.
+
+**5. Thuốc trừ sâu bị nhờn**
+
+Chạy mãi một bộ test case thì nó không tìm ra lỗi mới nữa. Phải thường xuyên rà soát và bổ sung test case.
+
+**6. Kiểm thử phụ thuộc ngữ cảnh**
+
+Test app ngân hàng khác test game. App y tế đòi độ chính xác cao hơn app đọc tin tức. Không có một cách test đúng cho mọi dự án.
+
+**7. Sai lầm "không có lỗi"**
+
+Phần mềm không còn bug nhưng không ai dùng được vì làm sai nhu cầu — vẫn là thất bại. Tester phải quan tâm sản phẩm có **đúng việc người dùng cần** không, không chỉ có chạy đúng code không.
+
+Bảy nguyên lý này hay bị hỏi trong phỏng vấn. Học thuộc kèm được một ví dụ cho mỗi cái.
+
+## Lỗi, sai sót và thất bại
+
+Ba từ dễ nhầm, kỳ thi ISTQB hỏi rất kỹ:
+
+| Thuật ngữ | Tiếng Anh | Nghĩa |
+| --- | --- | --- |
+| Sai sót | **Error / Mistake** | Con người làm sai — lập trình viên hiểu nhầm yêu cầu |
+| Khuyết tật | **Defect / Bug / Fault** | Kết quả của sai sót nằm trong code hoặc tài liệu |
+| Thất bại | **Failure** | Khi chạy, hệ thống cho kết quả sai so với mong đợi |
+
+Chuỗi quan hệ: **Error → Defect → Failure**. Một defect có thể không bao giờ gây failure nếu đoạn code đó không bao giờ chạy tới.
+
+## Quy trình kiểm thử
+
+Mọi hoạt động test đều theo 5 bước này, dù dự án lớn hay nhỏ:
+
+| Bước | Tên | Làm gì | Sản phẩm |
+| --- | --- | --- | --- |
+| 1 | Lập kế hoạch | Xác định phạm vi, nguồn lực, lịch, rủi ro | Test plan |
+| 2 | Phân tích và thiết kế | Đọc yêu cầu, xác định điều kiện test, viết test case | Test case, test data |
+| 3 | Thực thi | Chạy test case, so kết quả, ghi nhận | Test log, bug report |
+| 4 | Đánh giá và báo cáo | Đối chiếu tiêu chí kết thúc, tổng hợp | Test report |
+| 5 | Kết thúc | Lưu tài liệu, rút kinh nghiệm | Bài học, tài sản test |
+
+Thực tế các bước này chồng lên nhau, không tuần tự tuyệt đối — nhất là trong Agile.
+
+## Tiêu chí vào và tiêu chí ra
+
+**Tiêu chí vào (Entry criteria)** — đủ điều kiện mới bắt đầu test:
+
+- Môi trường test đã sẵn sàng
+- Bản build đã được triển khai thành công
+- Test case đã viết và được review
+- Smoke test pass
+
+**Tiêu chí ra (Exit criteria)** — đủ điều kiện mới kết thúc test:
+
+- Đã chạy hết test case đã lên kế hoạch
+- Không còn bug mức Critical và High chưa xử lý
+- Tỷ lệ pass đạt ngưỡng đã thống nhất, ví dụ 95%
+- Đã hoàn thành báo cáo kiểm thử
+
+Nhóm không định nghĩa hai tiêu chí này thì test sẽ kéo dài vô thời hạn, hoặc dừng tuỳ hứng.
+
+## Xác minh và thẩm định
+
+| | Verification | Validation |
+| --- | --- | --- |
+| Câu hỏi | Chúng ta xây đúng cách chưa? | Chúng ta xây đúng thứ cần chưa? |
+| Đối chiếu với | Tài liệu đặc tả | Nhu cầu thật của người dùng |
+| Ví dụ | Review tài liệu, review code | UAT, kiểm thử chấp nhận |
+
+## Bài tập
+
+1. Viết 7 nguyên lý ra giấy kèm một ví dụ thật cho mỗi nguyên lý.
+2. Với một bug bạn từng gặp, chỉ ra đâu là error, defect và failure.
+3. Viết tiêu chí vào và tiêu chí ra cho việc test chức năng đăng nhập.
+4. Giải thích bằng lời của bạn khác biệt giữa verification và validation.
+</script>
+
+<script type="text/markdown" data-id="mt-2" data-nav="Bài 2 · Cấp độ và loại kiểm thử">
+# Bài 2 — Các cấp độ và loại kiểm thử
+
+**Mục tiêu:** gọi đúng tên việc mình đang làm. Đây là phần hay bị hỏi nhất trong phỏng vấn Fresher.
+
+## Bốn cấp độ kiểm thử
+
+Phân theo **phạm vi** của thứ được kiểm:
+
+| Cấp độ | Kiểm gì | Ai làm | Ví dụ |
+| --- | --- | --- | --- |
+| **Unit / Component** | Một hàm, một class riêng lẻ | Dev | Hàm tính tổng tiền trả đúng chưa |
+| **Integration** | Các phần ghép với nhau | Dev hoặc Tester | Màn hình giỏ hàng gọi đúng API tính tiền chưa |
+| **System** | Toàn hệ thống hoàn chỉnh | Tester | Luồng mua hàng từ đầu đến cuối |
+| **Acceptance (UAT)** | Hệ thống có đáp ứng nhu cầu không | Khách hàng, người dùng | Khách nghiệm thu trước khi release |
+
+Manual tester làm chủ yếu ở cấp **System** và hỗ trợ **UAT**.
+
+## Các loại kiểm thử
+
+Phân theo **mục đích** của việc kiểm:
+
+### Kiểm thử chức năng
+
+Kiểm hệ thống **làm gì** — có đúng yêu cầu không. Đây là phần lớn công việc manual testing.
+
+### Kiểm thử phi chức năng
+
+Kiểm hệ thống **làm tốt đến đâu**:
+
+| Loại | Kiểm gì |
+| --- | --- |
+| Performance | Chạy nhanh không, chịu được bao nhiêu người dùng (khoá JMeter trong trang này) |
+| Usability | Dễ dùng không, người mới có hiểu được không |
+| Security | Có lỗ hổng bảo mật không |
+| Compatibility | Chạy đúng trên các trình duyệt, thiết bị, hệ điều hành khác nhau |
+| Reliability | Chạy liên tục có ổn định không |
+| Portability | Cài đặt, chuyển đổi môi trường có dễ không |
+
+### Kiểm thử cấu trúc (White-box)
+
+Kiểm **cấu trúc bên trong** của code — độ phủ câu lệnh, độ phủ nhánh. Thường do dev làm.
+
+### Kiểm thử liên quan đến thay đổi
+
+| Loại | Khi nào chạy | Phạm vi |
+| --- | --- | --- |
+| **Confirmation / Re-test** | Sau khi dev báo đã fix bug | Chỉ đúng bug đó |
+| **Regression** | Sau mỗi thay đổi code | Các chức năng cũ, kiểm xem có bị hỏng không |
+
+Phân biệt hai cái này là câu phỏng vấn kinh điển. Re-test kiểm **lỗi đã sửa chưa**; regression kiểm **sửa chỗ này có làm hỏng chỗ khác không**.
+
+Regression là lý do tồn tại của automation test: chạy tay mỗi lần release thì không xuể.
+
+## Ba loại test theo mức độ
+
+| Loại | Phạm vi | Khi nào |
+| --- | --- | --- |
+| **Smoke test** | Vài chức năng chính, chạy nhanh | Ngay khi có build mới, xem có đáng test tiếp không |
+| **Sanity test** | Một vùng chức năng vừa sửa | Sau một thay đổi nhỏ |
+| **Regression test** | Toàn bộ hoặc phần lớn | Trước release |
+
+Ví dụ smoke test cho app thương mại điện tử: mở app được, đăng nhập được, xem được danh sách sản phẩm, thêm được vào giỏ. Bốn cái này fail thì trả build về cho dev, không test tiếp.
+
+## Hộp đen, hộp trắng, hộp xám
+
+| | Black-box | White-box | Grey-box |
+| --- | --- | --- | --- |
+| Biết gì về bên trong | Không | Biết hết code | Biết một phần |
+| Dựa vào | Yêu cầu, đặc tả | Cấu trúc code | Cả hai |
+| Ai làm | Tester | Dev | Tester có kiến thức kỹ thuật |
+
+Manual tester làm black-box là chính. Biết thêm chút kỹ thuật (đọc log, xem API) thì chuyển sang grey-box, và giá trị tăng lên rõ rệt.
+
+## Positive và negative testing
+
+| | Positive | Negative |
+| --- | --- | --- |
+| Kiểm gì | Hệ thống chạy đúng với dữ liệu hợp lệ | Hệ thống xử lý đúng với dữ liệu sai |
+| Ví dụ | Đăng nhập đúng tài khoản → vào được | Nhập email sai định dạng → báo lỗi rõ ràng |
+
+Người mới hay chỉ viết test case positive. Bug thật thường nằm ở negative: bỏ trống ô, nhập quá dài, nhập ký tự đặc biệt, bấm hai lần liên tiếp, mất mạng giữa chừng.
+
+**Tỷ lệ tham khảo:** một bộ test case tốt thường có khoảng 40% positive và 60% negative.
+
+## Bài tập
+
+1. Với chức năng đăng nhập, viết ra test case thuộc 4 cấp độ khác nhau.
+2. Liệt kê 5 chức năng cho smoke test của một app bạn hay dùng.
+3. Cho tình huống "dev sửa bug ở màn hình thanh toán" — viết ra bạn sẽ re-test gì và regression gì.
+4. Viết 3 test case positive và 5 test case negative cho ô nhập số điện thoại.
+</script>
+
+<script type="text/markdown" data-id="mt-3" data-nav="Bài 3 · Đọc hiểu tài liệu yêu cầu">
+# Bài 3 — Đọc hiểu yêu cầu và đặt câu hỏi
+
+**Mục tiêu:** tìm lỗi trong tài liệu trước khi dev viết một dòng code. Đây là việc có giá trị cao nhất của tester, và là việc người mới hay bỏ qua.
+
+## Các loại tài liệu bạn sẽ đọc
+
+| Tài liệu | Nội dung | Ai viết |
+| --- | --- | --- |
+| **SRS / BRD** | Đặc tả yêu cầu đầy đủ, dùng trong Waterfall | BA |
+| **User story** | Yêu cầu ngắn theo góc nhìn người dùng, dùng trong Agile | PO / BA |
+| **Acceptance criteria** | Điều kiện để story được coi là xong | PO / BA |
+| **Wireframe / Design** | Bản vẽ giao diện | Designer |
+| **API documentation** | Mô tả các API | Dev |
+
+## User story và acceptance criteria
+
+Mẫu chuẩn của user story:
+
+```text
+Là một <vai trò>
+Tôi muốn <làm gì>
+Để <đạt được điều gì>
+```
+
+Ví dụ:
+
+```text
+Là một khách hàng
+Tôi muốn đặt lại mật khẩu qua email
+Để đăng nhập được khi quên mật khẩu
+
+Acceptance criteria:
+1. Người dùng nhập email đã đăng ký, hệ thống gửi link đặt lại
+2. Link có hiệu lực 15 phút
+3. Mật khẩu mới tối thiểu 8 ký tự, có chữ và số
+4. Sau khi đổi thành công, các phiên đăng nhập cũ bị đăng xuất
+```
+
+Acceptance criteria chính là **nguồn trực tiếp để viết test case**. Mỗi tiêu chí thường sinh ra ít nhất 2 test case: một positive, một negative.
+
+## Checklist rà soát yêu cầu
+
+Đọc một yêu cầu, hỏi lần lượt 7 câu:
+
+| # | Câu hỏi | Ví dụ vấn đề tìm ra |
+| --- | --- | --- |
+| 1 | Có đo được không? | "Hệ thống phải nhanh" — nhanh là bao nhiêu giây? |
+| 2 | Có trường hợp biên nào chưa nói? | Link hết hạn đúng lúc người dùng bấm thì sao? |
+| 3 | Luồng lỗi xử lý thế nào? | Email không tồn tại thì báo gì? |
+| 4 | Có mâu thuẫn với yêu cầu khác không? | Chỗ này nói 8 ký tự, chỗ kia nói 6 |
+| 5 | Ai được phép làm? | Tài khoản bị khoá có đặt lại mật khẩu được không? |
+| 6 | Dữ liệu lưu ở đâu, lưu bao lâu? | Link cũ còn trong database không? |
+| 7 | Có ảnh hưởng chức năng khác không? | Đổi mật khẩu có ảnh hưởng app mobile đang đăng nhập? |
+
+Áp 7 câu này vào ví dụ ở trên, bạn sẽ tìm ra ít nhất 5 chỗ chưa rõ — tất cả đều là câu hỏi đáng gửi cho BA.
+
+## Yêu cầu tốt có đặc điểm gì
+
+| Đặc điểm | Nghĩa là |
+| --- | --- |
+| Rõ ràng | Chỉ hiểu được một cách |
+| Đo được | Có con số, có tiêu chí kiểm chứng |
+| Đầy đủ | Nói cả luồng chính lẫn luồng lỗi |
+| Nhất quán | Không mâu thuẫn với yêu cầu khác |
+| Khả thi | Làm được với công nghệ và thời gian hiện có |
+| Kiểm thử được | Có cách xác minh đúng/sai |
+
+Gặp câu "giao diện phải thân thiện" — đó là yêu cầu không kiểm thử được. Hỏi lại: thân thiện nghĩa là gì, đo bằng gì.
+
+## Cách hỏi BA cho hiệu quả
+
+Hỏi kém:
+
+```text
+Yêu cầu này chưa rõ.
+```
+
+Hỏi tốt:
+
+```text
+Về story đặt lại mật khẩu, em có 3 câu hỏi:
+
+1. Link hết hạn sau 15 phút — nếu người dùng bấm đúng lúc hết hạn
+   thì hiển thị màn hình gì? Có cho gửi lại link không?
+2. Tài khoản đang bị khoá có được phép đặt lại mật khẩu không?
+3. Sau khi đổi mật khẩu, app mobile đang đăng nhập có bị đăng xuất
+   theo không, hay chỉ web?
+
+Em cần thông tin này để viết test case cho các luồng đó.
+```
+
+Đặc điểm của câu hỏi tốt: cụ thể, đánh số, nêu rõ vì sao cần biết. BA trả lời được ngay thay vì phải hỏi lại bạn.
+
+## Ghi lại câu trả lời
+
+Trả lời qua miệng trong cuộc họp sẽ quên. Luôn ghi lại vào ticket hoặc tài liệu, và xác nhận:
+
+```text
+Em ghi nhận lại theo trao đổi hôm nay:
+- Link hết hạn: hiện màn hình "Link đã hết hạn" kèm nút gửi lại
+- Tài khoản bị khoá: KHÔNG cho đặt lại, báo "Liên hệ hỗ trợ"
+- Đăng xuất: áp dụng cả web và mobile
+
+Anh/chị xác nhận giúp em nhé.
+```
+
+Việc này còn bảo vệ bạn: khi có tranh cãi về sau, có bằng chứng về điều đã thống nhất.
+
+## Bài tập
+
+1. Lấy một user story bất kỳ (tự viết hoặc từ dự án), áp 7 câu hỏi và liệt kê chỗ chưa rõ.
+2. Viết acceptance criteria cho chức năng "tìm kiếm sản phẩm".
+3. Soạn một email hỏi BA theo mẫu trên, có đánh số câu hỏi.
+4. Tìm trong một tài liệu bất kỳ 3 câu không kiểm thử được và viết lại cho kiểm thử được.
+</script>
+
+<script type="text/markdown" data-id="mt-4" data-nav="Bài 4 · Test plan">
+# Bài 4 — Kế hoạch kiểm thử
+
+**Mục tiêu:** viết được một test plan đơn giản mà dùng thật được, không phải tài liệu để đó.
+
+## Test plan là gì
+
+Tài liệu trả lời 5 câu: **test cái gì, không test cái gì, ai test, khi nào, và khi nào thì dừng**.
+
+Dự án nhỏ thì test plan chỉ cần 1–2 trang. Dự án lớn hoặc khách hàng yêu cầu thì mới làm đầy đủ theo chuẩn.
+
+## Cấu trúc test plan
+
+```text
+1. Giới thiệu
+   - Sản phẩm, phiên bản, mục đích tài liệu
+2. Phạm vi kiểm thử
+   - Trong phạm vi: những chức năng sẽ test
+   - Ngoài phạm vi: những gì KHÔNG test, kèm lý do
+3. Chiến lược kiểm thử
+   - Cấp độ test, loại test áp dụng
+   - Kỹ thuật thiết kế test case sẽ dùng
+4. Môi trường test
+   - URL, tài khoản, thiết bị, trình duyệt
+   - Dữ liệu test
+5. Tiêu chí vào và ra
+6. Lịch và phân công
+7. Rủi ro và phương án
+8. Sản phẩm bàn giao
+   - Test case, bug report, test report
+```
+
+Mục 2 là mục quan trọng nhất và hay bị viết sơ sài. **Ghi rõ cái gì KHÔNG test** giúp tránh tranh cãi về sau: "sao chỗ này không test mà vẫn để lọt bug".
+
+## Ví dụ test plan rút gọn
+
+```text
+KẾ HOẠCH KIỂM THỬ — CHỨC NĂNG ĐẶT LẠI MẬT KHẨU
+Phiên bản: 2.3.0 | Người lập: TrangDTT59 | Ngày: 15/11/2026
+
+1. PHẠM VI
+Trong phạm vi:
+- Gửi link đặt lại qua email
+- Xác thực link (còn hạn, hết hạn, đã dùng)
+- Đặt mật khẩu mới và kiểm tra quy tắc
+- Đăng xuất các phiên cũ
+
+Ngoài phạm vi:
+- Đặt lại mật khẩu qua SMS (chưa phát triển)
+- Hiệu năng gửi email hàng loạt (nhóm Performance phụ trách)
+
+2. CHIẾN LƯỢC
+- Cấp độ: System testing, hỗ trợ UAT
+- Loại: Functional, một phần Usability và Security cơ bản
+- Kỹ thuật: Phân vùng tương đương, giá trị biên, bảng quyết định
+
+3. MÔI TRƯỜNG
+- URL: https://staging.example.com
+- Trình duyệt: Chrome, Safari (2 bản mới nhất), Edge
+- Thiết bị: iPhone 13, Samsung A54
+- Tài khoản test: 5 tài khoản (thường, bị khoá, chưa kích hoạt, admin, mới)
+
+4. TIÊU CHÍ
+Vào: build đã deploy staging, smoke test pass, test case đã review
+Ra: chạy đủ 24 test case, không còn bug Critical/High, tỷ lệ pass >= 95%
+
+5. LỊCH
+- 16-17/11: Viết và review test case
+- 18-20/11: Thực thi vòng 1
+- 21/11: Re-test và regression
+- 22/11: Báo cáo
+
+6. RỦI RO
+| Rủi ro | Ảnh hưởng | Phương án |
+| Email staging không gửi được | Chặn toàn bộ test | Dùng Mailtrap, đã xác nhận với DevOps |
+| Build trễ | Dồn lịch | Ưu tiên test case High trước |
+
+7. BÀN GIAO
+Test case trên TestRail, bug trên Jira, báo cáo tổng hợp ngày 22/11
+```
+
+## Ước lượng thời gian test
+
+Câu hỏi phỏng vấn hay gặp: "Làm sao bạn ước lượng thời gian test?"
+
+Cách đơn giản và đủ dùng cho Fresher:
+
+| Bước | Cách tính |
+| --- | --- |
+| 1 | Đếm số test case dự kiến |
+| 2 | Nhân thời gian trung bình mỗi test case (5–15 phút tuỳ độ phức tạp) |
+| 3 | Cộng thời gian viết test case (thường bằng 50–70% thời gian thực thi) |
+| 4 | Cộng thời gian re-test và regression (khoảng 30%) |
+| 5 | Cộng dự phòng 20% cho phát sinh |
+
+Ví dụ: 24 test case × 10 phút = 240 phút ≈ 4 giờ thực thi. Viết test case ≈ 2,5 giờ. Re-test ≈ 1,2 giờ. Dự phòng 20% ≈ 1,5 giờ. **Tổng ≈ 9 giờ, làm tròn 1,5 ngày.**
+
+Nêu được cách tính cụ thể trong phỏng vấn tốt hơn nhiều so với trả lời "em ước chừng".
+
+## Test plan và test strategy khác nhau
+
+| | Test Strategy | Test Plan |
+| --- | --- | --- |
+| Phạm vi | Toàn công ty hoặc toàn dự án | Một đợt test cụ thể |
+| Thay đổi | Hiếm khi | Mỗi release |
+| Nội dung | Nguyên tắc chung, công cụ chuẩn | Chi tiết: ai, khi nào, test gì |
+
+## Rủi ro trong kiểm thử
+
+Hai loại rủi ro cần phân biệt:
+
+| Loại | Nghĩa | Ví dụ |
+| --- | --- | --- |
+| **Product risk** | Rủi ro sản phẩm có lỗi gây hậu quả | Tính sai tiền thanh toán |
+| **Project risk** | Rủi ro ảnh hưởng tiến độ dự án | Môi trường test hỏng, nhân sự nghỉ |
+
+Test dựa trên rủi ro (risk-based testing) nghĩa là: chức năng nào rủi ro cao thì test kỹ trước. Chức năng thanh toán test kỹ hơn trang Giới thiệu.
+
+## Bài tập
+
+1. Viết test plan rút gọn cho chức năng đăng ký tài khoản, đủ 7 mục.
+2. Phần "Ngoài phạm vi" phải có ít nhất 2 mục kèm lý do.
+3. Ước lượng thời gian test cho 30 test case theo cách tính ở trên.
+4. Liệt kê 3 product risk và 3 project risk cho một dự án bạn biết.
+</script>
+
+<script type="text/markdown" data-id="mt-5" data-nav="Bài 5 · Phân vùng và giá trị biên">
+# Bài 5 — Phân vùng tương đương và phân tích giá trị biên
+
+**Mục tiêu:** từ vô số trường hợp chọn ra ít test case nhưng phủ được nhiều rủi ro. Đây là hai kỹ thuật dùng nhiều nhất trong nghề.
+
+## Vấn đề
+
+Ô nhập tuổi cho phép từ 18 đến 60. Kiểm hết mọi số là bất khả thi. Chọn thế nào cho hợp lý?
+
+## Phân vùng tương đương
+
+Ý tưởng: chia dữ liệu thành các **nhóm mà hệ thống xử lý giống nhau**. Mỗi nhóm chỉ cần test một giá trị đại diện.
+
+Ví dụ ô tuổi 18–60:
+
+| Phân vùng | Khoảng | Giá trị đại diện | Kết quả mong đợi |
+| --- | --- | --- | --- |
+| Dưới khoảng hợp lệ | < 18 | 15 | Báo lỗi |
+| Hợp lệ | 18–60 | 35 | Chấp nhận |
+| Trên khoảng hợp lệ | > 60 | 70 | Báo lỗi |
+| Không phải số | — | `abc` | Báo lỗi |
+| Để trống | — | (rỗng) | Báo lỗi |
+
+Từ vô số trường hợp còn **5 test case**. Logic: nếu 35 chạy đúng thì 36, 37, 42 cũng sẽ đúng, vì cùng một nhánh code xử lý.
+
+Lưu ý quan trọng: nhớ cả phân vùng **không hợp lệ**, không chỉ phân vùng hợp lệ. Người mới hay chỉ test vùng hợp lệ.
+
+## Phân tích giá trị biên
+
+Lỗi thường nằm ở **ranh giới** chứ không ở giữa. Lập trình viên hay viết nhầm `>` thành `>=`.
+
+Với khoảng 18–60, kiểm các giá trị:
+
+| Giá trị | Vị trí | Mong đợi |
+| --- | --- | --- |
+| 17 | Ngay dưới biên dưới | Lỗi |
+| 18 | Biên dưới | Hợp lệ |
+| 19 | Ngay trên biên dưới | Hợp lệ |
+| 59 | Ngay dưới biên trên | Hợp lệ |
+| 60 | Biên trên | Hợp lệ |
+| 61 | Ngay trên biên trên | Lỗi |
+
+Có hai cách làm:
+
+| Cách | Giá trị kiểm mỗi biên | Số test case |
+| --- | --- | --- |
+| **2 điểm** | Giá trị biên và giá trị ngay ngoài | 17, 18, 60, 61 |
+| **3 điểm** | Thêm giá trị ngay trong | 17, 18, 19, 59, 60, 61 |
+
+Thực tế dùng 2 điểm là đủ cho phần lớn trường hợp. Dùng 3 điểm khi chức năng quan trọng, ví dụ tính lãi suất hay tính thuế.
+
+## Kết hợp hai kỹ thuật
+
+Luôn dùng chung. Phân vùng tương đương cho bạn các nhóm, giá trị biên cho bạn điểm cần kiểm trong mỗi nhóm.
+
+Ví dụ đầy đủ cho ô **mật khẩu 8–20 ký tự, phải có chữ và số**:
+
+| # | Dữ liệu | Kỹ thuật | Mong đợi |
+| --- | --- | --- | --- |
+| 1 | (rỗng) | Phân vùng | "Vui lòng nhập mật khẩu" |
+| 2 | `abc12` (5 ký tự) | Phân vùng | "Tối thiểu 8 ký tự" |
+| 3 | `abcdef1` (7) | Biên | "Tối thiểu 8 ký tự" |
+| 4 | `abcdef12` (8) | Biên | Hợp lệ |
+| 5 | `abcdefg123456789012` (20) | Biên | Hợp lệ |
+| 6 | `abcdefg1234567890123` (21) | Biên | "Tối đa 20 ký tự" |
+| 7 | `abcdefgh` (chỉ chữ) | Phân vùng | "Phải có ít nhất một chữ số" |
+| 8 | `12345678` (chỉ số) | Phân vùng | "Phải có ít nhất một chữ cái" |
+| 9 | `Abc@1234` | Phân vùng | Hợp lệ |
+| 10 | `abc 1234` (có dấu cách) | Phân vùng | Theo quy tắc nghiệp vụ |
+
+Mười test case này phủ gần hết rủi ro của một ô mật khẩu.
+
+## Áp dụng cho dữ liệu không phải số
+
+Kỹ thuật này không chỉ dùng cho số:
+
+**Ngày tháng** — ô chọn ngày sinh, cho phép từ 1/1/1900 đến hôm nay:
+
+| Giá trị | Mong đợi |
+| --- | --- |
+| 31/12/1899 | Lỗi |
+| 1/1/1900 | Hợp lệ |
+| Hôm nay | Hợp lệ |
+| Ngày mai | Lỗi |
+| 29/2 năm không nhuận | Lỗi |
+| 31/4 | Lỗi |
+
+**Danh mục** — ô chọn tỉnh có 63 lựa chọn:
+
+| Phân vùng | Ví dụ |
+| --- | --- |
+| Hợp lệ | Quảng Bình |
+| Chưa chọn | (để trống) |
+| Giá trị không có trong danh sách | Gửi qua API một mã tỉnh không tồn tại |
+
+**File upload** — ảnh tối đa 5 MB, định dạng jpg/png:
+
+| Trường hợp | Mong đợi |
+| --- | --- |
+| 4,9 MB jpg | Hợp lệ |
+| 5 MB jpg | Hợp lệ |
+| 5,1 MB jpg | Lỗi dung lượng |
+| 1 MB pdf | Lỗi định dạng |
+| File 0 byte | Lỗi |
+| File đổi đuôi từ .exe thành .jpg | Lỗi — đây là test bảo mật |
+
+## Sai lầm thường gặp
+
+| Sai lầm | Hậu quả |
+| --- | --- |
+| Chỉ test giá trị ở giữa khoảng | Bỏ lọt lỗi biên, loại lỗi phổ biến nhất |
+| Quên phân vùng không hợp lệ | Không biết hệ thống xử lý sai thế nào |
+| Test quá nhiều giá trị cùng một phân vùng | Tốn thời gian mà không thêm giá trị |
+| Quên trường hợp để trống | Rất hay lọt bug |
+
+## Bài tập
+
+1. Ô nhập số lượng sản phẩm, từ 1 đến 99. Liệt kê phân vùng và giá trị biên cần test.
+2. Ô nhập email. Liệt kê 5 phân vùng không hợp lệ khác nhau.
+3. Chức năng giảm giá: đơn từ 500.000đ được giảm 10%, từ 1.000.000đ giảm 20%. Viết các giá trị biên cần test.
+4. Ô upload ảnh đại diện, tối đa 2 MB, chỉ jpg và png. Viết đủ test case.
+5. Lấy một form trong dự án bạn đang làm, áp hai kỹ thuật này cho mọi ô nhập.
+</script>
+
+<script type="text/markdown" data-id="mt-6" data-nav="Bài 6 · Bảng quyết định, chuyển trạng thái">
+# Bài 6 — Bảng quyết định và sơ đồ chuyển trạng thái
+
+**Mục tiêu:** xử lý nghiệp vụ có nhiều điều kiện kết hợp, và nghiệp vụ có trạng thái thay đổi.
+
+## Bảng quyết định
+
+Dùng khi kết quả phụ thuộc vào **nhiều điều kiện cùng lúc**. Phân vùng tương đương không xử lý được loại này vì các điều kiện tác động lẫn nhau.
+
+### Ví dụ: chính sách miễn phí vận chuyển
+
+Quy tắc: miễn phí ship khi **đơn từ 500.000đ** hoặc **là thành viên VIP**. Nhưng giao ngoại thành thì luôn tính phí.
+
+| Điều kiện | TC1 | TC2 | TC3 | TC4 | TC5 | TC6 | TC7 | TC8 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Đơn ≥ 500k | Đ | Đ | Đ | Đ | S | S | S | S |
+| Là VIP | Đ | Đ | S | S | Đ | Đ | S | S |
+| Giao ngoại thành | Đ | S | Đ | S | Đ | S | Đ | S |
+| **Kết quả** | | | | | | | | |
+| Miễn phí ship | | ✓ | | ✓ | | ✓ | | |
+| Tính phí ship | ✓ | | ✓ | | ✓ | | ✓ | ✓ |
+
+Cách lập:
+
+1. Liệt kê các điều kiện — ở đây có 3.
+2. Số cột = 2 mũ số điều kiện = 2³ = **8 cột**.
+3. Điền Đ/S theo quy luật: điều kiện 1 đổi mỗi 4 cột, điều kiện 2 mỗi 2 cột, điều kiện 3 mỗi 1 cột.
+4. Điền kết quả cho từng cột theo quy tắc nghiệp vụ.
+5. Mỗi cột thành một test case.
+
+Giá trị thật của kỹ thuật này: lập bảng xong, bạn thường phát hiện **có cột mà tài liệu chưa nói kết quả là gì** — đó chính là lỗ hổng trong yêu cầu, mang đi hỏi BA ngay.
+
+### Rút gọn bảng
+
+8 cột có thể rút nếu một số cột cho cùng kết quả bất kể điều kiện còn lại. Ở ví dụ trên, khi "giao ngoại thành = Đ" thì luôn tính phí, không cần quan tâm hai điều kiện kia:
+
+| Điều kiện | TC1 | TC2 | TC3 | TC4 |
+| --- | --- | --- | --- | --- |
+| Giao ngoại thành | Đ | S | S | S |
+| Đơn ≥ 500k | – | Đ | S | S |
+| Là VIP | – | – | Đ | S |
+| **Miễn phí ship** | | ✓ | ✓ | |
+| **Tính phí ship** | ✓ | | | ✓ |
+
+Dấu `–` nghĩa là không quan trọng. Từ 8 còn 4 test case mà vẫn phủ đủ.
+
+## Sơ đồ chuyển trạng thái
+
+Dùng khi đối tượng có **nhiều trạng thái** và chuyển giữa chúng theo sự kiện.
+
+### Ví dụ: trạng thái đơn hàng
+
+```text
+[Chờ xác nhận] --xác nhận--> [Đang chuẩn bị] --giao--> [Đang giao]
+       |                            |                        |
+      huỷ                          huỷ                   giao xong
+       v                            v                        v
+    [Đã huỷ]                    [Đã huỷ]              [Hoàn thành]
+```
+
+Bảng chuyển trạng thái:
+
+| Trạng thái hiện tại | Sự kiện | Trạng thái mới |
+| --- | --- | --- |
+| Chờ xác nhận | Xác nhận | Đang chuẩn bị |
+| Chờ xác nhận | Huỷ | Đã huỷ |
+| Đang chuẩn bị | Giao hàng | Đang giao |
+| Đang chuẩn bị | Huỷ | Đã huỷ |
+| Đang giao | Giao xong | Hoàn thành |
+| Đang giao | Huỷ | **Không cho phép** |
+| Hoàn thành | Huỷ | **Không cho phép** |
+| Đã huỷ | Xác nhận | **Không cho phép** |
+
+Hai nhóm test case cần viết:
+
+| Nhóm | Kiểm gì | Ví dụ |
+| --- | --- | --- |
+| **Chuyển hợp lệ** | Đi đúng trạng thái mới | Chờ xác nhận → xác nhận → Đang chuẩn bị |
+| **Chuyển không hợp lệ** | Hệ thống **chặn** đúng cách | Đơn đã huỷ mà bấm xác nhận → phải báo lỗi, không được đổi trạng thái |
+
+Nhóm thứ hai là chỗ hay có bug nhất. Nút bị ẩn trên giao diện không có nghĩa là API chặn — thử gọi thẳng API để kiểm tra.
+
+### Các trạng thái khác hay gặp
+
+| Đối tượng | Các trạng thái |
+| --- | --- |
+| Tài khoản | Chưa kích hoạt → Hoạt động → Bị khoá → Đã xoá |
+| Bug | New → Open → In Progress → Fixed → Verified → Closed |
+| Bài viết | Nháp → Chờ duyệt → Đã xuất bản → Đã gỡ |
+| Thanh toán | Chờ → Đang xử lý → Thành công / Thất bại → Hoàn tiền |
+
+## Chọn kỹ thuật nào
+
+| Tình huống | Kỹ thuật |
+| --- | --- |
+| Ô nhập có khoảng giá trị | Phân vùng + giá trị biên (Bài 5) |
+| Nhiều điều kiện kết hợp quyết định kết quả | Bảng quyết định |
+| Đối tượng có trạng thái thay đổi theo sự kiện | Sơ đồ chuyển trạng thái |
+| Luồng nghiệp vụ từ đầu đến cuối | Use case testing (Bài 7) |
+
+Một chức năng thường cần nhiều kỹ thuật cùng lúc. Chức năng đặt hàng có: ô số lượng (phân vùng + biên), chính sách giảm giá (bảng quyết định), trạng thái đơn (chuyển trạng thái).
+
+## Bài tập
+
+1. Lập bảng quyết định cho chính sách: giảm 10% nếu là sinh viên, giảm thêm 5% nếu mua từ 3 sản phẩm, không áp dụng cho hàng khuyến mãi.
+2. Rút gọn bảng vừa lập, đếm số test case tiết kiệm được.
+3. Vẽ sơ đồ chuyển trạng thái cho vòng đời một bug.
+4. Liệt kê 5 chuyển trạng thái **không hợp lệ** cho đơn hàng và cách kiểm tra.
+5. Lập bảng quyết định cho màn hình đăng nhập có 3 điều kiện: đúng tài khoản, tài khoản đã kích hoạt, chưa bị khoá.
+</script>
+
+<script type="text/markdown" data-id="mt-7" data-nav="Bài 7 · Use case, pairwise, exploratory">
+# Bài 7 — Use case, pairwise và kiểm thử thăm dò
+
+**Mục tiêu:** ba kỹ thuật còn lại, mỗi cái giải một bài toán riêng.
+
+## Kiểm thử theo use case
+
+Kiểm **luồng nghiệp vụ từ đầu đến cuối**, theo đúng cách người dùng thật sử dụng — khác với các kỹ thuật trước chỉ kiểm từng ô, từng điều kiện.
+
+Cấu trúc một use case:
+
+```text
+Use case: Đặt hàng online
+Tác nhân: Khách hàng đã đăng nhập
+Tiền điều kiện: Giỏ hàng có ít nhất 1 sản phẩm
+
+Luồng chính:
+1. Khách bấm "Thanh toán"
+2. Hệ thống hiện form địa chỉ giao hàng
+3. Khách điền địa chỉ, chọn phương thức thanh toán
+4. Khách bấm "Đặt hàng"
+5. Hệ thống tạo đơn, gửi email xác nhận
+6. Hệ thống hiện màn hình "Đặt hàng thành công"
+
+Luồng thay thế:
+3a. Khách chọn địa chỉ đã lưu → bỏ qua bước điền
+4a. Thanh toán online thất bại → quay lại bước 3, giữ thông tin đã điền
+4b. Sản phẩm hết hàng trong lúc thanh toán → báo và xoá khỏi giỏ
+5a. Gửi email thất bại → vẫn tạo đơn, ghi log, không báo lỗi cho khách
+```
+
+Mỗi luồng thành một test case: luồng chính một cái, mỗi luồng thay thế một cái.
+
+Luồng thay thế là nơi bug sống. Luồng chính thường đã được dev chạy thử nhiều lần.
+
+## Kiểm thử cặp đôi (Pairwise)
+
+Dùng khi có **nhiều tham số, mỗi tham số nhiều giá trị** — tổ hợp đầy đủ quá lớn.
+
+Ví dụ kiểm thử tương thích:
+
+| Tham số | Giá trị |
+| --- | --- |
+| Trình duyệt | Chrome, Safari, Edge |
+| Hệ điều hành | Windows, macOS, Android |
+| Ngôn ngữ | Tiếng Việt, Tiếng Anh |
+| Vai trò | Khách, Thành viên, VIP |
+
+Tổ hợp đầy đủ: 3 × 3 × 2 × 3 = **54 test case**. Quá nhiều.
+
+Cơ sở của pairwise: phần lớn lỗi phát sinh từ tương tác của **hai** tham số, hiếm khi từ ba trở lên. Vậy chỉ cần đảm bảo mọi **cặp** giá trị đều xuất hiện ít nhất một lần.
+
+Kết quả: khoảng **9 test case** phủ được mọi cặp, giảm hơn 80%.
+
+Lập bảng pairwise bằng tay rất mất công. Dùng công cụ miễn phí:
+
+| Công cụ | Ghi chú |
+| --- | --- |
+| **PICT** của Microsoft | Dòng lệnh, miễn phí |
+| **pairwise.teremokgames.com** | Chạy trên trình duyệt, nhanh gọn |
+| **AllPairs** | Python |
+
+Khi nào không nên dùng: khi có những tổ hợp **bắt buộc phải test** vì quan trọng (ví dụ Chrome + Windows + khách hàng VIP là luồng doanh thu chính). Thêm thủ công các tổ hợp đó vào.
+
+## Đoán lỗi (Error guessing)
+
+Dựa vào kinh nghiệm để đoán chỗ dễ sai. Không có công thức, nhưng có danh sách những chỗ hay lỗi:
+
+| Nhóm | Thử gì |
+| --- | --- |
+| Dữ liệu trống | Để trống mọi ô rồi submit |
+| Ký tự đặc biệt | `' " < > & \| / \ % #` và emoji |
+| Dấu tiếng Việt | Tên có dấu, có khoảng trắng kép |
+| Số 0 và số âm | Số lượng 0, giá -1 |
+| Chuỗi rất dài | Dán 5.000 ký tự vào ô tên |
+| Thao tác nhanh | Bấm nút Submit 5 lần liên tiếp |
+| Ngắt giữa chừng | Tắt mạng lúc đang thanh toán |
+| Thứ tự lạ | Bấm Back khi đang ở giữa luồng |
+| Phiên đăng nhập | Để yên 30 phút rồi thao tác tiếp |
+| Hai cửa sổ | Mở hai tab cùng sửa một dữ liệu |
+
+Những test này ít khi nằm trong tài liệu, nhưng lại hay ra bug thật. Lưu danh sách này thành checklist cá nhân và bổ sung dần theo kinh nghiệm.
+
+## Kiểm thử thăm dò (Exploratory testing)
+
+Vừa tìm hiểu vừa thiết kế vừa chạy test, không theo test case viết sẵn.
+
+Khác với "bấm lung tung": kiểm thử thăm dò **có cấu trúc**, dùng phương pháp **test charter**:
+
+```text
+CHARTER: Khám phá chức năng tìm kiếm sản phẩm
+Mục tiêu: tìm lỗi liên quan đến bộ lọc và sắp xếp
+Thời gian: 45 phút
+Khu vực: trang danh sách sản phẩm, web và mobile
+
+Ghi chú trong lúc test:
+- 10:05 Lọc giá 0-100k ra sản phẩm 150k → BUG
+- 10:12 Sắp xếp giá tăng dần rồi chuyển trang 2, thứ tự reset → BUG
+- 10:20 Tìm từ khoá có dấu tiếng Việt OK
+- 10:25 Tìm chuỗi rỗng → hiện toàn bộ sản phẩm, đúng như mong đợi?
+        Cần hỏi BA
+- 10:38 Lọc + tìm kiếm cùng lúc: kết quả đúng
+
+Kết quả: 2 bug, 1 câu hỏi cho BA
+```
+
+Khi nào dùng:
+
+| Phù hợp | Không phù hợp |
+| --- | --- |
+| Sản phẩm mới, chưa có tài liệu | Cần bằng chứng đã test đủ cho khách hàng |
+| Thời gian gấp | Nghiệp vụ cực phức tạp cần kiểm có hệ thống |
+| Sau khi đã chạy hết test case, muốn tìm thêm | Người test chưa hiểu nghiệp vụ |
+
+Thực tế tốt nhất là kết hợp: chạy test case đã viết để đảm bảo độ phủ, rồi dành 1–2 giờ thăm dò để tìm những gì test case bỏ sót.
+
+## Tóm tắt các kỹ thuật
+
+| Kỹ thuật | Dùng khi | Bài |
+| --- | --- | --- |
+| Phân vùng tương đương | Ô nhập có nhiều giá trị | 5 |
+| Giá trị biên | Có khoảng giới hạn | 5 |
+| Bảng quyết định | Nhiều điều kiện kết hợp | 6 |
+| Chuyển trạng thái | Đối tượng có trạng thái | 6 |
+| Use case | Luồng nghiệp vụ đầu-cuối | 7 |
+| Pairwise | Nhiều tham số cấu hình | 7 |
+| Đoán lỗi | Bổ sung dựa trên kinh nghiệm | 7 |
+| Thăm dò | Tìm cái test case bỏ sót | 7 |
+
+## Bài tập
+
+1. Viết use case đầy đủ cho chức năng đăng ký, gồm ít nhất 3 luồng thay thế.
+2. Dùng công cụ pairwise cho 4 tham số tự chọn, so sánh số test case với tổ hợp đầy đủ.
+3. Lập checklist đoán lỗi riêng của bạn, tối thiểu 15 mục.
+4. Làm một phiên thăm dò 45 phút trên một app bất kỳ, viết charter và ghi chú như mẫu.
+5. Với chức năng giỏ hàng, chỉ ra nên dùng kỹ thuật nào cho phần nào.
+</script>
+
+<script type="text/markdown" data-id="mt-8" data-nav="Bài 8 · Viết test case chuẩn">
+# Bài 8 — Viết test case chuẩn
+
+**Mục tiêu:** viết test case mà người khác đọc là làm theo được, không cần hỏi lại.
+
+## Mẫu test case
+
+| Trường | Nội dung |
+| --- | --- |
+| **Mã TC** | Mã duy nhất: `TC_LOGIN_001` |
+| **Tiêu đề** | Mô tả ngắn mục đích test |
+| **Mức độ ưu tiên** | High / Medium / Low |
+| **Tiền điều kiện** | Trạng thái cần có trước khi chạy |
+| **Dữ liệu test** | Dữ liệu cụ thể dùng cho lần chạy |
+| **Các bước** | Đánh số, mỗi bước một hành động |
+| **Kết quả mong đợi** | Cụ thể, kiểm chứng được |
+| **Kết quả thực tế** | Điền khi chạy |
+| **Trạng thái** | Pass / Fail / Blocked / Skipped |
+
+## Ví dụ test case tốt
+
+```text
+Mã TC: TC_LOGIN_005
+Tiêu đề: Đăng nhập thất bại khi tài khoản bị khoá
+Ưu tiên: High
+
+Tiền điều kiện:
+- Tài khoản locked@test.com tồn tại và đang ở trạng thái Bị khoá
+- Đang ở trang https://staging.example.com/login
+
+Dữ liệu test:
+- Email: locked@test.com
+- Mật khẩu: Test@1234
+
+Các bước:
+1. Nhập "locked@test.com" vào ô Email
+2. Nhập "Test@1234" vào ô Mật khẩu
+3. Bấm nút "Đăng nhập"
+
+Kết quả mong đợi:
+1. Hiển thị thông báo đỏ dưới form: "Tài khoản của bạn đã bị khoá.
+   Vui lòng liên hệ hỗ trợ."
+2. Vẫn ở trang đăng nhập, URL không đổi
+3. Ô Email giữ nguyên giá trị, ô Mật khẩu bị xoá trắng
+4. Không có phiên đăng nhập nào được tạo
+```
+
+So sánh với test case kém:
+
+```text
+Mã TC: TC_05
+Tiêu đề: Test login
+Các bước: Đăng nhập với tài khoản khoá
+Kết quả mong đợi: Không đăng nhập được
+```
+
+Test case kém có 4 vấn đề: không biết tài khoản nào, không biết đang ở đâu, bước thực hiện không rõ, và "không đăng nhập được" không kiểm chứng được — không đăng nhập được vì báo lỗi gì, hay vì trang trắng?
+
+## Sáu quy tắc viết test case
+
+**1. Một test case kiểm một điều**
+
+Gộp "đăng nhập đúng, sai mật khẩu, bỏ trống" vào một test case thì khi fail không biết phần nào hỏng.
+
+**2. Bước thực hiện là hành động, không phải mô tả**
+
+| Kém | Tốt |
+| --- | --- |
+| Kiểm tra form đăng nhập | 1. Mở trang /login<br>2. Nhập email vào ô Email |
+
+**3. Kết quả mong đợi phải kiểm chứng được**
+
+| Kém | Tốt |
+| --- | --- |
+| Hiển thị đúng | Hiển thị "Đăng nhập thành công" và chuyển sang /dashboard |
+| Hoạt động bình thường | Danh sách hiện đúng 6 sản phẩm, sắp xếp theo giá tăng dần |
+
+**4. Dữ liệu test ghi cụ thể**
+
+Ghi `admin@test.com / Test@1234`, đừng ghi "tài khoản hợp lệ". Người chạy test không đoán được bạn định dùng tài khoản nào.
+
+**5. Người chưa biết hệ thống cũng làm theo được**
+
+Test case sẽ được người khác chạy, hoặc chính bạn chạy sau 3 tháng. Viết đủ để không phải hỏi lại.
+
+**6. Độc lập với test case khác**
+
+TC_010 không nên phụ thuộc vào việc TC_009 đã chạy. Tiền điều kiện phải tự mô tả đủ trạng thái cần có.
+
+## Đặt mã test case
+
+```text
+TC_<MODULE>_<SỐ>
+
+TC_LOGIN_001      Đăng nhập
+TC_CART_015       Giỏ hàng
+TC_CHECKOUT_003   Thanh toán
+```
+
+Dùng 3 chữ số để sắp xếp đúng thứ tự. Đặt mã theo module giúp lọc và báo cáo theo chức năng.
+
+## Mức độ ưu tiên
+
+| Mức | Dành cho | Ví dụ |
+| --- | --- | --- |
+| **High** | Luồng chính, ảnh hưởng doanh thu hoặc dữ liệu | Thanh toán, đăng nhập |
+| **Medium** | Chức năng phụ nhưng người dùng hay dùng | Lọc, sắp xếp |
+| **Low** | Hiếm dùng, ảnh hưởng nhỏ | Đổi avatar, trang Giới thiệu |
+
+Hết thời gian thì chạy High trước. Đây là lý do phải gán ưu tiên từ lúc viết.
+
+## Checklist review test case
+
+Trước khi nộp cho leader hoặc đưa vào chạy:
+
+- [ ] Mỗi test case kiểm đúng một điều
+- [ ] Tiền điều kiện đủ để bắt đầu chạy
+- [ ] Dữ liệu test cụ thể, không mơ hồ
+- [ ] Bước thực hiện đánh số, mỗi bước một hành động
+- [ ] Kết quả mong đợi kiểm chứng được, không dùng từ "đúng", "bình thường"
+- [ ] Có đủ cả test case positive và negative
+- [ ] Không có test case trùng nhau
+- [ ] Mức ưu tiên hợp lý với rủi ro
+- [ ] Mã test case theo đúng quy ước
+- [ ] Đã phủ hết acceptance criteria của story
+
+Mục cuối quan trọng: đối chiếu ngược lại từng acceptance criteria xem đã có test case tương ứng chưa. Đây gọi là **truy vết yêu cầu**.
+
+## Ma trận truy vết
+
+Bảng đối chiếu yêu cầu với test case, dùng để chứng minh đã test đủ:
+
+| Yêu cầu | Test case liên quan |
+| --- | --- |
+| AC1: Gửi link đặt lại qua email | TC_PWD_001, TC_PWD_002 |
+| AC2: Link có hiệu lực 15 phút | TC_PWD_003, TC_PWD_004, TC_PWD_005 |
+| AC3: Mật khẩu tối thiểu 8 ký tự có chữ và số | TC_PWD_006 đến TC_PWD_012 |
+| AC4: Đăng xuất phiên cũ | TC_PWD_013 |
+
+Yêu cầu nào không có test case nào là lỗ hổng. Test case nào không gắn với yêu cầu nào thì xem lại có cần thiết không.
+
+## Bài tập
+
+1. Viết 8 test case cho chức năng đăng nhập theo mẫu đầy đủ ở trên.
+2. Trong đó phải có ít nhất 5 test case negative.
+3. Chạy checklist review cho 8 test case vừa viết, tự sửa chỗ chưa đạt.
+4. Lập ma trận truy vết giữa test case và acceptance criteria.
+5. Đưa cho một người không biết hệ thống đọc và làm theo, xem họ có hỏi lại gì không.
+</script>
+
+<script type="text/markdown" data-id="mt-9" data-nav="Bài 9 · Dữ liệu test">
+# Bài 9 — Chuẩn bị dữ liệu test
+
+**Mục tiêu:** có đúng dữ liệu để chạy test. Thiếu dữ liệu là nguyên nhân chặn test phổ biến nhất trong thực tế.
+
+## Vì sao dữ liệu test quan trọng
+
+Test case viết hay đến mấy, không có tài khoản VIP đang có đơn hàng ở trạng thái "Đang giao" thì không chạy được. Chuẩn bị dữ liệu thường chiếm 20–30% thời gian của một đợt test.
+
+## Các loại dữ liệu cần chuẩn bị
+
+| Loại | Ví dụ |
+| --- | --- |
+| Tài khoản các vai trò | Khách, thành viên, VIP, admin, tài khoản bị khoá, chưa kích hoạt |
+| Dữ liệu nghiệp vụ | Sản phẩm còn hàng, hết hàng, đang giảm giá |
+| Dữ liệu ở các trạng thái | Đơn hàng ở đủ 5 trạng thái |
+| Dữ liệu biên | Tên 255 ký tự, đơn 1 sản phẩm, đơn 100 sản phẩm |
+| Dữ liệu không hợp lệ | Email sai định dạng, ngày 31/2 |
+| Dữ liệu tiếng Việt | Tên có dấu, địa chỉ có dấu |
+
+## Bảng quản lý tài khoản test
+
+Luôn giữ một bảng như thế này, chia sẻ cho cả nhóm:
+
+| Tài khoản | Mật khẩu | Vai trò | Trạng thái | Ghi chú |
+| --- | --- | --- | --- | --- |
+| user01@test.com | Test@1234 | Thành viên | Hoạt động | Dùng cho luồng chính |
+| vip01@test.com | Test@1234 | VIP | Hoạt động | Có ưu đãi ship |
+| locked@test.com | Test@1234 | Thành viên | Bị khoá | Test luồng khoá |
+| new@test.com | Test@1234 | Thành viên | Chưa kích hoạt | Test luồng kích hoạt |
+| empty@test.com | Test@1234 | Thành viên | Hoạt động | Không có đơn hàng nào |
+
+Quy ước đặt tên tài khoản theo mục đích giúp cả nhóm biết dùng cái nào.
+
+## Nguyên tắc về dữ liệu
+
+**1. Không dùng dữ liệu thật của khách hàng**
+
+Tên, email, số điện thoại, địa chỉ, số thẻ của người thật tuyệt đối không được dùng trên môi trường test. Đây vừa là vấn đề pháp lý vừa là vấn đề đạo đức nghề nghiệp.
+
+Cần dữ liệu giống thật thì dùng công cụ sinh dữ liệu giả: **mockaroo.com**, **generatedata.com**, hoặc thư viện Faker.
+
+**2. Dữ liệu test phải tái lập được**
+
+Sau mỗi đợt test, dữ liệu bị thay đổi. Cần có cách đưa về trạng thái ban đầu:
+
+| Cách | Khi nào dùng |
+| --- | --- |
+| Script khôi phục database | Tốt nhất, nhờ DevOps làm |
+| Tạo dữ liệu mới mỗi lần test | An toàn, nhưng chậm |
+| Dọn dẹp sau khi test | Dễ quên sót |
+
+**3. Mỗi tester dùng tài khoản riêng khi có thể**
+
+Hai người cùng test một tài khoản sẽ giẫm chân nhau: bạn đang test giỏ hàng, người kia xoá sạch giỏ.
+
+## Thẻ thanh toán test
+
+Cổng thanh toán đều có thẻ test riêng, không trừ tiền thật:
+
+| Cổng | Thẻ test |
+| --- | --- |
+| Stripe | `4242 4242 4242 4242`, ngày hết hạn tương lai bất kỳ |
+| VNPay, Momo | Có bộ thẻ sandbox riêng, xem tài liệu tích hợp |
+
+**Tuyệt đối không dùng thẻ thật để test.** Nếu dự án yêu cầu test với thẻ thật, đó là việc của nhóm nghiệp vụ, có quy trình riêng và phải được phê duyệt.
+
+## Môi trường test
+
+| Môi trường | Dùng cho | Ai dùng |
+| --- | --- | --- |
+| **DEV** | Dev tự kiểm, thay đổi liên tục | Dev |
+| **TEST / QA** | Tester chạy test | Tester |
+| **STAGING / UAT** | Giống production nhất, khách nghiệm thu | Tester, khách hàng |
+| **PRODUCTION** | Người dùng thật | Không test ở đây |
+
+Quy tắc: **không bao giờ test trên production**, trừ khi có kế hoạch riêng được duyệt (ví dụ smoke test sau release, với tài khoản và dữ liệu chuyên dụng).
+
+Trước khi báo bug, luôn ghi rõ phát hiện trên môi trường nào. Bug chỉ xuất hiện trên staging mà không có trên test có thể là do cấu hình khác nhau.
+
+## SQL cơ bản cho tester
+
+Biết chút SQL giúp bạn tự tạo và kiểm tra dữ liệu, không phải chờ dev:
+
+```sql
+-- Xem du lieu
+SELECT * FROM users WHERE email = 'user01@test.com';
+
+-- Dem
+SELECT COUNT(*) FROM orders WHERE status = 'pending';
+
+-- Loc va sap xep
+SELECT id, total, created_at
+FROM orders
+WHERE user_id = 123 AND total > 500000
+ORDER BY created_at DESC
+LIMIT 10;
+
+-- Noi bang
+SELECT o.id, u.email, o.total
+FROM orders o
+JOIN users u ON o.user_id = u.id
+WHERE o.status = 'completed';
+```
+
+Dùng SQL để **kiểm tra kết quả**, không chỉ nhìn giao diện. Ví dụ: giao diện báo đặt hàng thành công, nhưng kiểm database thấy đơn chưa được tạo — đó là bug mà nhìn màn hình không thấy.
+
+Lưu ý: chỉ chạy lệnh `SELECT` trên môi trường test. `UPDATE` và `DELETE` chỉ khi được phép và biết rõ mình đang làm gì.
+
+## Bài tập
+
+1. Lập bảng tài khoản test cho một dự án, tối thiểu 6 tài khoản ở các trạng thái khác nhau.
+2. Dùng mockaroo.com sinh 50 dòng dữ liệu khách hàng giả, xuất ra CSV.
+3. Liệt kê dữ liệu cần chuẩn bị để test chức năng "lịch sử đơn hàng".
+4. Viết 3 câu SQL kiểm tra kết quả sau khi đặt hàng thành công.
+5. Viết ra quy trình đưa dữ liệu về trạng thái ban đầu sau mỗi đợt test.
+</script>
+
+<script type="text/markdown" data-id="mt-10" data-nav="Bài 10 · Thực thi test">
+# Bài 10 — Thực thi kiểm thử
+
+**Mục tiêu:** chạy test có kỷ luật, ghi nhận đủ để chứng minh và tái hiện được.
+
+## Trước khi bắt đầu
+
+| Kiểm tra | Vì sao |
+| --- | --- |
+| Build đúng phiên bản cần test chưa | Test nhầm build cũ là mất công vô ích |
+| Môi trường chạy được không | Chạy smoke test 5–10 phút trước |
+| Dữ liệu test đã sẵn sàng chưa | Thiếu dữ liệu sẽ phải dừng giữa chừng |
+| Test case đã được review chưa | Tránh phát hiện test case sai lúc đang chạy |
+
+Smoke test fail thì **trả build về cho dev ngay**, đừng test tiếp. Ghi rõ: "Build 2.3.0 không đăng nhập được, dừng test, chờ build mới."
+
+## Bốn trạng thái kết quả
+
+| Trạng thái | Khi nào dùng |
+| --- | --- |
+| **Pass** | Kết quả thực tế khớp hoàn toàn kết quả mong đợi |
+| **Fail** | Kết quả khác mong đợi — phải tạo bug |
+| **Blocked** | Không chạy được vì lý do ngoài test case (môi trường lỗi, chức năng phụ thuộc đang hỏng) |
+| **Skipped** | Cố ý không chạy (ngoài phạm vi đợt này, thiếu thời gian) |
+
+Phân biệt **Fail** và **Blocked** rất quan trọng khi báo cáo. Fail nghĩa là sản phẩm có lỗi; Blocked nghĩa là bạn chưa kiểm được, chưa kết luận gì.
+
+Đừng ghi Pass khi "gần đúng". Kết quả lệch một chút so với mong đợi vẫn là Fail — hoặc test case sai và cần sửa.
+
+## Ghi nhận trong lúc chạy
+
+Với mỗi test case fail, ghi ngay tại chỗ:
+
+| Thông tin | Ví dụ |
+| --- | --- |
+| Kết quả thực tế | Hiện "Error 500" thay vì thông báo lỗi |
+| Ảnh chụp màn hình | Chụp cả URL và thời gian |
+| Dữ liệu đã dùng | Tài khoản, giá trị nhập |
+| Môi trường | Staging, Chrome 141, Windows 11 |
+| Thời điểm | 15/11/2026 14:32 |
+
+Ghi ngay lúc phát hiện. Để đến cuối ngày mới ghi thì sẽ quên chi tiết, và bug report sẽ mơ hồ.
+
+## Tái hiện trước khi báo bug
+
+Thấy lỗi, đừng báo ngay. Làm 3 bước:
+
+1. **Làm lại** đúng các bước đó xem có lỗi lại không.
+2. **Thu hẹp**: bỏ bớt bước thừa để tìm ra bước tối thiểu gây lỗi.
+3. **Kiểm tra điều kiện**: chỉ xảy ra với tài khoản này, hay mọi tài khoản? Chỉ Chrome hay cả Safari?
+
+Bug report ghi "chỉ xảy ra với tài khoản VIP, trên Safari" có giá trị hơn nhiều so với "lỗi khi thanh toán".
+
+Lỗi không tái hiện được thì vẫn báo, nhưng ghi rõ "chưa tái hiện lại được" kèm mọi thông tin đã có. Đừng giấu đi.
+
+## Thu thập bằng chứng
+
+| Loại | Cách lấy |
+| --- | --- |
+| Ảnh màn hình | Phím Print Screen, hoặc công cụ như Lightshot, ShareX |
+| Video | Công cụ quay màn hình — rất hữu ích cho lỗi theo luồng |
+| Console log | F12 → tab Console, chụp lại lỗi màu đỏ |
+| Network | F12 → tab Network, xem request lỗi, chụp status code và response |
+| Log server | Xin dev hoặc DevOps nếu có quyền |
+
+Console và Network là hai thứ tester hay bỏ qua, nhưng lại là thứ dev cần nhất. Bug report có kèm response của API lỗi giúp dev tiết kiệm hàng giờ.
+
+## Test log
+
+Bảng theo dõi kết quả từng lần chạy:
+
+| Mã TC | Lần 1 (18/11) | Lần 2 (21/11) | Ghi chú |
+| --- | --- | --- | --- |
+| TC_LOGIN_001 | Pass | Pass | |
+| TC_LOGIN_002 | Fail | Pass | BUG-234 đã fix |
+| TC_LOGIN_003 | Blocked | Pass | Môi trường lỗi ngày 18 |
+| TC_LOGIN_004 | Pass | Fail | Lỗi mới sau khi fix BUG-234 |
+
+Dòng cuối là ví dụ điển hình vì sao cần regression: sửa chỗ này làm hỏng chỗ khác.
+
+## Quản lý thời gian
+
+| Tình huống | Cách xử lý |
+| --- | --- |
+| Không đủ thời gian chạy hết | Chạy theo ưu tiên: High → Medium → Low |
+| Gặp lỗi chặn nhiều test case | Báo ngay, chuyển sang module khác, không ngồi chờ |
+| Phát hiện nhiều bug cùng lúc | Báo bug quan trọng trước, ghi chú các bug nhỏ để báo sau |
+| Test case sai | Ghi chú lại, sửa sau khi chạy xong, đừng dừng để sửa |
+
+Báo sớm khi thấy sẽ không kịp. Leader cần biết để điều chỉnh, không phải nghe vào ngày cuối.
+
+## Bài tập
+
+1. Viết checklist những thứ cần kiểm tra trước khi bắt đầu một đợt test.
+2. Chạy 8 test case đăng nhập đã viết ở Bài 8, ghi test log đầy đủ.
+3. Với một lỗi bất kỳ, thực hành 3 bước tái hiện và thu hẹp.
+4. Mở F12 trên một trang web, chụp lại tab Console và Network khi có request lỗi.
+5. Tạo bảng test log theo dõi 2 lần chạy cho bộ test case của bạn.
+</script>
+
+<script type="text/markdown" data-id="mt-11" data-nav="Bài 11 · Bug report">
+# Bài 11 — Viết bug report và quản lý lỗi
+
+**Mục tiêu:** viết bug report mà dev đọc là sửa được ngay, không phải hỏi lại. Đây là sản phẩm thể hiện trình độ tester rõ nhất.
+
+## Cấu trúc bug report
+
+| Trường | Nội dung |
+| --- | --- |
+| **Tiêu đề** | Một dòng, nêu rõ triệu chứng và chỗ xảy ra |
+| **Môi trường** | URL, trình duyệt, thiết bị, phiên bản build |
+| **Mức độ nghiêm trọng** | Severity |
+| **Mức độ ưu tiên** | Priority |
+| **Các bước tái hiện** | Đánh số, chi tiết đến mức làm theo được |
+| **Kết quả mong đợi** | Theo yêu cầu/tài liệu nào |
+| **Kết quả thực tế** | Chuyện thật sự xảy ra |
+| **Bằng chứng** | Ảnh, video, log |
+| **Ghi chú** | Tần suất, điều kiện đặc biệt |
+
+## Ví dụ bug report tốt
+
+```text
+Tiêu đề: [Thanh toán] Tổng tiền không trừ mã giảm giá khi đổi
+         phương thức thanh toán
+
+Môi trường:
+- URL: https://staging.example.com/checkout
+- Build: 2.3.0-rc2
+- Trình duyệt: Chrome 141, Windows 11
+- Tài khoản: user01@test.com
+
+Severity: Major    Priority: High
+
+Các bước tái hiện:
+1. Đăng nhập bằng user01@test.com
+2. Thêm sản phẩm "Áo thun cotton" (150.000đ) vào giỏ
+3. Vào giỏ hàng, bấm "Thanh toán"
+4. Nhập mã giảm giá "SALE20", bấm "Áp dụng"
+   → Tổng tiền hiển thị đúng: 120.000đ
+5. Đổi phương thức thanh toán từ "COD" sang "Chuyển khoản"
+
+Kết quả mong đợi:
+Tổng tiền giữ nguyên 120.000đ, mã giảm giá vẫn được áp dụng
+(theo AC3 của story US-456)
+
+Kết quả thực tế:
+Tổng tiền quay về 150.000đ. Mã giảm giá vẫn hiển thị trong ô
+nhưng không được tính vào tổng.
+
+Bằng chứng:
+- anh1-truoc-khi-doi.png
+- anh2-sau-khi-doi.png
+- video-tai-hien.mp4
+- Network: POST /api/checkout/payment-method trả về total=150000,
+  không có trường discount
+
+Ghi chú:
+- Tái hiện 5/5 lần
+- Xảy ra với mọi mã giảm giá đã thử (SALE20, FREESHIP)
+- Không xảy ra khi đổi ngược từ Chuyển khoản sang COD
+```
+
+Ghi chú cuối cùng rất giá trị: nó thu hẹp phạm vi cho dev.
+
+## Viết tiêu đề tốt
+
+Công thức: **[Module] Triệu chứng khi điều kiện nào**
+
+| Kém | Tốt |
+| --- | --- |
+| Lỗi thanh toán | [Thanh toán] Tổng tiền không trừ mã giảm giá khi đổi phương thức thanh toán |
+| Không đăng nhập được | [Đăng nhập] Báo lỗi "Error 500" khi mật khẩu chứa ký tự tiếng Việt |
+| Giao diện xấu | [Danh sách SP] Tên sản phẩm dài tràn khỏi thẻ trên màn hình dưới 400px |
+
+Dev nhìn tiêu đề là biết việc gì, mức độ nghiêm trọng, và có thuộc phần mình phụ trách không.
+
+## Severity và Priority
+
+Hai khái niệm khác nhau, hay bị nhầm, và hay được hỏi khi phỏng vấn.
+
+**Severity — mức độ nghiêm trọng về mặt kỹ thuật:**
+
+| Mức | Nghĩa | Ví dụ |
+| --- | --- | --- |
+| Critical | Hệ thống sập, mất dữ liệu | Không đăng nhập được, app crash khi mở |
+| Major | Chức năng chính sai | Tính sai tiền, không đặt được hàng |
+| Minor | Chức năng phụ sai, có cách làm khác | Bộ lọc sai thứ tự |
+| Trivial | Lỗi hiển thị nhỏ | Sai chính tả, lệch 2px |
+
+**Priority — mức độ cần sửa gấp về mặt nghiệp vụ:**
+
+| Mức | Nghĩa |
+| --- | --- |
+| High | Sửa ngay, chặn release |
+| Medium | Sửa trong sprint này |
+| Low | Đưa vào backlog |
+
+Bốn tổ hợp để hiểu rõ khác biệt:
+
+| Tổ hợp | Ví dụ |
+| --- | --- |
+| Severity cao, Priority cao | Không thanh toán được |
+| Severity cao, Priority thấp | App crash ở chức năng sắp gỡ bỏ |
+| Severity thấp, Priority cao | Sai tên công ty trên trang chủ — nhỏ về kỹ thuật, nhưng ảnh hưởng hình ảnh |
+| Severity thấp, Priority thấp | Lệch 2px ở trang ít người xem |
+
+Tester đề xuất Severity; Priority thường do PO hoặc leader quyết.
+
+## Vòng đời của bug
+
+```text
+   New
+    │ leader xac nhan
+    v
+  Open ──────────────> Rejected (khong phai bug)
+    │ dev nhan                │
+    v                    Duplicate (trung bug cu)
+In Progress                   │
+    │ dev sua xong        Deferred (hoan sang sau)
+    v
+  Fixed
+    │ tester kiem tra lai
+    ├──> Reopened (van con loi) ──> In Progress
+    v
+ Verified
+    │
+    v
+  Closed
+```
+
+Trạng thái **Reopened** là bình thường, không phải lỗi của ai. Nhưng một bug bị reopen 3 lần là dấu hiệu mô tả chưa rõ, hoặc hai bên hiểu khác nhau về kết quả mong đợi — nên nói chuyện trực tiếp thay vì tiếp tục qua ticket.
+
+## Khi bug bị từ chối
+
+Dev ghi "Không phải bug" hoặc "Không tái hiện được". Cách xử lý:
+
+| Tình huống | Làm gì |
+| --- | --- |
+| Dev không tái hiện được | Bổ sung video, ghi rõ môi trường, dữ liệu, thời điểm |
+| Dev nói đúng thiết kế | Kiểm lại tài liệu; nếu tài liệu không nói rõ, hỏi BA và dẫn câu trả lời vào ticket |
+| Dev nói lỗi môi trường | Thử trên môi trường khác, kiểm chứng |
+| Bạn sai thật | Đóng ticket, ghi rõ lý do, không cần ngại — chuyện bình thường |
+
+Nguyên tắc: tranh luận dựa trên **tài liệu và bằng chứng**, không dựa trên cảm tính. Và giữ thái độ hợp tác — dev và tester cùng một mục tiêu.
+
+## Những điều không nên viết trong bug report
+
+| Đừng viết | Vì sao |
+| --- | --- |
+| "Chức năng này làm ẩu quá" | Công kích cá nhân, làm hỏng quan hệ |
+| "Chắc do cache" | Suy đoán nguyên nhân khi chưa chắc, dẫn dev đi sai hướng |
+| "Lỗi y như lần trước" | Dev không biết "lần trước" là lần nào |
+| "Xem video thì biết" | Video là bằng chứng bổ sung, không thay thế mô tả |
+
+Mô tả **hiện tượng quan sát được**, không mô tả nguyên nhân bạn đoán — trừ khi bạn có bằng chứng.
+
+## Bài tập
+
+1. Viết 3 bug report đầy đủ cho 3 lỗi bạn tự tìm trên một trang web bất kỳ.
+2. Với mỗi bug, gán Severity và Priority kèm lý do.
+3. Viết lại 5 tiêu đề bug kém thành tiêu đề tốt theo công thức.
+4. Vẽ vòng đời bug của công ty hoặc nhóm bạn đang làm.
+5. Nghĩ một ví dụ cho mỗi tổ hợp Severity/Priority ở bảng trên.
+</script>
+
+<script type="text/markdown" data-id="mt-12" data-nav="Bài 12 · Công cụ cho tester">
+# Bài 12 — Công cụ của manual tester
+
+**Mục tiêu:** dùng được các công cụ xuất hiện trong mọi JD tuyển dụng.
+
+## Jira — quản lý công việc và bug
+
+Công cụ phổ biến nhất. Tester dùng Jira hằng ngày.
+
+| Khái niệm | Nghĩa |
+| --- | --- |
+| **Project** | Một dự án |
+| **Issue** | Một việc: story, task, bug |
+| **Epic** | Nhóm nhiều story liên quan |
+| **Sprint** | Chu kỳ làm việc 1–4 tuần |
+| **Board** | Bảng Kanban/Scrum nhìn tiến độ |
+| **Workflow** | Luồng trạng thái một issue đi qua |
+
+Việc tester làm trên Jira:
+
+- Tạo bug với đầy đủ thông tin, gắn vào story liên quan
+- Gán cho dev, đặt Priority, gắn nhãn
+- Đính kèm ảnh, video
+- Chuyển trạng thái khi verify xong
+- Lọc issue bằng JQL
+
+JQL hay dùng:
+
+```text
+project = ECOM AND type = Bug AND status = Open
+project = ECOM AND assignee = currentUser() AND sprint in openSprints()
+project = ECOM AND priority = High AND created >= -7d
+```
+
+Biết viết JQL giúp bạn tự tạo báo cáo mà không phải hỏi leader.
+
+## Công cụ quản lý test case
+
+| Công cụ | Ghi chú |
+| --- | --- |
+| **TestRail** | Phổ biến nhất, trả phí |
+| **Zephyr / Xray** | Plugin của Jira, tích hợp sẵn |
+| **qTest** | Doanh nghiệp lớn |
+| **Excel / Google Sheets** | Dự án nhỏ, hoàn toàn dùng được |
+
+Đừng ngại Excel. Nhiều nhóm nhỏ ở Việt Nam quản lý test case bằng Google Sheets rất hiệu quả. Quan trọng là **có quản lý**, không phải dùng công cụ đắt tiền.
+
+Mẫu Google Sheets đủ dùng: mỗi sheet một module, các cột theo mẫu test case ở Bài 8, thêm cột kết quả cho mỗi lần chạy.
+
+## DevTools — F12
+
+Công cụ miễn phí, quan trọng nhất với tester web. Bốn tab cần biết:
+
+| Tab | Dùng để |
+| --- | --- |
+| **Elements** | Xem HTML, kiểm tra text hiển thị, class, kiểm tra giao diện |
+| **Console** | Xem lỗi JavaScript — lỗi đỏ ở đây là bằng chứng quý cho bug report |
+| **Network** | Xem request gửi đi và phản hồi: status code, payload, response |
+| **Application** | Xem cookie, localStorage — kiểm tra phiên đăng nhập |
+
+Cách dùng Network để điều tra bug:
+
+1. Mở F12 → tab Network, bấm nút xoá cho sạch
+2. Thực hiện thao tác gây lỗi
+3. Tìm dòng màu đỏ hoặc có status 4xx/5xx
+4. Bấm vào xem tab Payload (gửi gì) và Response (nhận gì)
+5. Chụp lại đính vào bug report
+
+Thông tin này thường chỉ ra ngay lỗi ở frontend hay backend — và đó là câu dev hỏi đầu tiên.
+
+Giả lập thiết bị: F12 → biểu tượng điện thoại → chọn kích thước màn hình. Dùng kiểm tra giao diện responsive nhanh mà không cần điện thoại thật.
+
+## Postman — kiểm thử API
+
+Bài 15 sẽ hướng dẫn chi tiết. Ở đây chỉ cần biết: Postman cho phép gọi thẳng API mà không qua giao diện, để kiểm tra backend trả về đúng chưa.
+
+## Công cụ chụp ảnh và quay màn hình
+
+| Công cụ | Dùng cho |
+| --- | --- |
+| **Lightshot**, **ShareX** | Chụp màn hình, vẽ chú thích |
+| **ScreenToGif** | Quay thành GIF, nhẹ, đính vào Jira tiện |
+| **OBS Studio** | Quay video dài, miễn phí |
+
+Ảnh có khoanh đỏ chỗ lỗi giá trị hơn ảnh chụp cả màn hình không chú thích.
+
+## Công cụ khác hay dùng
+
+| Công cụ | Dùng để |
+| --- | --- |
+| **Mailtrap**, **Mailinator** | Nhận email test mà không cần hộp thư thật |
+| **DBeaver**, **HeidiSQL** | Kết nối database chạy câu SQL |
+| **Mockaroo** | Sinh dữ liệu test giả |
+| **BrowserStack** | Test trên nhiều trình duyệt, thiết bị thật |
+| **Xmind** | Vẽ mind map phân tích chức năng |
+| **JSON Formatter** | Đọc response API cho dễ |
+
+## Mind map để phân tích chức năng
+
+Kỹ thuật ít người dùng nhưng rất hiệu quả. Vẽ mind map cho một chức năng trước khi viết test case:
+
+```text
+Dang nhap
+├── Giao dien
+│   ├── Hien thi dung thiet ke
+│   ├── Responsive mobile
+│   └── Tieng Viet hien dung
+├── Chuc nang
+│   ├── Dang nhap dung
+│   ├── Sai mat khau
+│   ├── Sai email
+│   ├── Bo trong
+│   └── Tai khoan bi khoa
+├── Bao mat
+│   ├── Mat khau khong hien thi
+│   ├── Gioi han so lan thu
+│   └── Khong lo thong tin trong response
+└── Khac
+    ├── Nho dang nhap
+    ├── Quen mat khau
+    └── Dang nhap bang Google
+```
+
+Nhìn mind map là thấy ngay mình đã bỏ sót nhánh nào. Nhánh "Bảo mật" là nhánh người mới hay quên hoàn toàn.
+
+## Bài tập
+
+1. Tạo tài khoản Jira miễn phí, tạo project và viết 3 bug theo mẫu Bài 11.
+2. Viết 3 câu JQL lọc bug theo tiêu chí khác nhau.
+3. Mở F12 trên một trang web, tìm một request lỗi và chụp lại Payload với Response.
+4. Dùng chế độ giả lập thiết bị kiểm tra một trang ở 3 kích thước màn hình.
+5. Vẽ mind map cho chức năng "tìm kiếm sản phẩm", tối thiểu 4 nhánh chính.
+</script>
+
+<script type="text/markdown" data-id="mt-13" data-nav="Bài 13 · Báo cáo kiểm thử">
+# Bài 13 — Báo cáo kiểm thử
+
+**Mục tiêu:** tổng hợp kết quả thành thứ leader đọc 2 phút là ra quyết định được.
+
+## Người đọc cần gì
+
+| Người đọc | Quan tâm |
+| --- | --- |
+| Test Lead | Tiến độ, bug còn lại, có kịp không |
+| PO / PM | Có release được không, rủi ro gì |
+| Dev | Bug nào cần sửa trước |
+| Khách hàng | Chất lượng tổng thể, bằng chứng đã test |
+
+Vì vậy báo cáo phải có **kết luận ở đầu**, chi tiết ở sau. Đừng bắt người đọc lần tới cuối mới biết kết quả.
+
+## Mẫu báo cáo
+
+```text
+BÁO CÁO KIỂM THỬ — CHỨC NĂNG ĐẶT LẠI MẬT KHẨU
+Build: 2.3.0-rc2 | Môi trường: Staging | Ngày: 22/11/2026
+Người thực hiện: TrangDTT59
+
+1. KẾT LUẬN
+Chưa đạt tiêu chí phát hành. Còn 1 bug Critical chưa sửa (BUG-241:
+link đặt lại vẫn dùng được sau khi đã đổi mật khẩu thành công).
+Đề nghị sửa và test lại trước khi release.
+
+2. PHẠM VI ĐÃ TEST
+- Gửi link đặt lại qua email
+- Xác thực link: còn hạn, hết hạn, đã dùng
+- Quy tắc mật khẩu mới
+- Đăng xuất phiên cũ
+Ngoài phạm vi: đặt lại qua SMS (chưa phát triển)
+
+3. KẾT QUẢ
+| Chỉ số          | Số lượng | Tỷ lệ |
+| Tổng test case  | 24       | 100%  |
+| Pass            | 20       | 83%   |
+| Fail            | 3        | 13%   |
+| Blocked         | 1        | 4%    |
+
+4. BUG PHÁT HIỆN
+| Mã      | Tiêu đề                                  | Severity | Trạng thái |
+| BUG-241 | Link còn dùng được sau khi đổi mật khẩu  | Critical | Open       |
+| BUG-242 | Link hết hạn báo lỗi 500 thay vì thông báo| Major   | Fixed      |
+| BUG-243 | Thông báo lỗi sai chính tả                | Trivial  | Open       |
+
+5. VẤN ĐỀ CẦN LƯU Ý
+- TC_PWD_018 bị Blocked: môi trường staging không gửi được email
+  ngày 20/11, đã test lại ngày 21/11
+- AC4 (đăng xuất phiên cũ) chỉ test được trên web, chưa test được
+  trên app mobile do chưa có build mobile
+
+6. ĐỀ XUẤT
+- Sửa BUG-241 trước khi release — đây là lỗ hổng bảo mật
+- BUG-243 có thể để sang sprint sau
+- Cần build mobile để hoàn tất kiểm thử AC4
+```
+
+Mục 1 và mục 5 là hai mục quan trọng nhất. Mục 5 cho thấy bạn trung thực về những gì **chưa** kiểm được — điều này quan trọng hơn con số pass đẹp.
+
+## Các chỉ số thường dùng
+
+| Chỉ số | Công thức | Nói lên điều gì |
+| --- | --- | --- |
+| Tỷ lệ pass | Pass / Tổng đã chạy | Chất lượng build |
+| Độ phủ yêu cầu | Số AC có test case / Tổng AC | Đã test đủ chưa |
+| Mật độ lỗi | Số bug / Số chức năng | Chỗ nào nhiều lỗi |
+| Tỷ lệ bug bị từ chối | Rejected / Tổng bug | Chất lượng bug report của bạn |
+| Tỷ lệ reopen | Reopened / Fixed | Chất lượng sửa lỗi |
+
+Hai chỉ số cuối phản ánh chính bạn. Tỷ lệ bug bị từ chối cao nghĩa là bạn báo bug chưa chuẩn — hoặc chưa đọc kỹ tài liệu.
+
+## Cách trình bày số liệu
+
+Đừng chỉ đưa con số, hãy kèm nhận xét:
+
+| Kém | Tốt |
+| --- | --- |
+| Pass 83% | Pass 83%, dưới ngưỡng yêu cầu 95%. Nguyên nhân chính là BUG-241 chặn 3 test case liên quan đến bảo mật phiên. |
+
+Con số không tự nói lên điều gì. Nhận xét mới là phần có giá trị.
+
+## Báo cáo hằng ngày
+
+Trong sprint, thường cần báo cáo ngắn mỗi ngày:
+
+```text
+Ngày 19/11 — Chức năng đặt lại mật khẩu
+- Đã chạy: 16/24 test case
+- Pass 13, Fail 2, Blocked 1
+- Bug mới: BUG-241 (Critical), BUG-242 (Major)
+- Vướng: staging không gửi được email, đã báo DevOps lúc 10:15
+- Kế hoạch mai: chạy nốt 8 test case còn lại, re-test BUG-242
+```
+
+Ngắn, đủ, có mục "Vướng". Mục này giúp leader can thiệp kịp thời.
+
+## Khi nào nói "không nên release"
+
+Tester không quyết định release, nhưng có trách nhiệm **nêu rõ rủi ro**. Cách nói:
+
+| Tránh | Nên |
+| --- | --- |
+| "Không được release" | "Theo tiêu chí ra đã thống nhất, build này chưa đạt vì còn 1 bug Critical. Nếu vẫn release, rủi ro là người dùng có thể dùng lại link cũ để đổi mật khẩu của tài khoản đã đổi." |
+
+Nêu sự thật, nêu rủi ro cụ thể, để người có thẩm quyền quyết định. Và ghi lại bằng văn bản.
+
+## Bài tập
+
+1. Viết báo cáo đầy đủ cho đợt test chức năng đăng nhập bạn đã làm ở Bài 10.
+2. Tính 5 chỉ số ở bảng trên cho đợt test đó.
+3. Viết báo cáo hằng ngày cho 3 ngày test liên tiếp.
+4. Viết một đoạn nêu rủi ro khi còn bug Critical mà vẫn muốn release.
+5. Tự đánh giá tỷ lệ bug bị từ chối của bạn và nghĩ cách giảm nó.
+</script>
+
+<script type="text/markdown" data-id="mt-14" data-nav="Bài 14 · Checklist test web và mobile">
+# Bài 14 — Checklist kiểm thử web và mobile
+
+**Mục tiêu:** có danh sách kiểm tra dùng được ngay cho mọi dự án, không bỏ sót những thứ cơ bản.
+
+## Checklist chung cho mọi form
+
+| # | Kiểm tra |
+| --- | --- |
+| 1 | Để trống từng ô bắt buộc, submit |
+| 2 | Để trống tất cả, submit |
+| 3 | Nhập đúng giới hạn tối thiểu và tối đa của từng ô |
+| 4 | Nhập vượt giới hạn 1 ký tự |
+| 5 | Nhập ký tự đặc biệt: `' " < > & % # \| \` |
+| 6 | Nhập tiếng Việt có dấu |
+| 7 | Nhập chỉ khoảng trắng |
+| 8 | Dán chuỗi 5.000 ký tự |
+| 9 | Nhập số âm, số 0 vào ô số lượng/giá |
+| 10 | Bấm submit nhiều lần liên tiếp — có tạo trùng bản ghi không |
+| 11 | Dùng phím Tab di chuyển qua các ô — đúng thứ tự không |
+| 12 | Bấm Enter trong ô nhập — có submit không |
+| 13 | Thông báo lỗi hiển thị đúng chỗ, đúng ngôn ngữ |
+| 14 | Dữ liệu còn giữ sau khi submit lỗi không |
+| 15 | Bấm Back rồi quay lại — dữ liệu còn không |
+
+Mục 10 hay ra bug thật: bấm "Đặt hàng" hai lần tạo hai đơn.
+
+## Checklist chức năng tìm kiếm
+
+| # | Kiểm tra |
+| --- | --- |
+| 1 | Tìm từ khoá có kết quả |
+| 2 | Tìm từ khoá không có kết quả — thông báo rõ ràng chưa |
+| 3 | Tìm chuỗi rỗng |
+| 4 | Tìm chỉ khoảng trắng |
+| 5 | Tìm có dấu và không dấu — "ao thun" có ra "áo thun" không |
+| 6 | Hoa thường — "ÁO" và "áo" ra cùng kết quả không |
+| 7 | Tìm một phần từ khoá |
+| 8 | Ký tự đặc biệt trong từ khoá |
+| 9 | Kết hợp tìm kiếm với bộ lọc |
+| 10 | Phân trang kết quả — sang trang 2 có giữ từ khoá không |
+| 11 | Thời gian phản hồi khi dữ liệu nhiều |
+
+Mục 5 đặc biệt quan trọng với sản phẩm tiếng Việt, và rất hay lỗi.
+
+## Checklist danh sách và phân trang
+
+| # | Kiểm tra |
+| --- | --- |
+| 1 | Danh sách rỗng — hiển thị gì |
+| 2 | Đúng 1 phần tử |
+| 3 | Vừa đủ 1 trang |
+| 4 | Nhiều hơn 1 trang một chút |
+| 5 | Chuyển trang, quay lại trang trước |
+| 6 | Sắp xếp rồi chuyển trang — thứ tự còn giữ không |
+| 7 | Lọc rồi chuyển trang — bộ lọc còn giữ không |
+| 8 | Xoá phần tử cuối cùng của trang cuối |
+| 9 | Tải lại trang — trạng thái lọc/sắp xếp có giữ không |
+
+## Checklist riêng cho mobile
+
+| Nhóm | Kiểm tra |
+| --- | --- |
+| Xoay màn hình | Xoay ngang/dọc ở mọi màn hình, dữ liệu đang nhập có mất không |
+| Bàn phím | Bàn phím che nút submit không, đúng loại bàn phím cho từng ô |
+| Mạng | Mất mạng giữa chừng, mạng chậm, chuyển wifi sang 4G |
+| Gián đoạn | Có cuộc gọi đến, báo thức, thông báo app khác |
+| Nền | Thu nhỏ app rồi mở lại — còn trạng thái cũ không |
+| Pin | Chế độ tiết kiệm pin có ảnh hưởng không |
+| Quyền | Từ chối quyền camera/vị trí — app xử lý thế nào |
+| Kích thước | Màn hình nhỏ nhất và lớn nhất trong danh sách hỗ trợ |
+| Cỡ chữ hệ thống | Tăng cỡ chữ trong cài đặt máy — giao diện có vỡ không |
+| Cài đặt | Cài mới, cập nhật từ bản cũ, gỡ rồi cài lại |
+
+Mục "Gián đoạn" và "Cỡ chữ hệ thống" là hai mục người mới gần như luôn quên.
+
+## Checklist giao diện
+
+| # | Kiểm tra |
+| --- | --- |
+| 1 | So với thiết kế: màu, khoảng cách, cỡ chữ |
+| 2 | Text dài có tràn không |
+| 3 | Ảnh lỗi hiển thị thế nào |
+| 4 | Trạng thái nút: bình thường, hover, bấm, bị khoá |
+| 5 | Chế độ tối nếu có |
+| 6 | Chính tả tiếng Việt |
+| 7 | Nhất quán: cùng một hành động dùng cùng một từ ở mọi màn hình |
+
+Mục 7 hay bị bỏ qua: màn này ghi "Xoá", màn kia ghi "Loại bỏ", màn khác ghi "Gỡ" — cho cùng một hành động.
+
+## Checklist bảo mật cơ bản
+
+Không thay thế kiểm thử bảo mật chuyên sâu, nhưng tester nào cũng nên kiểm:
+
+| # | Kiểm tra |
+| --- | --- |
+| 1 | Mật khẩu có bị che khi nhập không |
+| 2 | Response API có lộ mật khẩu, token không |
+| 3 | Đăng xuất rồi bấm Back — có vào lại được không |
+| 4 | Sửa URL để vào trang không có quyền — có chặn không |
+| 5 | Gọi API trực tiếp với tài khoản không có quyền |
+| 6 | Giới hạn số lần đăng nhập sai |
+| 7 | Phiên đăng nhập có hết hạn không |
+| 8 | Nhập `<script>alert(1)</script>` vào ô text — có bị thực thi không |
+
+Mục 4 và 5 là lỗi nghiêm trọng hay gặp: giao diện ẩn nút nhưng API vẫn cho gọi.
+
+## Cách dùng checklist
+
+Checklist **không thay thế** test case. Nó bổ sung:
+
+| | Test case | Checklist |
+| --- | --- | --- |
+| Dựa trên | Yêu cầu cụ thể của dự án | Kinh nghiệm chung |
+| Chi tiết | Có dữ liệu, bước, kết quả mong đợi | Chỉ gợi ý kiểm gì |
+| Dùng khi | Kiểm thử có hệ thống | Rà soát nhanh, thăm dò |
+
+Cách dùng hiệu quả: chạy hết test case trước, rồi dùng checklist rà lại xem có gì bỏ sót.
+
+## Bài tập
+
+1. Áp checklist form vào một form đăng ký bất kỳ, ghi lại bug tìm được.
+2. Áp checklist tìm kiếm vào một trang thương mại điện tử.
+3. Test một app mobile theo checklist mobile, chú ý mục gián đoạn và cỡ chữ.
+4. Chạy checklist bảo mật cơ bản, đặc biệt mục 3, 4, 8.
+5. Bổ sung checklist của riêng bạn thêm 10 mục từ kinh nghiệm thực tế.
+</script>
+
+<script type="text/markdown" data-id="mt-15" data-nav="Bài 15 · Kiểm thử API với Postman">
+# Bài 15 — Kiểm thử API với Postman
+
+**Mục tiêu:** kiểm thử phía sau giao diện. Đây là kỹ năng nâng giá trị của một manual tester lên rõ rệt, và xuất hiện trong hầu hết JD.
+
+## API là gì
+
+Giao diện là phần bạn nhìn thấy. Khi bạn bấm "Đăng nhập", giao diện gửi một **request** tới server, server trả về **response**. API là cách hai bên nói chuyện.
+
+Vì sao tester cần test API:
+
+| Lý do | Giải thích |
+| --- | --- |
+| Tìm bug sớm | API xong trước giao diện, test được ngay |
+| Tìm lỗ hổng giao diện che giấu | Nút bị ẩn không có nghĩa API chặn |
+| Nhanh hơn | Test 20 trường hợp qua API mất 5 phút, qua giao diện mất 30 phút |
+| Chính xác hơn | Biết chính xác server trả về gì |
+
+## Khái niệm cơ bản
+
+| Khái niệm | Nghĩa |
+| --- | --- |
+| **Endpoint** | Địa chỉ API: `https://api.example.com/users` |
+| **Method** | Hành động: GET (lấy), POST (tạo), PUT/PATCH (sửa), DELETE (xoá) |
+| **Header** | Thông tin kèm theo: loại dữ liệu, token xác thực |
+| **Body** | Dữ liệu gửi đi, thường dạng JSON |
+| **Status code** | Mã kết quả |
+| **Response** | Dữ liệu server trả về |
+
+Status code cần nhớ:
+
+| Mã | Nghĩa | Khi nào gặp |
+| --- | --- | --- |
+| 200 | OK | Thành công |
+| 201 | Created | Tạo mới thành công |
+| 400 | Bad Request | Dữ liệu gửi lên sai |
+| 401 | Unauthorized | Chưa đăng nhập, token sai |
+| 403 | Forbidden | Đã đăng nhập nhưng không có quyền |
+| 404 | Not Found | Không tìm thấy |
+| 500 | Internal Server Error | Lỗi phía server |
+
+Phân biệt 401 và 403 hay được hỏi: 401 là "bạn là ai", 403 là "biết bạn là ai rồi nhưng không cho".
+
+## Request đầu tiên
+
+Tải Postman tại `postman.com/downloads`. Luyện với API công khai `jsonplaceholder.typicode.com`.
+
+**GET — lấy dữ liệu:**
+
+```text
+Method: GET
+URL: https://jsonplaceholder.typicode.com/posts/1
+```
+
+Bấm **Send**. Response:
+
+```json
+{
+  "userId": 1,
+  "id": 1,
+  "title": "sunt aut facere...",
+  "body": "quia et suscipit..."
+}
+```
+
+**POST — tạo mới:**
+
+```text
+Method: POST
+URL: https://jsonplaceholder.typicode.com/posts
+Headers: Content-Type: application/json
+Body (chọn raw, kiểu JSON):
+{
+  "title": "Bài viết test",
+  "body": "Nội dung",
+  "userId": 1
+}
+```
+
+Response trả về 201 kèm `id` của bản ghi vừa tạo.
+
+## Kiểm gì trong một response
+
+| Kiểm | Ví dụ |
+| --- | --- |
+| Status code | Đúng 200 hay 201 không |
+| Cấu trúc | Có đủ các trường theo tài liệu không |
+| Giá trị | Dữ liệu có đúng không |
+| Kiểu dữ liệu | `gia` là số hay chuỗi |
+| Thời gian phản hồi | Dưới ngưỡng cho phép không |
+| Không lộ thông tin | Response có chứa mật khẩu, token nội bộ không |
+
+Mục cuối là lỗi bảo mật hay gặp: API trả về cả trường `password_hash` mà giao diện không hiển thị.
+
+## Test case cho API
+
+Với mỗi endpoint, kiểm tối thiểu:
+
+| # | Trường hợp |
+| --- | --- |
+| 1 | Dữ liệu hợp lệ → thành công |
+| 2 | Thiếu trường bắt buộc → 400 |
+| 3 | Sai kiểu dữ liệu (gửi chữ vào trường số) → 400 |
+| 4 | Vượt giới hạn độ dài → 400 |
+| 5 | Không có token → 401 |
+| 6 | Token hết hạn → 401 |
+| 7 | Token của tài khoản không có quyền → 403 |
+| 8 | ID không tồn tại → 404 |
+| 9 | Gửi cùng request hai lần → có tạo trùng không |
+
+Trường hợp 7 là trường hợp quan trọng nhất mà giao diện không kiểm được: lấy token của tài khoản thường, gọi API dành cho admin. Trả về 200 là lỗ hổng nghiêm trọng.
+
+## Biến môi trường
+
+Đừng gõ URL và token vào từng request. Tạo Environment trong Postman:
+
+| Biến | Giá trị |
+| --- | --- |
+| `base_url` | `https://staging.example.com/api` |
+| `token` | `eyJhbGc...` |
+
+Dùng trong request: `{{base_url}}/users`, và trong header: `Authorization: Bearer {{token}}`.
+
+Đổi từ staging sang production chỉ cần đổi environment, không sửa từng request.
+
+## Viết kiểm tra tự động trong Postman
+
+Tab **Tests** của request, viết JavaScript đơn giản:
+
+```javascript
+pm.test("Status code la 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Thoi gian phan hoi duoi 1 giay", function () {
+    pm.expect(pm.response.responseTime).to.be.below(1000);
+});
+
+pm.test("Response co truong id", function () {
+    const data = pm.response.json();
+    pm.expect(data).to.have.property('id');
+});
+
+pm.test("Khong lo mat khau", function () {
+    const data = pm.response.json();
+    pm.expect(data).to.not.have.property('password');
+});
+```
+
+Chạy xong Postman hiện Pass/Fail cho từng kiểm tra. Đây đã là bước đầu của automation.
+
+## Collection và chạy hàng loạt
+
+Gom các request thành **Collection**, rồi dùng **Collection Runner** chạy cả bộ một lần. Kết hợp với file CSV dữ liệu để chạy một request với nhiều bộ dữ liệu — giống data-driven ở các khoá automation.
+
+Lưu token từ request đăng nhập để dùng cho các request sau, viết ở tab Tests của request đăng nhập:
+
+```javascript
+const data = pm.response.json();
+pm.environment.set("token", data.accessToken);
+```
+
+## Bài tập
+
+1. Cài Postman, gọi GET `/posts/1` và đọc response.
+2. Gọi POST tạo bài viết mới, kiểm tra status 201.
+3. Tạo Environment với `base_url`, dùng biến trong 3 request.
+4. Viết 4 test tự động trong tab Tests cho một request.
+5. Tạo Collection 5 request và chạy bằng Collection Runner.
+6. Với một API cần đăng nhập, thử gọi không kèm token và kiểm tra trả về 401.
+</script>
+
+<script type="text/markdown" data-id="mt-16" data-nav="Bài 16 · Tester trong Agile">
+# Bài 16 — Tester trong nhóm Agile
+
+**Mục tiêu:** biết mình làm gì ở từng giai đoạn của sprint, và nói đúng ngôn ngữ của nhóm.
+
+## Scrum trong 5 phút
+
+| Khái niệm | Nghĩa |
+| --- | --- |
+| **Sprint** | Chu kỳ làm việc cố định, thường 2 tuần |
+| **Product Backlog** | Danh sách mọi việc cần làm, PO sắp xếp ưu tiên |
+| **Sprint Backlog** | Việc chọn làm trong sprint này |
+| **User Story** | Một yêu cầu nhỏ, hoàn thành được trong sprint |
+| **Definition of Done** | Điều kiện để coi một story là xong |
+| **Velocity** | Số điểm nhóm hoàn thành được mỗi sprint |
+
+| Vai trò | Làm gì |
+| --- | --- |
+| **Product Owner** | Quyết định làm gì trước, nghiệm thu story |
+| **Scrum Master** | Gỡ vướng mắc, giữ nhịp quy trình |
+| **Development Team** | Dev, tester, designer — cùng chịu trách nhiệm sản phẩm |
+
+Điểm quan trọng: trong Scrum, tester **nằm trong nhóm phát triển**, không phải bộ phận riêng kiểm tra sản phẩm của người khác.
+
+## Bốn cuộc họp và việc của tester
+
+| Cuộc họp | Khi nào | Tester làm gì |
+| --- | --- | --- |
+| **Sprint Planning** | Đầu sprint | Ước lượng công sức test, nêu rủi ro, hỏi lại story chưa rõ |
+| **Daily Standup** | Mỗi sáng, 15 phút | Báo hôm qua test gì, hôm nay test gì, đang vướng gì |
+| **Sprint Review** | Cuối sprint | Tham gia demo, nêu chất lượng thực tế |
+| **Retrospective** | Cuối sprint | Góp ý cải tiến quy trình |
+
+Trong Planning, tester nên là người hỏi nhiều nhất. Câu hỏi hay hỏi:
+
+- "Story này có acceptance criteria chưa?"
+- "Trường hợp người dùng làm X thì mong đợi gì?"
+- "Có cần test trên mobile không, hay chỉ web?"
+- "Dữ liệu test ai chuẩn bị?"
+
+## Definition of Done
+
+Danh sách điều kiện để một story được coi là xong. Nhóm tự thống nhất, ví dụ:
+
+- [ ] Code đã viết và được review
+- [ ] Unit test đã viết và pass
+- [ ] Đã deploy lên môi trường test
+- [ ] Test case đã viết và chạy hết
+- [ ] Không còn bug Critical/High
+- [ ] PO đã nghiệm thu
+
+Tester thường là người kiểm mục 4 và 5. Không có Definition of Done thì cuối sprint sẽ tranh cãi "xong" nghĩa là gì.
+
+## Vấn đề kinh điển: test bị dồn cuối sprint
+
+Dev code đến ngày 8 của sprint 10 ngày, tester chỉ còn 2 ngày để test tất cả.
+
+Cách giảm:
+
+| Cách | Cụ thể |
+| --- | --- |
+| Viết test case song song với dev | Ngay khi story được chốt, không chờ có build |
+| Test từng story khi xong | Đừng chờ gom hết |
+| Tham gia review tài liệu | Tìm lỗi trước khi code |
+| Nêu rõ trong Planning | "Story này cần 2 ngày test, nhóm cân nhắc khi cam kết" |
+| Định nghĩa "xong" gồm cả test | Story chưa test xong thì chưa tính hoàn thành |
+
+Mục cuối là cách bền nhất. Khi "Done" bao gồm cả test, nhóm sẽ tự điều chỉnh để không dồn.
+
+## Ước lượng bằng Story Point
+
+Nhóm ước lượng độ phức tạp bằng dãy số Fibonacci: 1, 2, 3, 5, 8, 13.
+
+Tester tham gia ước lượng, và cần tính cả công sức test vào điểm. Một story "đơn giản với dev" có thể rất tốn công test — ví dụ chức năng tính thuế: code ngắn nhưng phải test hàng chục trường hợp.
+
+Nói rõ điều đó trong Planning là trách nhiệm của tester.
+
+## Shift-left testing
+
+Nghĩa là **dịch hoạt động kiểm thử về sớm hơn** trong quy trình:
+
+```text
+Truyen thong:  Phan tich → Thiet ke → Code ─────────────→ TEST → Release
+Shift-left:    Phan tich → Thiet ke → Code → Release
+               ↑TEST      ↑TEST      ↑TEST   ↑TEST
+```
+
+Thực tế với tester:
+
+| Giai đoạn | Hoạt động kiểm thử |
+| --- | --- |
+| Phân tích yêu cầu | Review tài liệu, đặt câu hỏi (Bài 3) |
+| Thiết kế | Review wireframe, nêu vấn đề trải nghiệm |
+| Code | Viết test case, chuẩn bị dữ liệu |
+| Có build | Thực thi test |
+
+Đây là lý do nguyên lý thứ ba ở Bài 1 — "kiểm thử sớm tiết kiệm thời gian và tiền bạc".
+
+## Thuật ngữ hay dùng trong nhóm Agile
+
+| Thuật ngữ | Nghĩa |
+| --- | --- |
+| Grooming / Refinement | Họp làm rõ story trước khi đưa vào sprint |
+| Blocker | Vấn đề chặn công việc |
+| Spike | Thời gian nghiên cứu một vấn đề chưa rõ |
+| Technical debt | Nợ kỹ thuật — code tạm thời cần sửa sau |
+| MVP | Phiên bản tối thiểu dùng được |
+| Hotfix | Bản sửa gấp đưa thẳng lên production |
+
+Hotfix là tình huống tester cần cảnh giác nhất: sửa gấp, ít thời gian test, dễ gây lỗi mới. Luôn chạy ít nhất smoke test và regression cho vùng liên quan.
+
+## Bài tập
+
+1. Viết Definition of Done cho nhóm của bạn, tối thiểu 6 mục.
+2. Soạn nội dung báo cáo daily standup cho 3 ngày.
+3. Viết 5 câu hỏi bạn sẽ hỏi trong Sprint Planning cho một story bất kỳ.
+4. Liệt kê 3 cách cụ thể giảm việc test bị dồn cuối sprint trong dự án của bạn.
+5. Tìm hiểu nhóm bạn đang dùng mô hình gì và vẽ lại quy trình thực tế.
+</script>
+
+<script type="text/markdown" data-id="mt-17" data-nav="Bài 17 · CV và phỏng vấn">
+# Bài 17 — CV và phỏng vấn Fresher Manual Tester
+
+**Mục tiêu:** chuyển kiến thức đã học thành một bộ hồ sơ và khả năng trả lời phỏng vấn.
+
+## CV cho vị trí Fresher
+
+Nhà tuyển dụng đọc CV khoảng 30 giây. Thứ tự ưu tiên:
+
+```text
+1. Thông tin liên hệ
+2. Mục tiêu nghề nghiệp (2-3 dòng, cụ thể)
+3. Kỹ năng (chia nhóm rõ ràng)
+4. Dự án (quan trọng nhất với Fresher)
+5. Học vấn và chứng chỉ
+6. Ngoại ngữ
+```
+
+Với Fresher chưa có kinh nghiệm đi làm, **mục Dự án quan trọng nhất**. Nó chứng minh bạn làm được việc.
+
+## Mục tiêu nghề nghiệp
+
+| Kém | Tốt |
+| --- | --- |
+| "Mong muốn làm việc trong môi trường năng động, có cơ hội phát triển bản thân" | "Tìm vị trí Fresher Manual Tester để áp dụng kiến thức về kỹ thuật thiết kế test case và quy trình kiểm thử. Mục tiêu 1 năm tới: thành thạo manual testing và chuyển dần sang automation với Playwright." |
+
+Cụ thể, có mốc thời gian, cho thấy bạn hiểu lộ trình nghề.
+
+## Mục kỹ năng
+
+Chia nhóm thay vì liệt kê một dãy:
+
+```text
+Kiểm thử:    Thiết kế test case (phân vùng tương đương, giá trị biên,
+             bảng quyết định, chuyển trạng thái), viết test plan,
+             bug report, kiểm thử chức năng và phi chức năng cơ bản
+Công cụ:     Jira, TestRail, Postman, DevTools, SQL cơ bản
+Quy trình:   Agile/Scrum, SDLC, STLC
+Automation:  Python, Playwright, pytest (đang học)
+Ngoại ngữ:   Tiếng Anh đọc hiểu tài liệu kỹ thuật
+```
+
+Ghi "đang học" cho phần chưa thành thạo. Trung thực, và vẫn cho thấy bạn chủ động.
+
+## Mục dự án
+
+Với mỗi dự án, viết theo cấu trúc: **bối cảnh — bạn làm gì — kết quả cụ thể**.
+
+```text
+Dự án kiểm thử hệ thống E-Commerce (dự án học tập, 3 người)
+- Phân tích yêu cầu và viết 85 test case cho 4 chức năng:
+  đăng nhập, danh sách sản phẩm, giỏ hàng, thanh toán
+- Áp dụng phân vùng tương đương, giá trị biên và bảng quyết định
+- Thực thi test, phát hiện và báo cáo 23 bug trên Jira
+- Viết test plan và báo cáo kiểm thử tổng hợp
+- Công cụ: Jira, Google Sheets, Postman, DevTools
+```
+
+Con số cụ thể (85 test case, 23 bug) có sức thuyết phục hơn nhiều so với "tham gia kiểm thử hệ thống".
+
+Chưa có dự án thật thì tự làm: chọn một app bất kỳ, viết test plan, 50 test case, chạy test, viết 10 bug report, viết báo cáo. Đó là một dự án hợp lệ để đưa vào CV, chỉ cần ghi rõ là dự án cá nhân.
+
+## Chuẩn bị bộ hồ sơ
+
+Ngoài CV, chuẩn bị sẵn để gửi khi được hỏi:
+
+| Tài liệu | Nội dung |
+| --- | --- |
+| Bộ test case mẫu | 20–30 test case cho một chức năng, đủ các trường |
+| Bug report mẫu | 3–5 bug viết chuẩn, có ảnh |
+| Test plan mẫu | Một bản rút gọn |
+| Báo cáo kiểm thử mẫu | Một bản đầy đủ |
+
+Đưa được bộ này ra trong phỏng vấn tạo khác biệt rất lớn so với ứng viên chỉ nói suông.
+
+## Câu hỏi phỏng vấn thường gặp
+
+**Nhóm lý thuyết**
+
+1. Nêu 7 nguyên lý kiểm thử, cho ví dụ một nguyên lý.
+2. Phân biệt QA và QC.
+3. Phân biệt Severity và Priority, cho ví dụ Severity cao Priority thấp.
+4. Phân biệt Verification và Validation.
+5. Phân biệt Smoke test và Sanity test.
+6. Phân biệt Re-test và Regression test.
+7. Các cấp độ kiểm thử là gì.
+8. Vòng đời của một bug.
+
+**Nhóm thực hành**
+
+9. Cho ô nhập tuổi 18–60, bạn viết test case thế nào?
+10. Test một cái thang máy / một cây bút / một cái ATM — bạn kiểm gì?
+11. Bạn viết bug report gồm những gì?
+12. Làm sao biết đã test đủ?
+13. Dev nói "không phải bug", bạn xử lý thế nào?
+14. Không có tài liệu yêu cầu, bạn test thế nào?
+15. Sắp đến hạn release mà chưa test xong, bạn làm gì?
+
+Câu 10 là dạng kiểm tra tư duy. Cách trả lời tốt: chia nhóm trước khi liệt kê — chức năng, phi chức năng, trường hợp biên, trải nghiệm người dùng. Đừng liệt kê lung tung.
+
+Ví dụ với thang máy: **chức năng** (bấm tầng, mở đóng cửa, dừng đúng tầng), **tải trọng** (quá tải, rỗng), **an toàn** (mất điện, có người kẹt cửa, nút khẩn cấp), **trải nghiệm** (hiển thị tầng, âm thanh, thời gian chờ), **biên** (bấm mọi tầng cùng lúc, bấm liên tục một nút).
+
+**Nhóm về bản thân**
+
+16. Vì sao bạn chọn nghề tester?
+17. Điểm mạnh và điểm yếu của bạn?
+18. Mục tiêu 2 năm tới?
+19. Bạn học testing từ đâu?
+
+Câu 16 nên trả lời cụ thể, tránh câu chung chung "vì em cẩn thận". Ví dụ: "Em học ngôn ngữ, quen với việc đọc kỹ và phát hiện chỗ không nhất quán trong văn bản. Khi tìm hiểu về testing em thấy công việc phân tích yêu cầu và tìm trường hợp biên hợp với cách nghĩ của mình."
+
+## Bài kiểm tra đầu vào
+
+Nhiều công ty cho làm bài test trước khi phỏng vấn. Dạng hay gặp:
+
+| Dạng bài | Chuẩn bị |
+| --- | --- |
+| Viết test case cho một chức năng | Luyện Bài 5–8 |
+| Tìm bug trên một trang web cho sẵn | Luyện checklist Bài 14 |
+| Viết bug report từ một tình huống | Luyện Bài 11 |
+| Câu hỏi trắc nghiệm lý thuyết | Ôn Bài 1–2, hoặc khoá ISTQB |
+
+Khi viết test case trong bài test, nhớ ghi đủ các trường và có cả test case negative. Nhiều ứng viên chỉ viết luồng chính và bị loại vì đó.
+
+## Sau phỏng vấn
+
+Gửi email cảm ơn ngắn trong vòng 24 giờ. Không bắt buộc, nhưng tạo ấn tượng tốt và rất ít ứng viên Fresher làm.
+
+Bị từ chối thì hỏi lại lý do một cách lịch sự. Nhiều nơi sẽ trả lời, và đó là thông tin quý để cải thiện.
+
+## Bài tập
+
+1. Viết CV theo cấu trúc trên, mục dự án có con số cụ thể.
+2. Chuẩn bị bộ 4 tài liệu mẫu để gửi kèm.
+3. Tự trả lời 19 câu hỏi ở trên, viết ra giấy, đọc to để luyện.
+4. Nhờ người khác hỏi lại 5 câu bất kỳ và nghe bạn trả lời.
+5. Tìm 5 tin tuyển dụng phù hợp và nộp hồ sơ.
+</script>
+
+<script type="text/markdown" data-id="is-0" data-nav="Bài 0 · Tổng quan kỳ thi">
+# Bài 0 — Tổng quan kỳ thi ISTQB CTFL v4.0
+
+**Mục tiêu:** biết rõ mình sắp thi cái gì, thi thế nào, và ôn theo cách nào cho hiệu quả.
+
+## ISTQB là gì
+
+ISTQB (International Software Testing Qualifications Board) là tổ chức cấp chứng chỉ kiểm thử phần mềm được công nhận rộng rãi nhất thế giới. Chứng chỉ đầu tiên và phổ biến nhất là **CTFL — Certified Tester Foundation Level**.
+
+Phiên bản hiện hành: **syllabus v4.0**, phát hành năm 2023, có bản chỉnh sửa nhỏ 4.0.1. Nếu bạn tìm được tài liệu ôn ghi v3.1 thì đó là bản cũ — cấu trúc chương đã thay đổi đáng kể.
+
+## Chứng chỉ này có đáng không
+
+| Có lợi khi | Ít tác dụng khi |
+| --- | --- |
+| Ứng tuyển công ty outsource, công ty Nhật, công ty lớn | Startup nhỏ quan tâm kỹ năng thực tế hơn |
+| JD ghi rõ "ưu tiên có ISTQB" | Vị trí automation thuần kỹ thuật |
+| Muốn hệ thống hoá kiến thức | Bạn đã có 3+ năm kinh nghiệm |
+
+Với Fresher ở Việt Nam, CTFL là một điểm cộng rõ ràng trong CV và giúp bạn vượt qua vòng lọc hồ sơ. Nhưng nó không thay thế được kinh nghiệm thực tế — tốt nhất là có cả hai.
+
+## Cấu trúc kỳ thi
+
+| Mục | Chi tiết |
+| --- | --- |
+| Số câu hỏi | 40 câu trắc nghiệm |
+| Thời gian | 60 phút |
+| Điểm đạt | 26/40 câu đúng, tức 65% |
+| Hình thức | Chọn một đáp án đúng; một số câu có thể chọn nhiều |
+| Tài liệu | Không được mang (closed book) |
+| Điều kiện dự thi | Không yêu cầu kinh nghiệm |
+
+Người không dùng tiếng Anh là tiếng mẹ đẻ thường được cộng thêm 25% thời gian, thành 75 phút — hãy xác nhận với đơn vị tổ chức thi khi đăng ký.
+
+Trung bình bạn có **90 giây cho mỗi câu**. Đủ nếu đã thuộc, nhưng không đủ để suy nghĩ lâu. Bài 8 sẽ nói về quản lý thời gian.
+
+## Sáu chương của syllabus v4.0
+
+| Chương | Tên | Số câu (xấp xỉ) |
+| --- | --- | --- |
+| 1 | Fundamentals of Testing — Cơ bản về kiểm thử | 8 |
+| 2 | Testing Throughout the SDLC — Kiểm thử trong vòng đời phát triển | 6 |
+| 3 | Static Testing — Kiểm thử tĩnh | 4 |
+| 4 | Test Analysis and Design — Phân tích và thiết kế kiểm thử | 11 |
+| 5 | Managing the Test Activities — Quản lý hoạt động kiểm thử | 9 |
+| 6 | Test Tools — Công cụ kiểm thử | 2 |
+
+Số câu là ước lượng theo trọng số học phần; hãy kiểm tra lại bảng phân bổ trong syllabus chính thức.
+
+Điều quan trọng rút ra: **Chương 4 và 5 chiếm một nửa đề thi**. Dành thời gian ôn tương xứng, đừng dàn đều sáu chương.
+
+## K-level — mức độ nhận thức
+
+Mỗi mục tiêu học tập trong syllabus được gán một mức K. Biết mức K giúp bạn biết phải học đến đâu.
+
+| Mức | Tên | Yêu cầu | Dạng câu hỏi |
+| --- | --- | --- | --- |
+| **K1** | Remember — Nhớ | Nhớ được định nghĩa, thuật ngữ | "Định nghĩa nào sau đây đúng về..." |
+| **K2** | Understand — Hiểu | Giải thích, so sánh, phân loại | "Vì sao...", "Điểm khác nhau giữa..." |
+| **K3** | Apply — Áp dụng | Vận dụng kỹ thuật vào tình huống cụ thể | "Cho khoảng 1–100, cần bao nhiêu test case..." |
+
+Các câu K3 gần như chỉ nằm ở **Chương 4** (kỹ thuật thiết kế test case) và một phần Chương 5 (ước lượng). Đây là dạng câu mất thời gian nhất — phải tính toán thật.
+
+## Lệ phí và cách đăng ký
+
+| Mục | Thông tin |
+| --- | --- |
+| Lệ phí | Khoảng 200–250 USD tuỳ đơn vị tổ chức |
+| Nơi thi | Thi online có giám sát, hoặc tại trung tâm |
+| Đơn vị tổ chức | Các exam provider được ISTQB uỷ quyền |
+| Thời gian có kết quả | Thường ngay sau khi nộp bài |
+| Hiệu lực | Vĩnh viễn, không cần gia hạn |
+
+Giá và quy trình thay đổi theo thời gian và theo đơn vị, nên kiểm tra trực tiếp trên trang của họ trước khi đăng ký. Thi trượt được thi lại, nhưng phải đóng phí lần nữa.
+
+## Tài liệu chính thức
+
+| Tài liệu | Ghi chú |
+| --- | --- |
+| **Syllabus CTFL v4.0** | Tài liệu gốc, tải miễn phí trên istqb.org |
+| **Glossary** | Từ điển thuật ngữ chính thức, miễn phí |
+| **Sample Exam** | Đề mẫu kèm đáp án và giải thích, miễn phí |
+
+Ba tài liệu này đều miễn phí và là nguồn đáng tin cậy nhất. **Đề thi được ra dựa trên đúng từ ngữ trong syllabus**, nên tài liệu bên thứ ba có thể diễn giải khác và gây hiểu nhầm.
+
+Khoá này giúp bạn hiểu và nhớ nội dung syllabus bằng tiếng Việt, nhưng vẫn nên đọc bản tiếng Anh gốc ít nhất một lượt — vì đề thi dùng đúng thuật ngữ tiếng Anh đó.
+
+## Cách ôn hiệu quả
+
+| Giai đoạn | Làm gì | Thời gian |
+| --- | --- | --- |
+| 1 | Đọc hiểu 6 chương (Bài 1–6 của khoá này) | 2 tuần |
+| 2 | Học thuộc thuật ngữ (Bài 7) | 3 ngày |
+| 3 | Làm đề mẫu, phân tích câu sai | 1 tuần |
+| 4 | Ôn lại chỗ yếu, làm đề lần cuối | 3 ngày |
+
+Bài 9 có kế hoạch ôn 4 tuần chi tiết theo từng ngày.
+
+Sai lầm hay gặp: học thuộc lòng mà không hiểu. Đề thi hỏi nhiều câu tình huống, học vẹt sẽ không chọn được đáp án đúng.
+
+## Bài tập
+
+1. Tải syllabus CTFL v4.0 và glossary từ istqb.org.
+2. Tải đề mẫu (sample exam) và làm thử ngay khi chưa ôn — ghi lại điểm để so sánh về sau.
+3. Tìm 2 đơn vị tổ chức thi, so sánh lệ phí và hình thức thi.
+4. Lập lịch ôn 4 tuần phù hợp với thời gian của bạn.
+</script>
+
+<script type="text/markdown" data-id="is-1" data-nav="Bài 1 · Chương 1 — Cơ bản">
+# Bài 1 — Chương 1: Fundamentals of Testing
+
+**Khoảng 8 câu trong đề thi.** Chương nền tảng, nhiều định nghĩa phải nhớ chính xác.
+
+## 1.1 Kiểm thử là gì
+
+**Định nghĩa:** kiểm thử là một tập hợp các hoạt động nhằm phát hiện khuyết tật và đánh giá chất lượng của sản phẩm phần mềm.
+
+Điểm thi hay hỏi: kiểm thử **không chỉ là chạy test**. Nó gồm cả lập kế hoạch, phân tích, thiết kế, và các hoạt động tĩnh như review tài liệu.
+
+### Mục tiêu của kiểm thử
+
+| Mục tiêu |
+| --- |
+| Đánh giá work product: yêu cầu, user story, thiết kế, code |
+| Kích hoạt lỗi và tìm khuyết tật |
+| Đảm bảo độ phủ cần thiết của đối tượng kiểm thử |
+| Giảm mức rủi ro về chất lượng |
+| Xác minh các yêu cầu đã được đáp ứng |
+| Xác nhận đối tượng kiểm thử hoạt động như người dùng mong đợi |
+| Cung cấp thông tin để các bên ra quyết định |
+| Tuân thủ hợp đồng, quy định pháp lý hoặc tiêu chuẩn |
+
+### Kiểm thử và gỡ lỗi khác nhau
+
+| | Testing | Debugging |
+| --- | --- | --- |
+| Ai làm | Tester | Developer |
+| Mục đích | Phát hiện failure | Tìm nguyên nhân và sửa defect |
+| Kết quả | Báo cáo lỗi | Code đã sửa |
+
+Sau khi dev debug và sửa xong, tester thực hiện **confirmation testing** để xác nhận, và **regression testing** để kiểm tra chỗ khác không bị ảnh hưởng.
+
+## 1.2 Vì sao cần kiểm thử
+
+### Đóng góp của kiểm thử
+
+- Giảm rủi ro phần mềm lỗi khi vận hành
+- Tiết kiệm chi phí: lỗi tìm sớm rẻ hơn tìm muộn
+- Đáp ứng yêu cầu hợp đồng, pháp lý
+- Cung cấp thông tin cho quyết định release
+
+### Kiểm thử và đảm bảo chất lượng
+
+| | Quality Assurance | Testing |
+| --- | --- | --- |
+| Tập trung vào | Quy trình | Sản phẩm |
+| Mục tiêu | Ngăn ngừa lỗi | Phát hiện lỗi |
+| Phạm vi | Toàn tổ chức | Một đối tượng kiểm thử |
+
+Testing là **một phần** của QA, không phải thứ thay thế QA.
+
+### Error, Defect, Failure và nguyên nhân gốc
+
+| Thuật ngữ | Định nghĩa |
+| --- | --- |
+| **Error (Mistake)** | Hành động của con người tạo ra kết quả sai |
+| **Defect (Fault, Bug)** | Khiếm khuyết trong một work product, có thể gây failure |
+| **Failure** | Sự kiện khi hệ thống không làm đúng điều mong đợi |
+| **Root cause** | Nguyên nhân sâu xa dẫn tới error |
+
+Chuỗi: **Root cause → Error → Defect → Failure**
+
+Lưu ý quan trọng cho bài thi: **không phải defect nào cũng gây failure.** Defect nằm ở đoạn code không bao giờ chạy thì không gây failure.
+
+Ngoài ra, failure còn có thể do **điều kiện môi trường** (nhiễu điện từ, phóng xạ...) chứ không nhất thiết do defect trong code.
+
+## 1.3 Bảy nguyên lý kiểm thử
+
+Học thuộc cả bảy, kèm ý nghĩa:
+
+| # | Nguyên lý | Nghĩa |
+| --- | --- | --- |
+| 1 | Testing shows the presence, not the absence of defects | Kiểm thử chứng minh có lỗi, không chứng minh không có lỗi |
+| 2 | Exhaustive testing is impossible | Không thể kiểm thử vét cạn, trừ trường hợp cực kỳ đơn giản |
+| 3 | Early testing saves time and money | Kiểm thử sớm tiết kiệm thời gian và tiền bạc |
+| 4 | Defects cluster together | Lỗi tụ lại — số ít module chứa phần lớn lỗi |
+| 5 | Tests wear out | Lặp mãi một bộ test thì không tìm ra lỗi mới |
+| 6 | Testing is context dependent | Kiểm thử phụ thuộc ngữ cảnh |
+| 7 | Absence-of-defects fallacy | Hết lỗi không có nghĩa hệ thống dùng được |
+
+Đề thi hay cho một tình huống và hỏi nó minh hoạ nguyên lý nào. Ví dụ: "Nhóm chạy cùng một bộ regression 6 tháng, không tìm thêm lỗi nào" → nguyên lý 5.
+
+## 1.4 Hoạt động, testware và vai trò
+
+### Các hoạt động kiểm thử
+
+| Hoạt động | Nội dung |
+| --- | --- |
+| Test planning | Xác định mục tiêu, cách tiếp cận, nguồn lực |
+| Test monitoring and control | Theo dõi tiến độ, điều chỉnh khi lệch kế hoạch |
+| Test analysis | Phân tích cơ sở kiểm thử, xác định test condition |
+| Test design | Thiết kế test case và test data từ test condition |
+| Test implementation | Chuẩn bị mọi thứ cần để thực thi |
+| Test execution | Chạy test, so sánh kết quả |
+| Test completion | Tổng hợp, lưu trữ, rút kinh nghiệm |
+
+Lưu ý: các hoạt động này **không nhất thiết tuần tự**, có thể lặp và chồng lên nhau.
+
+### Testware — sản phẩm của hoạt động kiểm thử
+
+| Hoạt động | Testware tạo ra |
+| --- | --- |
+| Planning | Test plan, lịch, phân tích rủi ro |
+| Analysis | Test condition |
+| Design | Test case, test data, test charter |
+| Implementation | Test procedure, test suite, dữ liệu đã nạp |
+| Execution | Test log, báo cáo khuyết tật |
+| Completion | Test completion report, bài học rút ra |
+
+### Truy vết (Traceability)
+
+Khả năng liên kết hai chiều giữa **test basis** (yêu cầu, user story) và **testware** (test case, kết quả).
+
+Lợi ích:
+- Đánh giá độ phủ: yêu cầu nào chưa có test case
+- Phân tích ảnh hưởng: yêu cầu đổi thì test case nào phải sửa
+- Giúp báo cáo tiến độ dễ hiểu cho người ngoài
+
+### Vai trò
+
+| Vai trò | Trách nhiệm chính |
+| --- | --- |
+| **Test management** | Lập kế hoạch, giám sát, điều khiển, báo cáo tổng thể |
+| **Testing role** | Phân tích, thiết kế, thực thi, báo cáo kết quả |
+
+Một người có thể đảm nhiệm cả hai vai trò, tuỳ quy mô dự án.
+
+## 1.5 Kỹ năng và thực hành tốt
+
+### Kỹ năng cần có của tester
+
+Kiến thức về kiểm thử, cẩn thận và tò mò, kỹ năng giao tiếp, tư duy phân tích và phản biện, tư duy hệ thống, hiểu lĩnh vực nghiệp vụ.
+
+### Whole team approach
+
+Mọi thành viên trong nhóm cùng chịu trách nhiệm về chất lượng, không chỉ tester. Tester làm việc cùng dev, BA, PO ngay từ đầu.
+
+### Tính độc lập của kiểm thử
+
+| Mức độ độc lập | Ưu điểm | Nhược điểm |
+| --- | --- | --- |
+| Tác giả tự test | Nhanh, rẻ | Khó nhìn ra lỗi của chính mình |
+| Đồng nghiệp trong nhóm test | Cân bằng | Vẫn chịu ảnh hưởng nhóm |
+| Nhóm test độc lập trong tổ chức | Khách quan hơn | Xa cách với nhóm phát triển |
+| Bên ngoài tổ chức | Khách quan nhất | Tốn kém, chậm, ít hiểu nghiệp vụ |
+
+Độc lập cao hơn giúp tìm lỗi tốt hơn, nhưng dễ dẫn đến cô lập và chậm phản hồi. Đây là điểm cân bằng, không có mức nào luôn đúng.
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "Testing chứng minh phần mềm không có lỗi" | Chỉ chứng minh có lỗi |
+| "Mọi defect đều gây failure" | Không — defect ở code không chạy thì không gây failure |
+| "Testing và QA là một" | Testing là một phần của QA |
+| "Debugging là việc của tester" | Là việc của developer |
+| "Exhaustive testing khả thi nếu có đủ thời gian" | Không khả thi, trừ trường hợp cực kỳ đơn giản |
+
+## Bài tập
+
+1. Viết 7 nguyên lý bằng cả tiếng Anh và tiếng Việt.
+2. Vẽ chuỗi root cause → error → defect → failure với một ví dụ thật.
+3. Lập bảng 7 hoạt động kiểm thử và testware tương ứng.
+4. Giải thích traceability và nêu 3 lợi ích.
+5. Làm 10 câu hỏi về Chương 1 trong đề mẫu.
+</script>
+
+<script type="text/markdown" data-id="is-2" data-nav="Bài 2 · Chương 2 — SDLC">
+# Bài 2 — Chương 2: Testing Throughout the SDLC
+
+**Khoảng 6 câu trong đề thi.**
+
+## 2.1 Kiểm thử trong bối cảnh vòng đời phát triển
+
+### Ảnh hưởng của mô hình SDLC
+
+Mô hình phát triển ảnh hưởng tới: thời điểm thực hiện hoạt động kiểm thử, mức độ chi tiết tài liệu, kỹ thuật áp dụng, và mức độ tự động hoá.
+
+| Nhóm mô hình | Đặc điểm | Kiểm thử |
+| --- | --- | --- |
+| **Tuần tự** (Waterfall, V-model) | Hoàn thành giai đoạn này mới sang giai đoạn sau | V-model: mỗi mức phát triển có một mức kiểm thử tương ứng |
+| **Lặp** (Iterative) | Làm từng phần, mỗi vòng mở rộng thêm | Kiểm thử lặp lại mỗi vòng |
+| **Tăng trưởng** (Incremental) | Giao từng phần chức năng | Regression tăng dần theo mỗi phần |
+| **Agile** | Sprint ngắn, nhiều phản hồi | Tester trong nhóm, test liên tục |
+
+Trong Waterfall, kiểm thử tập trung ở cuối. Trong Agile, kiểm thử diễn ra suốt sprint.
+
+### Thực hành tốt về kiểm thử, không phụ thuộc mô hình
+
+- Mỗi mức phát triển có một mức kiểm thử tương ứng
+- Thiết kế test cho một mức kiểm thử ngay khi work product tương ứng được viết
+- Tester tham gia review work product ngay khi có bản nháp
+
+### Testing as a driver
+
+| Phương pháp | Nghĩa |
+| --- | --- |
+| **TDD** (Test-Driven Development) | Viết test trước, rồi viết code cho test pass |
+| **ATDD** (Acceptance Test-Driven Development) | Viết acceptance test từ acceptance criteria trước khi code |
+| **BDD** (Behavior-Driven Development) | Mô tả hành vi mong muốn bằng ngôn ngữ tự nhiên (Given-When-Then) |
+
+Cả ba đều là ví dụ của **shift-left** — đưa hoạt động kiểm thử về sớm hơn.
+
+### Các cách shift-left
+
+- Review đặc tả dưới góc nhìn kiểm thử
+- Viết test case trước khi code
+- Dùng CI/CD với kiểm tra tự động nhanh
+- Phân tích tĩnh mã nguồn trước khi test động
+
+Lưu ý: shift-left có thể tốn thêm công sức ở giai đoạn đầu, nhưng tiết kiệm nhiều hơn ở giai đoạn sau.
+
+### Retrospective và cải tiến quy trình
+
+Họp rút kinh nghiệm cuối mỗi vòng lặp hoặc dự án. Lợi ích: tăng hiệu quả kiểm thử, cải thiện chất lượng testware, tăng gắn kết nhóm, nâng chất lượng test basis.
+
+## 2.2 Các mức kiểm thử và loại kiểm thử
+
+### Năm mức kiểm thử
+
+| Mức | Đối tượng | Test basis | Ai thường làm |
+| --- | --- | --- | --- |
+| **Component testing** | Thành phần riêng lẻ | Thiết kế chi tiết, code | Developer |
+| **Component integration testing** | Giao tiếp giữa các thành phần | Thiết kế phần mềm, sơ đồ tuần tự | Developer |
+| **System testing** | Toàn hệ thống | Đặc tả yêu cầu, use case | Tester độc lập |
+| **System integration testing** | Giao tiếp giữa hệ thống với hệ thống khác | Kiến trúc hệ thống, giao diện bên ngoài | Tester độc lập |
+| **Acceptance testing** | Hệ thống đáp ứng nhu cầu | Yêu cầu người dùng, quy trình nghiệp vụ | Khách hàng, người dùng |
+
+v4.0 có **5 mức** — khác bản cũ có 4 mức. Component integration và system integration được tách riêng.
+
+### Bốn hình thức acceptance testing
+
+| Hình thức | Mục đích |
+| --- | --- |
+| **UAT** (User acceptance testing) | Người dùng xác nhận hệ thống phù hợp nhu cầu |
+| **OAT** (Operational acceptance testing) | Quản trị hệ thống kiểm tra sao lưu, khôi phục, bảo trì |
+| **Contractual / Regulatory** | Kiểm tra tuân thủ hợp đồng, quy định pháp luật |
+| **Alpha / Beta testing** | Alpha tại nơi phát triển; Beta tại nơi người dùng |
+
+### Các loại kiểm thử
+
+| Loại | Kiểm gì |
+| --- | --- |
+| **Functional testing** | Hệ thống làm gì — tính đầy đủ, đúng đắn, phù hợp |
+| **Non-functional testing** | Làm tốt đến đâu — hiệu năng, bảo mật, khả dụng... |
+| **Black-box testing** | Dựa trên đặc tả, không nhìn cấu trúc bên trong |
+| **White-box testing** | Dựa trên cấu trúc bên trong, code |
+
+Các đặc tính phi chức năng theo ISO 25010: functional suitability, performance efficiency, compatibility, interaction capability (usability), reliability, security, maintainability, flexibility (portability).
+
+### Confirmation và regression testing
+
+| | Confirmation testing | Regression testing |
+| --- | --- | --- |
+| Mục đích | Xác nhận defect đã được sửa | Phát hiện tác dụng phụ của thay đổi |
+| Phạm vi | Chỉ phần đã sửa | Các phần không thay đổi |
+| Khi nào | Sau khi dev báo fix | Sau mọi thay đổi |
+
+Regression là ứng viên hàng đầu cho tự động hoá vì phải chạy lặp đi lặp lại.
+
+## 2.3 Maintenance testing
+
+Kiểm thử khi hệ thống đã vận hành và có thay đổi.
+
+### Nguyên nhân cần maintenance testing
+
+| Nhóm | Ví dụ |
+| --- | --- |
+| Sửa đổi | Sửa lỗi, nâng cấp chức năng, cải tiến |
+| Nâng cấp môi trường | Đổi hệ điều hành, đổi database, đổi nền tảng |
+| Ngừng vận hành | Kiểm thử việc lưu trữ dữ liệu, khôi phục |
+
+### Impact analysis
+
+Phân tích xem một thay đổi ảnh hưởng tới những phần nào, để quyết định phạm vi regression.
+
+Khó khăn khi phân tích ảnh hưởng:
+- Đặc tả lỗi thời hoặc thiếu
+- Không có truy vết giữa yêu cầu và test case
+- Người viết hệ thống không còn ở công ty
+- Tài liệu kém
+
+Đây là lý do traceability ở Chương 1 quan trọng.
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "v4.0 có 4 mức kiểm thử" | Có 5 mức — integration tách thành component và system |
+| "Acceptance testing chỉ có UAT" | Còn OAT, contractual/regulatory, alpha/beta |
+| "Alpha test ở nơi khách hàng" | Alpha ở nơi phát triển, Beta ở nơi khách hàng |
+| "Regression chỉ chạy trước release" | Chạy sau mọi thay đổi |
+| "Component testing do tester làm" | Thường do developer làm |
+
+## Bài tập
+
+1. Lập bảng 5 mức kiểm thử kèm test basis và đối tượng kiểm thử.
+2. Phân biệt 4 hình thức acceptance testing bằng lời của bạn.
+3. Giải thích TDD, ATDD, BDD và cho biết điểm chung.
+4. Nêu 4 khó khăn khi thực hiện impact analysis.
+5. Làm các câu hỏi Chương 2 trong đề mẫu.
+</script>
+
+<script type="text/markdown" data-id="is-3" data-nav="Bài 3 · Chương 3 — Static Testing">
+# Bài 3 — Chương 3: Static Testing
+
+**Khoảng 4 câu trong đề thi.** Chương ngắn, dễ lấy điểm.
+
+## 3.1 Cơ bản về kiểm thử tĩnh
+
+**Định nghĩa:** kiểm thử tĩnh là kiểm thử work product **mà không thực thi** phần mềm.
+
+Hai hình thức:
+
+| Hình thức | Cách làm |
+| --- | --- |
+| **Review thủ công** | Con người đọc và đánh giá work product |
+| **Phân tích tĩnh** | Công cụ tự động phân tích mã nguồn hoặc tài liệu |
+
+### Work product nào kiểm thử tĩnh được
+
+Gần như mọi thứ đọc được và hiểu được:
+
+- Đặc tả yêu cầu, user story và acceptance criteria
+- Tài liệu thiết kế, kiến trúc
+- Mã nguồn
+- Testware: test plan, test case, test script
+- Hướng dẫn sử dụng
+- Hợp đồng, kế hoạch dự án
+- Cấu hình, mô hình, trang web
+
+Work product **không** kiểm thử tĩnh được: thứ không đọc hiểu được bằng người hoặc công cụ, ví dụ mã máy.
+
+### Giá trị của kiểm thử tĩnh
+
+| Lợi ích |
+| --- |
+| Phát hiện defect **sớm**, trước khi chạy được phần mềm |
+| Tìm được loại defect mà kiểm thử động khó tìm: yêu cầu mâu thuẫn, thiếu sót, mơ hồ |
+| Ngăn defect lan sang giai đoạn sau |
+| Giảm chi phí và thời gian |
+| Cải thiện giao tiếp giữa các bên |
+| Tăng chất lượng tài liệu |
+
+Một số defect chỉ tìm được bằng kiểm thử tĩnh: code không bao giờ chạy tới (unreachable code), biến khai báo mà không dùng, lệch chuẩn code, yêu cầu mâu thuẫn.
+
+### Static testing và dynamic testing khác nhau
+
+| | Static testing | Dynamic testing |
+| --- | --- | --- |
+| Thực thi phần mềm | Không | Có |
+| Tìm ra | **Defect** trực tiếp | **Failure**, từ đó suy ra defect |
+| Thời điểm | Rất sớm | Khi đã có phần chạy được |
+| Loại defect | Yêu cầu mơ hồ, mâu thuẫn, code không chuẩn | Lỗi hành vi, hiệu năng, tích hợp |
+
+Điểm thi hay hỏi: kiểm thử tĩnh tìm thấy **defect trực tiếp**, không cần qua failure. Đây là khác biệt cốt lõi.
+
+Hai loại bổ sung cho nhau, không thay thế nhau.
+
+## 3.2 Phản hồi và quy trình review
+
+### Giá trị của phản hồi sớm và thường xuyên
+
+Phản hồi sớm giúp phát hiện sớm hiểu nhầm về yêu cầu, giúp nhóm phát triển hiểu đúng nhu cầu khách hàng, và tránh lãng phí công sức làm sai hướng.
+
+### Các hoạt động trong quy trình review
+
+| Hoạt động | Nội dung |
+| --- | --- |
+| **Planning** | Xác định phạm vi, mục tiêu, loại review, người tham gia, tiêu chí vào ra |
+| **Review initiation** | Phát tài liệu, giải thích mục tiêu, đảm bảo mọi người sẵn sàng |
+| **Individual review** | Từng người tự đọc, ghi nhận defect, câu hỏi, nhận xét |
+| **Issue communication and analysis** | Trao đổi các phát hiện, đánh giá, quyết định xử lý |
+| **Fixing and reporting** | Sửa defect, báo cáo trạng thái, kiểm tra tiêu chí ra |
+
+### Vai trò trong review
+
+| Vai trò | Trách nhiệm |
+| --- | --- |
+| **Manager** | Quyết định thực hiện review, phân bổ nguồn lực |
+| **Author** | Tạo ra work product, sửa defect |
+| **Moderator / Facilitator** | Điều phối cuộc họp, giữ không khí xây dựng |
+| **Scribe** | Ghi chép các phát hiện |
+| **Reviewer** | Tìm và nêu defect |
+| **Review leader** | Chịu trách nhiệm chung về review, chọn người tham gia |
+
+### Bốn loại review
+
+| Loại | Mức trang trọng | Đặc điểm chính |
+| --- | --- | --- |
+| **Informal review** | Thấp nhất | Không có quy trình chính thức, không bắt buộc tài liệu kết quả |
+| **Walkthrough** | Trung bình | **Tác giả dẫn dắt**, mục đích học hỏi và thu thập ý kiến |
+| **Technical review** | Cao | Người tham gia là **chuyên gia kỹ thuật ngang hàng**, đạt đồng thuận kỹ thuật |
+| **Inspection** | Cao nhất | Tuân thủ quy trình chặt, **tác giả không dẫn dắt**, có thu thập số liệu, mục đích tìm defect tối đa |
+
+Bảng này rất hay được hỏi. Hai điểm nhớ kỹ: **walkthrough do tác giả dẫn dắt**, **inspection là trang trọng nhất và tác giả không dẫn dắt**.
+
+### Yếu tố thành công của review
+
+| Yếu tố |
+| --- |
+| Xác định rõ mục tiêu và tiêu chí đo được |
+| Chọn đúng loại review phù hợp mục tiêu, work product và người tham gia |
+| Chia nhỏ work product để review không quá dài |
+| Phản hồi mang tính xây dựng, tập trung vào sản phẩm không vào con người |
+| Người tham gia có đủ thời gian chuẩn bị |
+| Quản lý ủng hộ |
+| Review là một phần của văn hoá tổ chức |
+| Đào tạo đầy đủ, nhất là với các loại review trang trọng |
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "Static testing tìm ra failure" | Tìm ra **defect** trực tiếp |
+| "Static testing cần chạy phần mềm" | Không thực thi phần mềm |
+| "Inspection do tác giả dẫn dắt" | Walkthrough mới do tác giả dẫn dắt |
+| "Review chỉ áp dụng cho mã nguồn" | Áp dụng cho mọi work product đọc hiểu được |
+| "Informal review phải có báo cáo" | Không bắt buộc tài liệu kết quả |
+
+## Bài tập
+
+1. Lập bảng so sánh 4 loại review theo 4 tiêu chí: mức trang trọng, ai dẫn dắt, mục đích, tài liệu.
+2. Liệt kê 6 vai trò trong review và trách nhiệm từng vai trò.
+3. Nêu 5 lợi ích của kiểm thử tĩnh.
+4. Nêu 3 loại defect chỉ tìm được bằng kiểm thử tĩnh.
+5. Làm các câu hỏi Chương 3 trong đề mẫu.
+</script>
+
+<script type="text/markdown" data-id="is-4" data-nav="Bài 4 · Chương 4 — Thiết kế test">
+# Bài 4 — Chương 4: Test Analysis and Design
+
+**Khoảng 11 câu trong đề thi — chương nặng nhất.** Đây là chương duy nhất có nhiều câu **K3**, tức là phải tính toán thật chứ không chỉ nhớ.
+
+## 4.1 Tổng quan các kỹ thuật
+
+| Nhóm | Dựa trên | Gồm |
+| --- | --- | --- |
+| **Black-box** | Đặc tả, hành vi bên ngoài | EP, BVA, Decision table, State transition |
+| **White-box** | Cấu trúc bên trong | Statement testing, Branch testing |
+| **Experience-based** | Kinh nghiệm của tester | Error guessing, Exploratory, Checklist-based |
+
+Trong v4.0 còn có nhóm thứ tư: **collaboration-based** (mục 4.5).
+
+## 4.2 Kỹ thuật black-box
+
+### Equivalence Partitioning — Phân vùng tương đương
+
+Chia dữ liệu thành các phân vùng mà hệ thống xử lý giống nhau. Mỗi phân vùng chỉ cần một giá trị đại diện.
+
+**Độ phủ** = số phân vùng đã kiểm / tổng số phân vùng × 100%
+
+Ví dụ thi: ô nhập điểm từ 0–100, phân vùng là: < 0 (không hợp lệ), 0–100 (hợp lệ), > 100 (không hợp lệ). Ba phân vùng → tối thiểu **3 test case** để đạt 100% độ phủ.
+
+Chú ý: phân vùng gồm **cả hợp lệ và không hợp lệ**. Câu hỏi thi hay bẫy bằng cách chỉ đếm phân vùng hợp lệ.
+
+### Boundary Value Analysis — Phân tích giá trị biên
+
+Chỉ áp dụng khi phân vùng **có thứ tự** (số, ngày tháng). Không áp dụng cho phân vùng kiểu danh mục.
+
+| Cách | Giá trị kiểm mỗi biên | Với khoảng 1–100 |
+| --- | --- | --- |
+| **2-value BVA** | Giá trị biên và giá trị liền kề bên ngoài | 0, 1, 100, 101 |
+| **3-value BVA** | Thêm giá trị liền kề bên trong | 0, 1, 2, 99, 100, 101 |
+
+**Độ phủ** = số giá trị biên đã kiểm / tổng số giá trị biên × 100%
+
+Dạng câu hỏi thi điển hình: "Cho ô nhập 1–100, áp dụng 2-value BVA cần bao nhiêu test case?" → đáp án **4**.
+
+Hoặc: "Giá trị nào sau đây là giá trị biên của khoảng 18–65?" → 17, 18, 65, 66 (với 2-value).
+
+### Decision Table Testing — Bảng quyết định
+
+Dùng khi kết quả phụ thuộc nhiều điều kiện kết hợp.
+
+| Thành phần | Nghĩa |
+| --- | --- |
+| **Conditions** | Các điều kiện đầu vào |
+| **Actions** | Kết quả tương ứng |
+| **Column / Rule** | Một tổ hợp điều kiện và kết quả |
+
+Số cột của bảng đầy đủ = **2 mũ số điều kiện** (khi mỗi điều kiện có 2 giá trị đúng/sai).
+
+| Số điều kiện | Số cột |
+| --- | --- |
+| 2 | 4 |
+| 3 | 8 |
+| 4 | 16 |
+
+**Độ phủ** = số cột đã kiểm / tổng số cột × 100%
+
+Bảng rút gọn (collapsed decision table) dùng dấu `–` cho điều kiện không ảnh hưởng kết quả, giúp giảm số test case.
+
+### State Transition Testing — Kiểm thử chuyển trạng thái
+
+Dùng khi hệ thống phản ứng khác nhau tuỳ trạng thái hiện tại.
+
+| Thành phần | Nghĩa |
+| --- | --- |
+| **State** | Trạng thái hệ thống đang ở |
+| **Event** | Sự kiện kích hoạt chuyển trạng thái |
+| **Transition** | Việc chuyển từ trạng thái này sang trạng thái khác |
+| **Action** | Hành động xảy ra kèm theo chuyển trạng thái |
+
+Hai dạng biểu diễn: **state transition diagram** (sơ đồ) và **state table** (bảng, thể hiện được cả chuyển trạng thái không hợp lệ).
+
+Các mức độ phủ:
+
+| Mức | Nghĩa |
+| --- | --- |
+| **All states coverage** | Mọi trạng thái đều được ghé qua ít nhất một lần |
+| **Valid transitions coverage** (0-switch) | Mọi chuyển trạng thái hợp lệ đều được thực hiện |
+| **All transitions coverage** | Mọi chuyển trạng thái, kể cả không hợp lệ, đều được thử |
+
+Nhớ thứ tự mạnh dần: all states < valid transitions < all transitions.
+
+## 4.3 Kỹ thuật white-box
+
+### Statement Testing — Kiểm thử câu lệnh
+
+Mục tiêu: thực thi mọi câu lệnh trong code ít nhất một lần.
+
+**Statement coverage** = số câu lệnh đã chạy / tổng số câu lệnh × 100%
+
+### Branch Testing — Kiểm thử nhánh
+
+Mục tiêu: thực thi mọi nhánh quyết định (cả nhánh đúng và nhánh sai).
+
+**Branch coverage** = số nhánh đã chạy / tổng số nhánh × 100%
+
+Quan hệ quan trọng cho bài thi: **đạt 100% branch coverage thì chắc chắn đạt 100% statement coverage, nhưng ngược lại thì không.** Branch coverage mạnh hơn.
+
+Ví dụ minh hoạ:
+
+```text
+IF (a > 0) THEN
+    print("duong")
+END IF
+```
+
+Một test case với `a = 5` chạy hết mọi câu lệnh → **100% statement coverage**. Nhưng nhánh `a > 0` sai chưa được thử → chỉ **50% branch coverage**. Cần thêm test case `a = -1`.
+
+### Giá trị của white-box testing
+
+- Tính được độ phủ một cách khách quan, đo đếm được
+- Phát hiện phần code không được kiểm thử
+- Tìm được defect mà black-box bỏ sót: code không bao giờ chạy tới, nhánh thiếu
+
+Lưu ý: 100% code coverage **không** đồng nghĩa đã test đủ. Nó không phát hiện được chức năng bị thiếu hoàn toàn.
+
+## 4.4 Kỹ thuật dựa trên kinh nghiệm
+
+| Kỹ thuật | Cách làm |
+| --- | --- |
+| **Error guessing** | Dựa trên kinh nghiệm đoán chỗ dễ có lỗi. Có thể dùng fault attack — danh sách lỗi thường gặp |
+| **Exploratory testing** | Thiết kế, thực thi và đánh giá test đồng thời. Thường dùng **test charter** và **session-based testing** |
+| **Checklist-based** | Thiết kế và thực thi test theo một danh sách kiểm tra đã chuẩn bị |
+
+Kỹ thuật dựa trên kinh nghiệm **bổ sung** cho kỹ thuật có hệ thống, không thay thế. Hiệu quả phụ thuộc nhiều vào kinh nghiệm của người thực hiện, và khó đo độ phủ.
+
+## 4.5 Kỹ thuật dựa trên cộng tác
+
+### Collaborative user story writing
+
+User story viết theo mẫu: **As a [role], I want [goal], so that [benefit]**
+
+Tiêu chí chất lượng của user story — **INVEST**:
+
+| Chữ | Nghĩa |
+| --- | --- |
+| **I**ndependent | Độc lập với story khác |
+| **N**egotiable | Có thể thương lượng, điều chỉnh |
+| **V**aluable | Mang lại giá trị cho người dùng |
+| **E**stimable | Ước lượng được công sức |
+| **S**mall | Đủ nhỏ để làm trong một vòng lặp |
+| **T**estable | Kiểm thử được |
+
+Kỹ thuật **3C**: **Card** (thẻ mô tả), **Conversation** (trao đổi), **Confirmation** (tiêu chí xác nhận).
+
+### Acceptance criteria
+
+Điều kiện để story được chấp nhận. Hai cách viết phổ biến:
+
+| Cách | Mô tả |
+| --- | --- |
+| **Scenario-oriented** | Dạng Given / When / Then |
+| **Rule-oriented** | Danh sách quy tắc dạng bullet, hoặc bảng input-output |
+
+### ATDD — Acceptance Test-Driven Development
+
+Viết acceptance test **trước khi** hiện thực chức năng, dựa trên acceptance criteria. Các bên cùng tham gia: khách hàng, dev, tester.
+
+Lợi ích: hiểu thống nhất yêu cầu ngay từ đầu, phát hiện mâu thuẫn trước khi code, test có sẵn khi code xong.
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "100% statement coverage nghĩa là đã test đủ" | Không — còn nhánh chưa thử và chức năng thiếu |
+| "Statement coverage mạnh hơn branch coverage" | Ngược lại, branch mạnh hơn |
+| "BVA áp dụng cho mọi phân vùng" | Chỉ cho phân vùng có thứ tự |
+| "EP chỉ tính phân vùng hợp lệ" | Tính cả không hợp lệ |
+| "Exploratory testing là test ngẫu nhiên" | Có cấu trúc, dùng charter và session |
+
+## Bài tập K3 — dạng hay thi nhất
+
+1. Ô nhập tuổi 18–65. Liệt kê các phân vùng và tính số test case cho 100% EP coverage.
+2. Cùng ô đó, áp dụng 2-value BVA và 3-value BVA — mỗi cách cần bao nhiêu test case và là những giá trị nào?
+3. Hệ thống có 3 điều kiện đầu vào. Bảng quyết định đầy đủ có bao nhiêu cột?
+4. Cho đoạn mã có 2 lệnh IF lồng nhau, tính số test case tối thiểu cho 100% statement coverage và 100% branch coverage.
+5. Vẽ state diagram cho máy ATM (chờ thẻ → nhập PIN → chọn giao dịch → trả thẻ) và liệt kê test case cho valid transitions coverage.
+6. Áp dụng INVEST đánh giá 3 user story bất kỳ.
+</script>
+
+<script type="text/markdown" data-id="is-5" data-nav="Bài 5 · Chương 5 — Quản lý">
+# Bài 5 — Chương 5: Managing the Test Activities
+
+**Khoảng 9 câu trong đề thi.** Chương nặng thứ hai.
+
+## 5.1 Lập kế hoạch kiểm thử
+
+### Mục đích và nội dung test plan
+
+Test plan mô tả mục tiêu, nguồn lực, quy trình kiểm thử của một dự án. Nội dung thường gồm: bối cảnh, giả định, các bên liên quan, hoạt động kiểm thử, nguồn lực, lịch trình, rủi ro, tiêu chí vào ra.
+
+### Đóng góp của tester vào lập kế hoạch lặp và phát hành
+
+| Mức | Tester đóng góp gì |
+| --- | --- |
+| **Release planning** | Góc nhìn kiểm thử cho product backlog, ước lượng công sức test, phân tích rủi ro chất lượng |
+| **Iteration planning** | Phân tích chi tiết story, xác định rủi ro, ước lượng công sức test cho từng story |
+
+### Tiêu chí vào và tiêu chí ra
+
+| Loại | Nghĩa | Ví dụ |
+| --- | --- | --- |
+| **Entry criteria** (definition of ready) | Điều kiện để bắt đầu hoạt động kiểm thử | Môi trường sẵn sàng, test case đã review |
+| **Exit criteria** (definition of done) | Điều kiện để kết thúc | Đạt độ phủ yêu cầu, không còn defect mức cao |
+
+Lưu ý: **hết thời gian hoặc hết ngân sách không phải là exit criteria hợp lệ** nếu đã thoả thuận trước trong kế hoạch — nhưng trong thực tế vẫn thường là lý do dừng test.
+
+### Kỹ thuật ước lượng
+
+| Kỹ thuật | Cách làm |
+| --- | --- |
+| **Ratio-based (metrics-based)** | Dựa trên số liệu dự án tương tự trước đây |
+| **Extrapolation** | Đo công sức ở vài vòng lặp đầu rồi ngoại suy |
+| **Wideband Delphi** | Nhiều chuyên gia ước lượng độc lập rồi thảo luận tới đồng thuận |
+| **Three-point estimation** | Tính từ 3 giá trị: lạc quan (a), khả dĩ nhất (m), bi quan (b) |
+
+Công thức three-point:
+
+```text
+E = (a + 4m + b) / 6
+SD = (b - a) / 6
+```
+
+Dạng câu hỏi thi: cho a = 6, m = 9, b = 18, tính E.
+
+```text
+E = (6 + 4×9 + 18) / 6 = (6 + 36 + 18) / 6 = 60 / 6 = 10
+```
+
+Học thuộc công thức này, đề hay hỏi.
+
+### Ưu tiên test case
+
+| Cách ưu tiên | Dựa trên |
+| --- | --- |
+| **Risk-based** | Mức rủi ro — rủi ro cao test trước |
+| **Coverage-based** | Đạt độ phủ nhanh nhất |
+| **Requirements-based** | Mức ưu tiên của yêu cầu tương ứng |
+
+### Test pyramid
+
+Mô hình phân tầng tự động hoá:
+
+```text
+        /\       UI / E2E test     - it nhat, cham nhat, dat nhat
+       /  \
+      /    \     Integration test  - vua
+     /      \
+    /________\   Unit test         - nhieu nhat, nhanh nhat, re nhat
+```
+
+Càng lên cao: test càng ít, càng chậm, càng tốn chi phí bảo trì. Càng xuống thấp: càng nhiều, càng nhanh, càng rẻ.
+
+### Testing quadrants
+
+Mô hình của Brian Marick, chia test theo hai trục: hỗ trợ nhóm hay đánh giá sản phẩm, và hướng nghiệp vụ hay hướng công nghệ.
+
+| Quadrant | Nội dung |
+| --- | --- |
+| **Q1** | Hướng công nghệ, hỗ trợ nhóm — unit test, component test |
+| **Q2** | Hướng nghiệp vụ, hỗ trợ nhóm — functional test, ví dụ, user story test |
+| **Q3** | Hướng nghiệp vụ, đánh giá sản phẩm — exploratory, UAT |
+| **Q4** | Hướng công nghệ, đánh giá sản phẩm — performance, security, load |
+
+## 5.2 Quản lý rủi ro
+
+### Định nghĩa rủi ro
+
+**Risk = Likelihood × Impact** — khả năng xảy ra nhân với mức độ ảnh hưởng.
+
+### Hai loại rủi ro
+
+| Loại | Nghĩa | Ví dụ |
+| --- | --- | --- |
+| **Project risk** | Ảnh hưởng tới việc quản lý dự án | Trễ tiến độ, thiếu nhân sự, môi trường test hỏng |
+| **Product risk** | Ảnh hưởng tới chất lượng sản phẩm | Tính sai tiền, lỗ hổng bảo mật, hiệu năng kém |
+
+Phân biệt hai loại này là câu hỏi thi rất phổ biến.
+
+### Risk-based testing
+
+Dùng phân tích rủi ro để quyết định:
+
+- Phạm vi kiểm thử
+- Mức độ kiểm thử cho từng phần
+- Thứ tự ưu tiên thực hiện
+- Kỹ thuật áp dụng
+
+Rủi ro cao → test sớm hơn, kỹ hơn, dùng kỹ thuật chặt chẽ hơn.
+
+Các hoạt động quản lý rủi ro: **risk analysis** (identification + assessment) và **risk control** (mitigation + monitoring).
+
+## 5.3 Giám sát, điều khiển và hoàn tất
+
+### Các số liệu dùng trong kiểm thử
+
+| Nhóm | Ví dụ |
+| --- | --- |
+| Tiến độ | Số test case đã chuẩn bị, đã chạy, pass/fail |
+| Độ phủ | Phần trăm yêu cầu, code, rủi ro đã được phủ |
+| Khuyết tật | Số defect tìm được, đã sửa, còn mở, theo mức độ |
+| Rủi ro | Số rủi ro còn lại, đã xử lý |
+| Chi phí | Công sức đã dùng so với kế hoạch |
+
+### Hai loại báo cáo
+
+| Báo cáo | Khi nào | Nội dung |
+| --- | --- | --- |
+| **Test progress report** | Định kỳ trong quá trình test | Trạng thái hiện tại, vấn đề gặp phải, kế hoạch tiếp |
+| **Test completion report** | Khi kết thúc một giai đoạn test | Tổng kết, đánh giá so với tiêu chí ra, bài học |
+
+### Truyền đạt trạng thái kiểm thử
+
+Tuỳ người nghe mà chọn cách: trao đổi miệng, bảng thông tin, báo cáo điện tử, bảng điều khiển trực quan. Mục đích chung là giúp các bên ra quyết định.
+
+## 5.4 Quản lý cấu hình
+
+Configuration management đảm bảo mọi hạng mục của testware được **định danh, kiểm soát phiên bản, theo dõi thay đổi và liên hệ với nhau**.
+
+Với kiểm thử, nó đảm bảo: mọi testware được định danh rõ, có kiểm soát phiên bản, truy vết được tới nhau và tới test basis, và mọi tài liệu được tham chiếu duy nhất.
+
+Không có configuration management thì không biết test case nào áp dụng cho phiên bản nào của sản phẩm.
+
+## 5.5 Quản lý khuyết tật
+
+### Nội dung một defect report
+
+Mục đích: cung cấp thông tin để sửa lỗi, theo dõi chất lượng, và cải tiến quy trình.
+
+Nội dung điển hình gồm: mã định danh, tiêu đề và tóm tắt, ngày phát hiện, người phát hiện, phiên bản và môi trường, bước tái hiện, kết quả mong đợi và thực tế, mức độ nghiêm trọng, mức ưu tiên, trạng thái, tham chiếu tới test case và yêu cầu liên quan.
+
+### Defect có thể được báo cáo từ đâu
+
+Không chỉ từ kiểm thử động: còn từ **kiểm thử tĩnh**, từ review, từ phân tích tĩnh, và từ người dùng trong vận hành.
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "Risk = Likelihood + Impact" | Là phép **nhân** |
+| "Trễ tiến độ là product risk" | Là **project risk** |
+| "Test pyramid: UI test nhiều nhất" | Unit test nhiều nhất, UI ít nhất |
+| "Test completion report viết định kỳ" | Viết khi kết thúc; progress report mới định kỳ |
+| "Defect chỉ phát hiện qua dynamic testing" | Cả static testing cũng phát hiện defect |
+
+## Bài tập
+
+1. Học thuộc công thức three-point estimation và tính với a=4, m=7, b=16.
+2. Lập bảng phân biệt project risk và product risk, mỗi loại 4 ví dụ.
+3. Vẽ test pyramid và giải thích vì sao unit test nên nhiều nhất.
+4. Lập bảng 4 testing quadrants kèm ví dụ cho mỗi ô.
+5. Liệt kê nội dung đầy đủ của một defect report theo syllabus.
+6. Làm các câu hỏi Chương 5 trong đề mẫu.
+</script>
+
+<script type="text/markdown" data-id="is-6" data-nav="Bài 6 · Chương 6 — Công cụ">
+# Bài 6 — Chương 6: Test Tools
+
+**Khoảng 2 câu trong đề thi.** Chương ngắn nhất, nhưng đừng bỏ — 2 câu cũng là 5% điểm.
+
+## 6.1 Công cụ hỗ trợ kiểm thử
+
+Syllabus v4.0 rút gọn chương này rất nhiều so với bản cũ. Không còn danh sách dài phân loại công cụ; chỉ còn các nhóm chính theo hoạt động chúng hỗ trợ.
+
+### Các nhóm công cụ
+
+| Nhóm hỗ trợ | Ví dụ công cụ |
+| --- | --- |
+| Quản lý kiểm thử và testware | Jira, TestRail, Zephyr |
+| Kiểm thử tĩnh | Công cụ phân tích mã nguồn, công cụ hỗ trợ review |
+| Thiết kế và hiện thực test | Công cụ sinh dữ liệu test, sinh test case |
+| Thực thi và so sánh kết quả | Selenium, Playwright, Appium |
+| Đo lường và báo cáo | Công cụ đo độ phủ, dashboard |
+| Kiểm thử phi chức năng | JMeter, công cụ kiểm thử bảo mật |
+| DevOps | CI/CD pipeline, công cụ triển khai |
+| Hỗ trợ cộng tác | Công cụ giao tiếp, chia sẻ tài liệu |
+| Mở rộng quy mô | Công cụ tạo môi trường ảo, device cloud |
+
+## 6.2 Lợi ích và rủi ro của tự động hoá kiểm thử
+
+Đây là phần hay ra câu hỏi nhất của chương.
+
+### Lợi ích
+
+| Lợi ích |
+| --- |
+| Tiết kiệm thời gian nhờ giảm công việc lặp lại thủ công |
+| Ngăn ngừa sai sót do con người, như lỗi gõ nhầm hay bỏ sót bước |
+| Thực thi test nhất quán và lặp lại được |
+| Cung cấp phép đo khách quan, ví dụ độ phủ |
+| Truy cập được thông tin mà test thủ công khó lấy, ví dụ số liệu hiệu năng |
+| Cho phản hồi nhanh hơn về chất lượng |
+
+### Rủi ro
+
+| Rủi ro |
+| --- |
+| Kỳ vọng không thực tế về những gì công cụ làm được |
+| Đánh giá thấp thời gian, chi phí và công sức để **đưa công cụ vào sử dụng lần đầu** |
+| Đánh giá thấp công sức để **duy trì** testware tự động |
+| Phụ thuộc quá nhiều vào công cụ, bỏ qua tư duy kiểm thử của con người |
+| Phụ thuộc vào nhà cung cấp công cụ — họ ngừng hỗ trợ, bị mua lại, hoặc đóng mã nguồn |
+| Quản lý phiên bản testware kém |
+| Quan hệ giữa các công cụ phức tạp, khó tích hợp |
+
+Điểm quan trọng mà đề thi hay nhấn: **tự động hoá không thay thế được tư duy kiểm thử**. Công cụ chỉ chạy những gì bạn bảo nó chạy; nó không nghĩ ra test case mới.
+
+Và: công sức **bảo trì** test tự động thường bị đánh giá thấp nhất. Một bộ test tự động không được bảo trì sẽ nhanh chóng trở nên vô dụng.
+
+## Liên hệ với các khoá khác trong trang này
+
+Kiến thức chương này được áp dụng thực tế ở:
+
+| Khoá | Công cụ |
+| --- | --- |
+| Web Automation | Playwright, pytest, GitHub Actions |
+| Mobile Automation | Appium, Maestro |
+| Kiểm thử hiệu năng | Apache JMeter |
+| Manual Testing | Jira, Postman, DevTools |
+
+Học xong lý thuyết chương này, làm một trong các khoá đó sẽ giúp bạn hiểu sâu hơn hẳn so với chỉ đọc syllabus.
+
+## Điểm dễ sai trong bài thi
+
+| Bẫy | Đúng là |
+| --- | --- |
+| "Tự động hoá luôn tiết kiệm chi phí" | Chi phí ban đầu và bảo trì có thể rất lớn |
+| "Tự động hoá thay thế được tester" | Không — nó thay thế việc chạy lặp lại, không thay tư duy |
+| "Test tự động không cần bảo trì" | Bảo trì là chi phí lớn nhất và hay bị đánh giá thấp |
+| "Công cụ tự tìm ra defect mới" | Chỉ phát hiện những gì được lập trình để kiểm tra |
+
+## Bài tập
+
+1. Liệt kê 6 lợi ích và 7 rủi ro của tự động hoá theo syllabus.
+2. Với một dự án bạn biết, nêu 3 rủi ro cụ thể nếu áp dụng tự động hoá.
+3. Lập bảng các nhóm công cụ và điền tên công cụ bạn đã dùng hoặc biết.
+4. Giải thích vì sao bảo trì testware tự động tốn công.
+5. Làm các câu hỏi Chương 6 trong đề mẫu.
+</script>
+
+<script type="text/markdown" data-id="is-7" data-nav="Bài 7 · Thuật ngữ bắt buộc nhớ">
+# Bài 7 — Thuật ngữ bắt buộc nhớ
+
+**Mục tiêu:** đề thi bằng tiếng Anh và dùng đúng từ trong glossary. Nhớ sai một từ là mất một câu.
+
+## Vì sao phần này quan trọng
+
+Nhiều người học bằng tài liệu tiếng Việt, đến khi thi gặp từ tiếng Anh thì lúng túng. Tệ hơn, một số bản dịch tiếng Việt dùng từ không thống nhất — "defect" có nơi dịch "lỗi", có nơi "khuyết tật", có nơi "bug".
+
+Cách an toàn: **nhớ từ tiếng Anh gốc**, hiểu nghĩa bằng tiếng Việt.
+
+## Nhóm 1 — Khái niệm cốt lõi
+
+| Tiếng Anh | Tiếng Việt | Ghi nhớ |
+| --- | --- | --- |
+| Error / Mistake | Sai sót | Do **con người** |
+| Defect / Fault / Bug | Khuyết tật | Nằm **trong sản phẩm** |
+| Failure | Thất bại | Xảy ra **khi chạy** |
+| Root cause | Nguyên nhân gốc | Nguồn gốc sâu xa |
+| Quality | Chất lượng | Mức đáp ứng yêu cầu |
+| Quality assurance | Đảm bảo chất lượng | Tập trung **quy trình** |
+| Test object | Đối tượng kiểm thử | Thứ đang được test |
+| Test basis | Cơ sở kiểm thử | Tài liệu dùng để tạo test case |
+| Test condition | Điều kiện kiểm thử | Khía cạnh cần kiểm |
+| Test case | Ca kiểm thử | Tập input, điều kiện, kết quả mong đợi |
+| Testware | Sản phẩm kiểm thử | Mọi thứ tạo ra trong quá trình test |
+| Coverage | Độ phủ | Phần trăm đã được kiểm |
+| Traceability | Khả năng truy vết | Liên kết test với yêu cầu |
+
+## Nhóm 2 — Mức và loại kiểm thử
+
+| Tiếng Anh | Tiếng Việt |
+| --- | --- |
+| Component testing | Kiểm thử thành phần |
+| Component integration testing | Kiểm thử tích hợp thành phần |
+| System testing | Kiểm thử hệ thống |
+| System integration testing | Kiểm thử tích hợp hệ thống |
+| Acceptance testing | Kiểm thử chấp nhận |
+| Functional testing | Kiểm thử chức năng |
+| Non-functional testing | Kiểm thử phi chức năng |
+| Black-box testing | Kiểm thử hộp đen |
+| White-box testing | Kiểm thử hộp trắng |
+| Confirmation testing | Kiểm thử xác nhận |
+| Regression testing | Kiểm thử hồi quy |
+| Maintenance testing | Kiểm thử bảo trì |
+| Impact analysis | Phân tích ảnh hưởng |
+
+## Nhóm 3 — Kiểm thử tĩnh
+
+| Tiếng Anh | Tiếng Việt | Nhớ kỹ |
+| --- | --- | --- |
+| Static testing | Kiểm thử tĩnh | Không chạy phần mềm |
+| Dynamic testing | Kiểm thử động | Có chạy phần mềm |
+| Review | Rà soát | — |
+| Informal review | Rà soát không chính thức | Ít trang trọng nhất |
+| Walkthrough | Duyệt qua | **Tác giả dẫn dắt** |
+| Technical review | Rà soát kỹ thuật | Chuyên gia ngang hàng |
+| Inspection | Thanh tra | **Trang trọng nhất** |
+| Moderator / Facilitator | Người điều phối | — |
+| Scribe | Người ghi chép | — |
+
+## Nhóm 4 — Kỹ thuật thiết kế
+
+| Tiếng Anh | Tiếng Việt |
+| --- | --- |
+| Equivalence partitioning | Phân vùng tương đương |
+| Boundary value analysis | Phân tích giá trị biên |
+| Decision table testing | Kiểm thử bảng quyết định |
+| State transition testing | Kiểm thử chuyển trạng thái |
+| Statement coverage | Độ phủ câu lệnh |
+| Branch coverage | Độ phủ nhánh |
+| Error guessing | Đoán lỗi |
+| Exploratory testing | Kiểm thử thăm dò |
+| Checklist-based testing | Kiểm thử theo danh sách kiểm |
+| Test charter | Bản giao việc thăm dò |
+| Acceptance criteria | Tiêu chí chấp nhận |
+
+## Nhóm 5 — Quản lý
+
+| Tiếng Anh | Tiếng Việt |
+| --- | --- |
+| Test plan | Kế hoạch kiểm thử |
+| Entry criteria | Tiêu chí vào |
+| Exit criteria | Tiêu chí ra |
+| Definition of ready | Định nghĩa sẵn sàng |
+| Definition of done | Định nghĩa hoàn thành |
+| Project risk | Rủi ro dự án |
+| Product risk | Rủi ro sản phẩm |
+| Risk-based testing | Kiểm thử dựa trên rủi ro |
+| Test monitoring | Giám sát kiểm thử |
+| Test control | Điều khiển kiểm thử |
+| Test progress report | Báo cáo tiến độ kiểm thử |
+| Test completion report | Báo cáo hoàn tất kiểm thử |
+| Configuration management | Quản lý cấu hình |
+| Severity | Mức độ nghiêm trọng |
+| Priority | Mức độ ưu tiên |
+
+## Các cặp từ hay bị nhầm
+
+| Cặp | Phân biệt |
+| --- | --- |
+| Error / Defect / Failure | Con người / Trong sản phẩm / Khi chạy |
+| Verification / Validation | Xây đúng cách / Xây đúng thứ cần |
+| QA / Testing | Quy trình / Sản phẩm |
+| Severity / Priority | Nghiêm trọng kỹ thuật / Gấp về nghiệp vụ |
+| Confirmation / Regression | Kiểm lỗi đã sửa / Kiểm chỗ khác không hỏng |
+| Project risk / Product risk | Ảnh hưởng dự án / Ảnh hưởng chất lượng |
+| Walkthrough / Inspection | Tác giả dẫn dắt / Trang trọng nhất |
+| Static / Dynamic | Không chạy / Có chạy |
+| Statement / Branch coverage | Câu lệnh / Nhánh, branch mạnh hơn |
+| Test condition / Test case | Khía cạnh cần kiểm / Ca kiểm thử cụ thể |
+| Entry / Exit criteria | Điều kiện bắt đầu / Điều kiện kết thúc |
+| Alpha / Beta testing | Tại nơi phát triển / Tại nơi người dùng |
+
+Bảng này nên học thuộc hoàn toàn. Mỗi cặp là một câu hỏi tiềm năng trong đề.
+
+## Từ hay gây hiểu nhầm khi dịch
+
+| Từ tiếng Anh | Hiểu nhầm phổ biến | Nghĩa đúng |
+| --- | --- | --- |
+| **Test case** | "Trường hợp test" chung chung | Có input, điều kiện thực thi, kết quả mong đợi cụ thể |
+| **Test condition** | Nhầm với test case | Khía cạnh cần kiểm, chưa phải ca test cụ thể |
+| **Testware** | Nhầm với công cụ test | Mọi sản phẩm sinh ra trong quá trình test |
+| **Coverage** | Nhầm với "đã test xong" | Chỉ là tỷ lệ phần trăm đã kiểm |
+| **Quality assurance** | Nhầm là "kiểm thử" | Là hoạt động về quy trình |
+| **Review** | Nhầm là "đọc qua" | Hoạt động có quy trình, vai trò rõ ràng |
+
+## Cách học thuộc
+
+| Cách | Làm thế nào |
+| --- | --- |
+| Flashcard | Mặt trước tiếng Anh, mặt sau tiếng Việt kèm một câu ví dụ |
+| Học theo cặp | Học các cặp dễ nhầm cùng lúc, so sánh trực tiếp |
+| Tự giải thích | Nói to định nghĩa bằng lời của bạn, không đọc lại sách |
+| Đọc glossary gốc | Mỗi ngày 20 từ, tra trên glossary chính thức của ISTQB |
+
+Nguyên tắc: hiểu rồi mới thuộc. Học thuộc mà không hiểu thì gặp câu hỏi tình huống sẽ chọn sai.
+
+## Bài tập
+
+1. Làm 60 flashcard cho các thuật ngữ ở 5 nhóm trên.
+2. Với 12 cặp dễ nhầm, viết ra một ví dụ phân biệt cho mỗi cặp.
+3. Tự kiểm tra: che cột tiếng Việt, đọc từ tiếng Anh và nói nghĩa.
+4. Tải glossary chính thức của ISTQB, tra 20 từ bạn chưa chắc.
+5. Giải thích bằng lời của bạn: test condition khác test case thế nào.
+</script>
+
+<script type="text/markdown" data-id="is-8" data-nav="Bài 8 · Chiến thuật làm bài">
+# Bài 8 — Chiến thuật làm bài thi
+
+**Mục tiêu:** không mất điểm oan ở những câu mình thực ra biết.
+
+## Quản lý thời gian
+
+60 phút cho 40 câu, trung bình **90 giây một câu**. Nhưng không phải câu nào cũng tốn như nhau:
+
+| Loại câu | Thời gian nên dùng |
+| --- | --- |
+| K1 — nhớ định nghĩa | 30–45 giây |
+| K2 — hiểu, so sánh | 60–90 giây |
+| K3 — tính toán | 2–3 phút |
+
+Chiến thuật chia ba lượt:
+
+| Lượt | Làm gì | Thời gian |
+| --- | --- | --- |
+| **1** | Làm hết câu dễ, câu khó đánh dấu bỏ qua | 25 phút |
+| **2** | Quay lại làm câu đã đánh dấu | 25 phút |
+| **3** | Rà lại toàn bộ, kiểm câu bỏ trống | 10 phút |
+
+Nguyên tắc: **không ngồi quá 2 phút cho một câu ở lượt 1**. Câu K3 tính toán để dành lượt 2, khi đã biết mình còn bao nhiêu thời gian.
+
+## Đọc câu hỏi đúng cách
+
+**1. Đọc hết câu hỏi trước khi nhìn đáp án**
+
+Nhìn đáp án sớm dễ bị dẫn dắt.
+
+**2. Chú ý từ phủ định và từ giới hạn**
+
+| Từ cần chú ý | Ý nghĩa |
+| --- | --- |
+| **NOT**, **EXCEPT** | Tìm đáp án **sai** |
+| **BEST**, **MOST** | Có thể nhiều đáp án đúng, chọn cái đúng nhất |
+| **ALWAYS**, **NEVER**, **ALL** | Thường là dấu hiệu đáp án sai — rất ít điều tuyệt đối trong kiểm thử |
+| **CAN**, **MAY**, **TYPICALLY** | Thường là dấu hiệu đáp án đúng |
+
+Đề thi ISTQB in hoa các từ phủ định. Đọc lướt bỏ sót chữ NOT là mất điểm dù biết kiến thức.
+
+**3. Xác định câu hỏi thuộc chương nào**
+
+Biết nó hỏi về chương nào giúp thu hẹp vùng kiến thức cần nhớ.
+
+## Phương pháp loại trừ
+
+Với câu không chắc, loại dần:
+
+| Bước | Làm gì |
+| --- | --- |
+| 1 | Loại đáp án chứa từ tuyệt đối: always, never, all, every |
+| 2 | Loại đáp án sai rõ ràng về kiến thức cơ bản |
+| 3 | Loại đáp án không liên quan tới câu hỏi |
+| 4 | So sánh 2 đáp án còn lại, chọn cái sát syllabus hơn |
+
+Loại được 2 trong 4 đáp án là xác suất đúng đã lên 50%.
+
+## Các dạng câu hỏi thường gặp
+
+**Dạng 1 — Hỏi định nghĩa**
+
+```text
+Which of the following BEST describes a test condition?
+```
+
+Chọn đáp án dùng đúng từ ngữ của syllabus, không chọn đáp án nghe hợp lý nhưng diễn đạt khác.
+
+**Dạng 2 — Tình huống minh hoạ nguyên lý**
+
+```text
+A team runs the same regression suite for 12 months and finds no new
+defects. Which testing principle does this illustrate?
+```
+
+Đọc tình huống, xác định nguyên lý. Ở đây là nguyên lý 5 — tests wear out.
+
+**Dạng 3 — Tính toán (K3)**
+
+```text
+An input field accepts values from 10 to 99. Using 2-value boundary
+value analysis, how many test cases are needed?
+```
+
+Làm từng bước ra giấy nháp: biên dưới 10 → kiểm 9 và 10; biên trên 99 → kiểm 99 và 100. Tổng **4 test case**.
+
+**Dạng 4 — Chọn nhiều đáp án**
+
+```text
+Which TWO of the following are product risks?
+```
+
+Đọc kỹ số lượng cần chọn. Chọn thiếu hoặc thừa đều không được điểm.
+
+**Dạng 5 — Sắp xếp thứ tự**
+
+```text
+Which is the correct order of test activities?
+```
+
+Nhớ thứ tự chuẩn: planning → monitoring and control → analysis → design → implementation → execution → completion.
+
+## Những lỗi hay mất điểm oan
+
+| Lỗi | Cách tránh |
+| --- | --- |
+| Bỏ sót chữ NOT trong câu hỏi | Gạch chân từ phủ định khi đọc |
+| Chọn đáp án "nghe hợp lý" thay vì đúng syllabus | Nhớ định nghĩa gốc, không suy diễn theo kinh nghiệm cá nhân |
+| Đổi đáp án vào phút chót | Chỉ đổi khi tìm ra lý do rõ ràng; linh cảm đầu tiên thường đúng |
+| Bỏ trống câu khó | **Luôn chọn một đáp án** — không bị trừ điểm khi sai |
+| Tính nhầm K3 vì vội | Viết ra nháp, không tính nhẩm |
+| Hết giờ còn 5 câu chưa đọc | Kiểm thời gian ở câu 20, phải còn ít nhất 30 phút |
+
+Mục "bỏ trống" đáng nhấn mạnh: ISTQB **không trừ điểm cho câu sai**. Không biết thì đoán, xác suất 25% vẫn hơn 0%.
+
+## Kinh nghiệm va chạm giữa lý thuyết và thực tế
+
+Bạn đã đi làm sẽ gặp tình huống: đáp án theo syllabus khác với cách công ty bạn làm.
+
+**Luôn chọn theo syllabus.** Đề thi kiểm tra bạn có nắm chuẩn ISTQB không, không kiểm tra thực tế công ty bạn.
+
+Ví dụ: thực tế nhiều nơi tester làm cả component testing, nhưng syllabus ghi component testing thường do developer thực hiện. Trong bài thi, chọn theo syllabus.
+
+## Trước ngày thi
+
+| Việc | Khi nào |
+| --- | --- |
+| Làm đề mẫu lần cuối | 2 ngày trước, không phải tối hôm trước |
+| Ôn lại bảng cặp dễ nhầm ở Bài 7 | Tối hôm trước, 30 phút |
+| Kiểm tra kỹ thuật nếu thi online | Tối hôm trước: webcam, mạng, phòng yên tĩnh |
+| Ngủ đủ | Quan trọng hơn ôn thêm 2 tiếng |
+| Chuẩn bị giấy tờ tuỳ thân | Theo yêu cầu đơn vị tổ chức |
+
+Thi online có giám sát thường yêu cầu: phòng một mình, bàn trống, webcam bật suốt, không được rời khỏi khung hình. Đọc kỹ quy định của đơn vị tổ chức trước.
+
+## Bài tập
+
+1. Làm một đề mẫu 40 câu trong đúng 60 phút, bấm giờ nghiêm túc.
+2. Ghi lại các câu sai, phân loại theo chương để biết chỗ yếu.
+3. Với mỗi câu sai, viết ra vì sao chọn sai và đáp án đúng dựa trên phần nào của syllabus.
+4. Luyện riêng 10 câu K3 về EP, BVA, decision table, coverage.
+5. Làm đề lần hai sau 3 ngày, so sánh điểm.
+</script>
+
+<script type="text/markdown" data-id="is-9" data-nav="Bài 9 · Kế hoạch ôn 4 tuần">
+# Bài 9 — Kế hoạch ôn 4 tuần và tự kiểm tra
+
+**Mục tiêu:** có lịch cụ thể để đi từ bắt đầu đến sẵn sàng thi.
+
+## Giả định
+
+Kế hoạch này dành cho người **đã có nền tảng manual testing** (đã học khoá Manual Testing trong trang này hoặc đã đi làm), dành được **1–1,5 giờ mỗi ngày**.
+
+Chưa có nền tảng thì học khoá Manual Testing trước, rồi quay lại đây.
+
+## Tuần 1 — Nền tảng
+
+| Ngày | Nội dung | Thời gian |
+| --- | --- | --- |
+| 1 | Bài 0 — tổng quan kỳ thi, tải syllabus, làm đề mẫu lần 1 để biết điểm xuất phát | 1,5 giờ |
+| 2 | Chương 1 phần 1.1–1.3 | 1 giờ |
+| 3 | Chương 1 phần 1.4–1.5, học thuộc 7 nguyên lý | 1 giờ |
+| 4 | Chương 2 phần 2.1 | 1 giờ |
+| 5 | Chương 2 phần 2.2–2.3 | 1 giờ |
+| 6 | Chương 3 trọn vẹn | 1 giờ |
+| 7 | Ôn lại Chương 1–3, làm 30 câu luyện tập | 1,5 giờ |
+
+Đề mẫu lần 1 ở ngày đầu rất quan trọng: nó cho bạn con số xuất phát để so sánh, và cho biết dạng câu hỏi thực tế trông thế nào.
+
+## Tuần 2 — Chương nặng nhất
+
+| Ngày | Nội dung | Thời gian |
+| --- | --- | --- |
+| 8 | Chương 4 — EP và BVA, làm bài tập tính toán | 1,5 giờ |
+| 9 | Chương 4 — Decision table, làm 5 bảng quyết định | 1,5 giờ |
+| 10 | Chương 4 — State transition, vẽ 3 sơ đồ | 1,5 giờ |
+| 11 | Chương 4 — White-box: statement và branch coverage | 1,5 giờ |
+| 12 | Chương 4 — Experience-based và collaboration-based | 1 giờ |
+| 13 | Luyện 20 câu K3 của Chương 4 | 1,5 giờ |
+| 14 | Ôn lại toàn Chương 4 | 1 giờ |
+
+Chương 4 chiếm hơn một phần tư đề thi và là chương duy nhất nhiều câu tính toán. Dành trọn một tuần là hợp lý.
+
+## Tuần 3 — Quản lý và công cụ
+
+| Ngày | Nội dung | Thời gian |
+| --- | --- | --- |
+| 15 | Chương 5 phần 5.1 — test planning, ước lượng | 1,5 giờ |
+| 16 | Chương 5 phần 5.1 — test pyramid, quadrants, ưu tiên | 1 giờ |
+| 17 | Chương 5 phần 5.2 — quản lý rủi ro | 1 giờ |
+| 18 | Chương 5 phần 5.3–5.5 | 1,5 giờ |
+| 19 | Chương 6 trọn vẹn | 1 giờ |
+| 20 | Bài 7 — học thuật ngữ, làm flashcard | 1,5 giờ |
+| 21 | Đề mẫu lần 2, so sánh với lần 1 | 1,5 giờ |
+
+## Tuần 4 — Luyện đề và củng cố
+
+| Ngày | Nội dung | Thời gian |
+| --- | --- | --- |
+| 22 | Phân tích câu sai của đề lần 2, ôn chương yếu nhất | 1,5 giờ |
+| 23 | Đề luyện tập, phân tích câu sai | 1,5 giờ |
+| 24 | Ôn 12 cặp thuật ngữ dễ nhầm ở Bài 7 | 1 giờ |
+| 25 | Đề luyện tập, phân tích câu sai | 1,5 giờ |
+| 26 | Ôn lại toàn bộ bảng "điểm dễ sai" của 6 chương | 1,5 giờ |
+| 27 | Đề mẫu lần cuối — mục tiêu trên 80% | 1,5 giờ |
+| 28 | Nghỉ, chỉ xem lại flashcard 30 phút | 0,5 giờ |
+
+Ngày 28 nghỉ là có chủ ý. Nhồi vào ngày cuối làm giảm khả năng nhớ lại hơn là tăng.
+
+## Checklist sẵn sàng thi
+
+Trả lời được hết thì đăng ký thi:
+
+**Chương 1**
+- [ ] Nêu được 7 nguyên lý và một ví dụ cho mỗi cái
+- [ ] Phân biệt error, defect, failure, root cause
+- [ ] Liệt kê 7 hoạt động kiểm thử theo đúng thứ tự
+- [ ] Giải thích traceability và lợi ích
+
+**Chương 2**
+- [ ] Nêu 5 mức kiểm thử và test basis của từng mức
+- [ ] Phân biệt 4 hình thức acceptance testing
+- [ ] Phân biệt confirmation và regression testing
+- [ ] Giải thích shift-left và cho 3 ví dụ
+
+**Chương 3**
+- [ ] Phân biệt static và dynamic testing
+- [ ] Nêu 4 loại review và đặc điểm từng loại
+- [ ] Liệt kê 6 vai trò trong review
+- [ ] Nêu 5 yếu tố thành công của review
+
+**Chương 4**
+- [ ] Tính được số test case cho EP và BVA (2-value và 3-value)
+- [ ] Lập được bảng quyết định và tính số cột
+- [ ] Vẽ được state diagram và liệt kê các mức độ phủ
+- [ ] Tính được statement coverage và branch coverage
+- [ ] Giải thích vì sao branch coverage mạnh hơn statement coverage
+- [ ] Nêu INVEST và 3C
+
+**Chương 5**
+- [ ] Thuộc công thức three-point estimation
+- [ ] Phân biệt project risk và product risk
+- [ ] Vẽ và giải thích test pyramid
+- [ ] Nêu 4 testing quadrants
+- [ ] Phân biệt test progress report và test completion report
+
+**Chương 6**
+- [ ] Nêu 6 lợi ích và 7 rủi ro của tự động hoá
+- [ ] Giải thích vì sao bảo trì testware là chi phí lớn
+
+**Chung**
+- [ ] Làm đề mẫu đạt trên 80% ít nhất 2 lần
+- [ ] Thuộc 12 cặp thuật ngữ dễ nhầm
+- [ ] Làm đủ 40 câu trong 60 phút không bị thiếu thời gian
+
+## Nguồn đề luyện tập
+
+| Nguồn | Ghi chú |
+| --- | --- |
+| **Sample Exam chính thức của ISTQB** | Đáng tin cậy nhất, có giải thích đáp án, miễn phí |
+| Đề của các member board quốc gia | Nhiều nước công bố đề mẫu riêng, cũng miễn phí |
+| Đề trên các nền tảng học trực tuyến | Chất lượng không đồng đều, kiểm chứng lại với syllabus |
+
+Khi gặp đề mà đáp án mâu thuẫn với syllabus, **tin syllabus**. Đề của bên thứ ba có thể viết theo phiên bản cũ hoặc sai.
+
+## Sau khi thi đỗ
+
+| Hướng tiếp | Nội dung |
+| --- | --- |
+| Thêm vào CV và LinkedIn | Ghi rõ "ISTQB CTFL v4.0" kèm năm |
+| Học tiếp cấp độ cao hơn | Advanced Level: Test Analyst, Test Manager, Technical Test Analyst |
+| Chứng chỉ chuyên đề | Agile Tester, Automation Engineer, Performance Testing |
+| Áp dụng thực tế | Làm các khoá automation trong trang này |
+
+Lời khuyên: đừng dừng ở chứng chỉ. ISTQB chứng minh bạn nắm lý thuyết chuẩn; nhà tuyển dụng vẫn hỏi bạn đã làm được gì. Kết hợp chứng chỉ với một dự án thật trong CV là tổ hợp mạnh nhất cho vị trí Fresher.
+
+## Bài tập
+
+1. Điều chỉnh kế hoạch 4 tuần cho phù hợp lịch của bạn.
+2. Làm đề mẫu lần 1 ngay hôm nay, ghi lại điểm.
+3. Sau mỗi tuần, tự chấm checklist phần tương ứng.
+4. Trước khi đăng ký thi, hoàn thành toàn bộ checklist sẵn sàng.
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
 (function () {
   var COURSES = [
+    {
+      id: "manual",
+      ten: "Manual Testing — từ số 0 đến đi làm",
+      mo_ta: "Nền tảng nghề kiểm thử: quy trình, kỹ thuật thiết kế test case, viết bug report, công cụ và cách phỏng vấn vị trí Fresher.",
+      cap: "Từ số 0",
+      gio: "~30 giờ",
+      yeu_cau: "Không cần biết lập trình",
+      groups: [
+        { n: "Phần 1", t: "Nền tảng nghề kiểm thử", ids: ["mt-0","mt-1","mt-2","mt-3","mt-4"] },
+        { n: "Phần 2", t: "Kỹ thuật thiết kế test case", ids: ["mt-5","mt-6","mt-7","mt-8","mt-9"] },
+        { n: "Phần 3", t: "Thực thi và báo cáo", ids: ["mt-10","mt-11","mt-12","mt-13"] },
+        { n: "Phần 4", t: "Đi làm thực tế", ids: ["mt-14","mt-15","mt-16","mt-17"] }
+      ]
+    },
+    {
+      id: "istqb",
+      ten: "Ôn thi ISTQB Foundation Level v4.0",
+      mo_ta: "Ôn trọn 6 chương syllabus CTFL v4.0, thuật ngữ bắt buộc nhớ, chiến thuật làm bài và kế hoạch ôn 4 tuần.",
+      cap: "Cơ bản",
+      gio: "~25 giờ",
+      yeu_cau: "Nên xong khoá Manual Testing trước",
+      groups: [
+        { n: "Phần 1", t: "Chuẩn bị", ids: ["is-0"] },
+        { n: "Phần 2", t: "Sáu chương syllabus", ids: ["is-1","is-2","is-3","is-4","is-5","is-6"] },
+        { n: "Phần 3", t: "Luyện thi", ids: ["is-7","is-8","is-9"] }
+      ]
+    },
     {
       id: "playwright",
       ten: "Web Automation — Python + Playwright",

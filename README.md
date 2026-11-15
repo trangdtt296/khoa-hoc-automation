@@ -14,6 +14,8 @@ Toàn bộ nội dung nằm trong một trang web tĩnh, không cần cài gì, 
 
 | Khoá | Số bài | Mức độ | Học xong làm được gì |
 | --- | --- | --- | --- |
+| Manual Testing — từ số 0 đến đi làm | 18 | Từ số 0 | Nền tảng nghề: quy trình, kỹ thuật test case, bug report, phỏng vấn |
+| Ôn thi ISTQB Foundation Level v4.0 | 10 | Cơ bản | Ôn trọn 6 chương syllabus, thuật ngữ, chiến thuật làm bài |
 | Web Automation — Python + Playwright | 23 | Từ số 0 | Bộ automation test cho web, chạy trên GitHub Actions |
 | Mobile Automation — Maestro | 12 | Từ số 0 | Test app Android không cần viết code, kịch bản bằng YAML |
 | Mobile Automation — Appium + Java | 20 | Từ số 0 | Framework mobile theo Page Object Model, TestNG, Allure |
@@ -22,7 +24,7 @@ Toàn bộ nội dung nằm trong một trang web tĩnh, không cần cài gì, 
 | Lập trình Flutter — cơ bản đến nâng cao | 25 | Từ số 0 | Tự làm app điện thoại hoàn chỉnh, test và phát hành lên store |
 | Phụ lục dùng chung | 5 | Tra cứu | Tài liệu, web luyện tập, ghi chú iOS và thiết bị thật |
 
-Tổng cộng **98 bài**.
+Tổng cộng **126 bài**.
 
 ## Cấu trúc mỗi bài
 
@@ -37,6 +39,10 @@ Mỗi bài khoảng 1–2 giờ.
 
 ## Nên bắt đầu từ đâu
 
+Mới vào nghề kiểm thử → **Khoá Manual Testing**, bắt đầu từ Bài 0.
+
+Muốn lấy chứng chỉ → **Khoá ISTQB**, nên học sau khoá Manual Testing.
+
 Chưa biết lập trình, muốn test web → **Khoá Playwright**, bắt đầu từ Bài 0.
 
 Chưa biết lập trình, muốn test app điện thoại → **Khoá Maestro**, viết bằng YAML nên không cần code.
@@ -47,7 +53,7 @@ Muốn tự làm app điện thoại → **Khoá Flutter**, học Dart từ Bài
 
 ## Công cụ dùng trong khoá
 
-Python · Playwright · pytest · Java 17 · Appium 2 · TestNG · Maven · Maestro · Apache JMeter · Allure · Dart · Flutter · Provider · Firebase · GitHub Actions
+Jira · Postman · TestRail · ISTQB CTFL v4.0 · Python · Playwright · pytest · Java 17 · Appium 2 · TestNG · Maven · Maestro · Apache JMeter · Allure · Dart · Flutter · Provider · Firebase · GitHub Actions
 
 ## Bản quyền
 
