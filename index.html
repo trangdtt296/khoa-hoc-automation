@@ -8960,6 +8960,392 @@ Câu 9 có hai cách trả lời đúng: bật `setAutoGrantPermissions(true)`, 
 | API + Mobile | Dùng REST Assured tạo dữ liệu trước, rút ngắn thời gian chạy test |
 </script>
 
+<script type="text/markdown" data-id="ag-0" data-nav="Bài 0 · Agent là gì">
+# Bài 0 — Agent là gì và khác gì những thứ đã học
+
+**Mục tiêu:** phân biệt rõ chatbot, skill, rule và agent, để biết khi nào dùng cái nào.
+
+## Ba mức dùng AI
+
+| Mức | Bạn làm gì | AI làm gì | Đã học ở |
+| --- | --- | --- | --- |
+| Hỏi đáp | Gõ một câu hỏi | Trả lời một lần | Bài 26–27 |
+| Skill + rule | Viết sẵn hướng dẫn và ràng buộc | Làm theo đúng khuôn mỗi lần | Bài 28–29 |
+| **Agent** | Giao một **mục tiêu** | Tự chia bước, tự dùng công cụ, tự kiểm tra, lặp đến khi xong | Bài này |
+
+Khác biệt cốt lõi: chatbot **trả lời**, agent **làm việc**.
+
+## Agent khác chatbot ở ba điểm
+
+**1. Tự lập kế hoạch nhiều bước**
+
+Bạn nói "viết test đăng nhập cho trang này". Chatbot trả về một đoạn code. Agent thì: mở trang, đọc HTML thật, tìm locator, viết code, chạy thử, thấy fail thì sửa, chạy lại, rồi báo kết quả.
+
+**2. Dùng được công cụ**
+
+Agent đọc và ghi file trong project, chạy lệnh trong terminal, mở trình duyệt, gọi API. Chatbot chỉ sinh ra chữ.
+
+**3. Tự kiểm tra và sửa**
+
+Agent chạy test, đọc thông báo lỗi, sửa, chạy lại. Vòng lặp này là thứ làm nên giá trị thật — và cũng là thứ cần kiểm soát, vì agent có thể "sửa cho pass" theo cách sai (xem Bài 3).
+
+## Đặt vào đúng bối cảnh nghề test
+
+Việc một tester làm mỗi ngày, xếp theo mức độ hợp với agent:
+
+| Việc | Hợp với agent | Vì sao |
+| --- | --- | --- |
+| Chuyển 30 test case tay thành script | Rất hợp | Lặp lại, có khuôn mẫu, kiểm chứng được bằng cách chạy thử |
+| Sửa 20 locator sau khi dev đổi giao diện | Rất hợp | Máy móc, agent tự chạy test để xác nhận |
+| Điều tra một test flaky | Hợp | Agent đọc được log, trace, chạy lại nhiều lần |
+| Viết test case từ user story | Hợp một phần | Agent sinh nháp, bạn bổ sung theo rủi ro nghiệp vụ |
+| Quyết định phạm vi kiểm thử | Không hợp | Cần hiểu rủi ro, deadline, lịch sử lỗi của hệ thống |
+| Quyết định lỗi này có chặn release không | Không hợp | Trách nhiệm của con người |
+| Exploratory testing | Không hợp | Dựa trên quan sát và trực giác |
+
+Ranh giới không đổi so với Bài 26: **agent làm phần máy móc, bạn giữ phần phán đoán.**
+
+## Agent chạy ở đâu
+
+| Nơi | Dùng cho |
+| --- | --- |
+| Trong IDE (VS Code, IntelliJ) | Viết và sửa code test ngay trong project |
+| Trong terminal | Chạy nhiều bước: sửa code, chạy test, đọc log |
+| Trong CI | Tự phân tích test fail sau mỗi lần build |
+
+Khoá này không gắn với một công cụ cụ thể nào. Nguyên tắc giao việc và kiểm soát bên dưới áp dụng được cho mọi công cụ agent, và công cụ thì thay đổi liên tục.
+
+## Vì sao tester nên học phần này
+
+Hai lý do thực tế:
+
+- **Khối lượng việc.** Một người làm được việc của ba người khi phần máy móc được giao đi. Đây là thứ đang đổi cách tuyển dụng ở vị trí automation.
+- **Câu hỏi phỏng vấn.** "Bạn dùng AI vào việc test thế nào?" đang thành câu hỏi phổ biến. Trả lời được kèm ví dụ cụ thể và cách bạn kiểm soát chất lượng sẽ khác hẳn trả lời chung chung.
+
+Điều cần tránh: nói rằng AI viết hết test cho bạn. Người phỏng vấn sẽ hỏi tiếp bạn kiểm tra thế nào — và đó mới là phần họ muốn nghe.
+
+## Bài tập
+
+1. Liệt kê 5 việc bạn làm nhiều nhất trong tuần, xếp mỗi việc vào nhóm "hợp với agent" hay "cần con người".
+2. Với mỗi việc hợp với agent, viết một câu mô tả kết quả bạn mong muốn.
+3. Viết ra 2 việc bạn **không** muốn giao cho agent và lý do.
+</script>
+
+<script type="text/markdown" data-id="ag-1" data-nav="Bài 1 · Giao việc cho agent">
+# Bài 1 — Giao việc cho agent đúng cách
+
+**Mục tiêu:** viết được một yêu cầu mà agent làm ra kết quả dùng được, không phải sửa lại từ đầu.
+
+## Một yêu cầu tốt có 4 phần
+
+| Phần | Nội dung | Thiếu thì sao |
+| --- | --- | --- |
+| **Mục tiêu** | Kết quả cuối cùng, không phải từng bước | Agent làm nửa chừng rồi dừng |
+| **Bối cảnh** | Project nào, file nào, công nghệ gì | Agent đoán, thường đoán sai |
+| **Ranh giới** | Được sửa gì, không được đụng gì | Agent sửa cả file bạn không muốn |
+| **Cách kiểm chứng** | Làm sao biết đã xong đúng | Agent báo xong khi chưa chạy thử |
+
+Phần cuối là phần hay bị bỏ nhất và quan trọng nhất.
+
+## So sánh hai cách giao việc
+
+Giao kém:
+
+```text
+Viết test cho chức năng giỏ hàng
+```
+
+Giao tốt:
+
+```text
+MỤC TIÊU
+Viết 4 test case cho chức năng giỏ hàng của app saucedemo, chạy pass hết.
+
+BỐI CẢNH
+- Project Python + Playwright + pytest, đã có Page Object Model trong pages/
+- Đã có pages/login_page.py và fixture da_dang_nhap trong conftest.py
+- Trang: https://www.saucedemo.com, tài khoản standard_user / secret_sauce
+
+PHẠM VI
+4 test: thêm 1 sản phẩm, thêm nhiều sản phẩm, xoá sản phẩm, giỏ trống.
+
+RANH GIỚI
+- Chỉ tạo pages/cart_page.py và tests/test_cart.py
+- Không sửa file nào khác trong pages/ hay conftest.py
+- Không thêm thư viện mới
+- Tuân thủ RULES.md trong project
+
+KIỂM CHỨNG
+Chạy `pytest tests/test_cart.py -v`, cả 4 test phải pass.
+Báo lại kết quả chạy thật, không được nói "chắc là chạy được".
+```
+
+Khác biệt nằm ở mục RANH GIỚI và KIỂM CHỨNG. Hai mục này biến agent từ "sinh code" thành "giao việc".
+
+## Nguyên tắc: giao mục tiêu, không giao thao tác
+
+| Giao thao tác | Giao mục tiêu |
+| --- | --- |
+| "Mở file cart_page.py, thêm method dem_san_pham" | "Viết CartScreen có các method cần cho 4 test ở trên" |
+| "Sửa dòng 15 thành get_by_role" | "Sửa các locator yếu trong file này theo thứ tự ưu tiên ở RULES.md" |
+
+Giao thao tác thì bạn vẫn phải nghĩ hết, agent chỉ gõ hộ. Giao mục tiêu thì agent nghĩ phần máy móc.
+
+Ngoại lệ: khi bạn biết chính xác phải sửa gì, giao thao tác nhanh hơn. Đừng bắt agent làm việc nhỏ bằng một đoạn mô tả dài.
+
+## Chia việc lớn thành mốc kiểm tra
+
+Đừng giao "viết cả bộ 15 test case" trong một lần. Agent chạy lâu, và nếu lệch hướng từ bước 2 thì 13 bước sau đều sai.
+
+Cách làm tốt hơn:
+
+| Vòng | Giao gì | Bạn kiểm gì |
+| --- | --- | --- |
+| 1 | Viết `CartScreen` với 4 method | Đọc locator có bền không |
+| 2 | Viết 2 test đầu, chạy pass | Chạy thử, đọc assertion |
+| 3 | Viết 2 test còn lại | Chạy cả bộ |
+| 4 | Thêm data-driven đọc CSV | Kiểm dữ liệu |
+
+Mỗi vòng xong bạn xem rồi mới cho đi tiếp. Mất thêm vài phút nhưng tránh được việc phải bỏ hết làm lại.
+
+## Cho agent đúng bối cảnh
+
+Agent không tự biết project của bạn. Ba thứ nên đưa:
+
+- **File RULES.md** (Bài 29) — agent đọc là biết quy ước của project.
+- **Một file mẫu đã viết đúng** — "viết theo đúng kiểu của `pages/login_page.py`" hiệu quả hơn mô tả bằng lời.
+- **HTML thật hoặc ảnh màn hình** — không có thì agent đoán locator, và locator đoán gần như luôn sai.
+
+## Khi agent đi sai hướng
+
+Dừng lại sớm. Dấu hiệu:
+
+- Nó sửa file bạn không yêu cầu
+- Nó thêm thư viện mới
+- Nó viết rất nhiều code cho một việc nhỏ
+- Nó báo xong mà chưa chạy thử
+
+Cách xử lý: dừng, nói rõ cái sai, yêu cầu quay lại trạng thái trước. Đừng cố "chữa cháy" bằng cách giao thêm yêu cầu chồng lên — càng chồng càng rối.
+
+## Bài tập
+
+1. Viết lại một yêu cầu bạn từng giao cho AI theo đủ 4 phần ở trên.
+2. Giao cho agent viết `CartScreen` theo mẫu `LoginScreen` của bạn, so sánh kết quả với lần bạn chỉ nói một câu.
+3. Chia việc "viết 15 test case" thành 4 vòng, viết rõ mỗi vòng kiểm gì.
+4. Thử cố tình giao thiếu phần KIỂM CHỨNG, xem agent có tự chạy test không.
+</script>
+
+<script type="text/markdown" data-id="ag-2" data-nav="Bài 2 · Agent trong quy trình QA">
+# Bài 2 — Agent trong quy trình QA hằng ngày
+
+**Mục tiêu:** 5 tình huống cụ thể giao được cho agent, kèm cách giao và cách kiểm.
+
+## 1. Chuyển test case tay thành script
+
+Việc tốn thời gian nhất của một automation tester mới, và hợp với agent nhất.
+
+```text
+MỤC TIÊU: chuyển 8 test case trong file data/testcase-login.csv thành test Playwright.
+BỐI CẢNH: project đã có POM trong pages/, xem pages/login_page.py làm mẫu.
+         HTML của form đăng nhập ở cuối yêu cầu này.
+RANH GIỚI: chỉ tạo tests/test_login.py, không sửa pages/.
+KIỂM CHỨNG: chạy pytest tests/test_login.py -v, báo lại số pass/fail thật.
+```
+
+**Bạn kiểm:** mỗi test có assertion kiểm tra nghiệp vụ không, hay chỉ kiểm "không crash". Đây là chỗ agent hay làm ẩu nhất.
+
+## 2. Sửa hàng loạt locator sau khi dev đổi giao diện
+
+```text
+MỤC TIÊU: cập nhật locator trong pages/ cho khớp HTML mới (đính kèm).
+RANH GIỚI: chỉ sửa phần khai báo locator, không đổi tên method, không sửa tests/.
+KIỂM CHỨNG: chạy cả bộ test, báo test nào còn fail và vì sao.
+```
+
+**Bạn kiểm:** locator mới có theo thứ tự ưu tiên trong RULES.md không, hay agent lại dùng XPath cho nhanh.
+
+## 3. Điều tra test flaky
+
+```text
+MỤC TIÊU: tìm nguyên nhân test_them_vao_gio lúc pass lúc fail.
+BỐI CẢNH: file trace.zip và log 10 lần chạy gần nhất ở thư mục test-results/.
+YÊU CẦU: chạy lại test này 10 lần, ghi lại tỷ lệ fail, chỉ ra nguyên nhân khả dĩ
+         kèm bằng chứng từ log. Đề xuất cách sửa, chưa sửa vội.
+```
+
+Agent chạy lặp 10 lần là việc bạn ngại làm bằng tay. Lưu ý câu cuối: **chưa sửa vội** — bạn muốn xem chẩn đoán trước khi cho sửa.
+
+**Bạn kiểm:** nguyên nhân có bằng chứng cụ thể từ log không, hay chỉ là phỏng đoán chung chung kiểu "có thể do mạng chậm".
+
+## 4. Phân tích test fail trên CI
+
+```text
+MỤC TIÊU: đọc báo cáo lần chạy CI gần nhất, phân loại 6 test fail thành:
+          (a) bug thật của sản phẩm
+          (b) lỗi của test script
+          (c) vấn đề môi trường CI
+Mỗi test nêu rõ căn cứ. Không sửa gì.
+```
+
+Phân loại này giúp bạn biết nên báo dev hay tự sửa test. Agent đọc log nhanh hơn người, nhưng **kết luận cuối là của bạn** — nhất là nhóm (a), vì báo nhầm bug làm mất uy tín.
+
+## 5. Rà soát bộ test hiện có
+
+```text
+MỤC TIÊU: rà toàn bộ thư mục tests/ và chỉ ra:
+          1. Test không có assertion thật
+          2. Test còn dùng sleep
+          3. Locator dễ hỏng
+          4. Test trùng nội dung nhau
+          5. Chức năng chưa được phủ test
+Xuất ra bảng Markdown. Không sửa gì.
+```
+
+Mục 5 là thứ agent làm kém nhất — nó không biết nghiệp vụ của bạn. Nhưng mục 1–4 thì rất nhanh và chính xác.
+
+## Nối agent với công cụ của nhóm
+
+Agent mạnh hơn hẳn khi đọc được dữ liệu thật của nhóm: ticket trên Jira, test case trên TestRail, log trên hệ thống giám sát. Nhiều công cụ hiện nay kết nối theo **MCP** — một chuẩn mở để agent gọi tới công cụ bên ngoài.
+
+Khi có kết nối đó, yêu cầu trở thành:
+
+```text
+Đọc ticket BUG-1234 trên Jira, viết test case tái hiện lỗi,
+rồi viết script Playwright cho test case đó.
+```
+
+Chưa có kết nối thì bạn dán nội dung ticket vào — vẫn chạy được, chỉ tốn thêm một bước copy.
+
+Lưu ý quyền riêng tư ở Bài 26 vẫn nguyên giá trị: agent kết nối vào hệ thống thật thì dữ liệu thật đi qua nó. Kiểm tra chính sách công ty trước khi nối.
+
+## Việc không nên giao
+
+| Việc | Vì sao |
+| --- | --- |
+| Tự sửa code sản phẩm để test pass | Vượt quyền hạn của tester, và che mất bug thật |
+| Tự đóng ticket, tự đổi trạng thái bug | Quyết định nghiệp vụ |
+| Tự push code lên nhánh chính | Phải qua review của người |
+| Tự chạy test trên môi trường production | Rủi ro dữ liệu thật |
+
+Quy tắc chung: agent được **đề xuất** và **làm trong phạm vi project test**, không được tự thay đổi thứ nằm ngoài đó.
+
+## Bài tập
+
+1. Chọn một trong 5 tình huống trên, giao cho agent với project của bạn.
+2. Ghi lại: agent mất bao lâu, bạn phải sửa bao nhiêu phần trăm kết quả.
+3. Làm tình huống 5 (rà soát bộ test) trên chính project Bài 20, xem nó tìm ra lỗi nào bạn chưa thấy.
+4. Viết ra 3 việc trong nhóm bạn tuyệt đối không giao cho agent, kèm lý do.
+</script>
+
+<script type="text/markdown" data-id="ag-3" data-nav="Bài 3 · Kiểm soát và dự án cuối">
+# Bài 3 — Kiểm soát chất lượng và dự án cuối
+
+**Mục tiêu:** biết agent sai kiểu gì và chặn được, rồi làm một dự án nhỏ để tự đánh giá.
+
+## 5 kiểu sai đặc trưng của agent
+
+**1. Sửa test cho pass thay vì sửa lỗi**
+
+Nguy hiểm nhất. Test fail vì app có bug, agent sửa giá trị mong đợi cho khớp với thực tế — test xanh, bug vẫn còn.
+
+```python
+# Truoc: assertion dung, test fail vi app co bug
+expect(page.locator(".total")).to_have_text("$32.39")
+
+# Agent "sua": doi gia tri mong doi cho khop thuc te
+expect(page.locator(".total")).to_have_text("$29.99")
+```
+
+**Cách chặn:** ghi trong yêu cầu — *"nếu test fail, phân tích nguyên nhân trước; chỉ sửa test khi chắc chắn lỗi nằm ở script, không được đổi giá trị mong đợi để test pass"*.
+
+**2. Assertion luôn đúng**
+
+```python
+assert len(san_pham) >= 0        # luon dung, vo nghia
+expect(page.locator("body")).to_be_visible()    # luon dung
+```
+
+**Cách chặn:** sau khi nhận code, đổi một giá trị mong đợi thành sai và chạy lại. Test **phải fail**. Không fail nghĩa là assertion vô nghĩa.
+
+**3. Thêm sleep để "cho chắc"**
+
+Agent gặp test flaky thường thêm `sleep` thay vì tìm wait đúng. RULES.md ở Bài 29 cấm việc này — nhưng phải kiểm lại, vì agent không phải lúc nào cũng tuân thủ.
+
+**4. Viết thừa**
+
+Giao viết 4 test, agent viết thêm 3 helper class, một file config và một README. Code nhiều hơn nghĩa là phải bảo trì nhiều hơn.
+
+**Cách chặn:** nêu rõ phạm vi file được tạo trong phần RANH GIỚI.
+
+**5. Báo xong mà chưa chạy**
+
+**Cách chặn:** luôn yêu cầu dán kết quả chạy thật. Và tự chạy lại một lần nữa ở máy mình.
+
+## Checklist trước khi commit code có agent tham gia
+
+- [ ] Đã tự chạy lại toàn bộ test, không chỉ test mới
+- [ ] Mọi locator đã kiểm chứng trên giao diện thật
+- [ ] Không còn `sleep` nào
+- [ ] **Đã thử làm test fail có chủ đích** — đổi giá trị mong đợi, test phải fail
+- [ ] Đọc hiểu được từng dòng code mình commit
+- [ ] Không có dữ liệu thật hoặc secret lọt vào code
+- [ ] Số file thay đổi đúng như phạm vi đã giao
+- [ ] Nếu agent sửa test đang fail: đã tự xác nhận đó là lỗi script, không phải bug sản phẩm
+
+Mục 4 và mục 8 là hai mục quan trọng nhất và hay bị bỏ nhất.
+
+## Trách nhiệm không chuyển giao được
+
+Khi bộ test của bạn bỏ sót một bug ra production, không ai hỏi agent. Họ hỏi bạn.
+
+Vì vậy nguyên tắc cuối cùng của phần này: **đừng commit code bạn không đọc hiểu.** Agent viết nhanh hơn bạn đọc, nên cám dỗ bỏ qua bước đọc là có thật. Code bạn không hiểu thì bạn không bảo trì được, và không bảo vệ được trong review.
+
+## Dự án cuối
+
+Làm trên chính project Bài 20 (saucedemo) bạn đã có.
+
+**Phần 1 — Dùng agent mở rộng bộ test**
+
+Giao cho agent viết thêm 5 test case cho luồng checkout, theo đúng 4 phần ở Bài 1. Ghi lại:
+
+| Mục | Ghi lại |
+| --- | --- |
+| Yêu cầu bạn viết | Dán nguyên văn |
+| Thời gian agent làm | Bao nhiêu phút |
+| Bạn phải sửa gì | Liệt kê từng chỗ |
+| Tỷ lệ dùng được ngay | Bao nhiêu phần trăm |
+
+**Phần 2 — Kiểm chất lượng**
+
+Chạy đủ checklist 8 mục ở trên. Riêng mục 4, ghi lại kết quả: test nào fail đúng như mong đợi, test nào vẫn pass (và đó là assertion cần viết lại).
+
+**Phần 3 — Rút ra quy tắc**
+
+Mỗi chỗ bạn phải sửa, viết thành một dòng trong `RULES.md`. Đây chính là cách file rule ở Bài 29 lớn dần theo kinh nghiệm thật.
+
+**Phần 4 — Viết lại thành câu trả lời phỏng vấn**
+
+Viết một đoạn 5–7 câu trả lời câu hỏi *"Bạn dùng AI trong công việc test như thế nào?"*, dựa trên đúng những gì bạn vừa làm. Nêu được 3 thứ:
+
+1. Việc cụ thể bạn giao cho AI và việc bạn giữ lại
+2. Cách bạn kiểm soát chất lượng kết quả
+3. Một lần AI làm sai và bạn phát hiện ra bằng cách nào
+
+Điểm 3 là điểm thuyết phục nhất. Nó cho thấy bạn dùng AI mà vẫn kiểm soát được, thay vì tin tưởng mù quáng.
+
+## Tổng kết khoá AI cho Tester
+
+| Phần | Bạn học được |
+| --- | --- |
+| Bài 26 | AI làm được gì, không làm được gì, 5 nguyên tắc an toàn dữ liệu |
+| Bài 27 | 6 workflow hằng ngày kèm prompt mẫu |
+| Bài 28 | Đóng gói quy trình lặp lại thành skill dùng chung cho nhóm |
+| Bài 29 | File rule ràng buộc AI theo chuẩn của project |
+| Agent 0–3 | Giao việc nhiều bước cho agent và kiểm soát kết quả |
+
+Thứ không đổi qua cả 8 bài: **AI sinh bản nháp, bạn chịu trách nhiệm bản cuối.** Công cụ sẽ thay đổi liên tục, nguyên tắc này thì không.
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
@@ -9020,12 +9406,13 @@ Câu 9 có hai cách trả lời đúng: bật `setAutoGrantPermissions(true)`, 
     {
       id: "ai",
       ten: "AI cho Tester",
-      mo_ta: "Workflow, skill và rule để dùng AI vào việc test hằng ngày mà vẫn kiểm soát được chất lượng.",
+      mo_ta: "Workflow, skill, rule và agent để dùng AI vào việc test hằng ngày mà vẫn kiểm soát được chất lượng.",
       cap: "Cơ bản",
-      gio: "~8 giờ",
+      gio: "~16 giờ",
       yeu_cau: "Không cần biết lập trình",
       groups: [
-        { n: "Phần 1", t: "Dùng AI trong công việc tester", ids: ["bai-26","bai-27","bai-28","bai-29"] }
+        { n: "Phần 1", t: "Dùng AI trong công việc tester", ids: ["bai-26","bai-27","bai-28","bai-29"] },
+        { n: "Phần 2", t: "Agent cho tester", ids: ["ag-0","ag-1","ag-2","ag-3"] }
       ]
     },
     {

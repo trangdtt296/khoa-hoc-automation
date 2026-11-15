@@ -18,10 +18,10 @@ Toàn bộ nội dung nằm trong một trang web tĩnh, không cần cài gì, 
 | Mobile Automation — Maestro | 12 | Từ số 0 | Test app Android không cần viết code, kịch bản bằng YAML |
 | Mobile Automation — Appium + Java | 20 | Từ số 0 | Framework mobile theo Page Object Model, TestNG, Allure |
 | Kiểm thử hiệu năng — JMeter | 5 | Cơ bản | Đo tải hệ thống và chỉ ra API gây nghẽn |
-| AI cho Tester | 4 | Cơ bản | Workflow, skill và rule để dùng AI vào việc test |
+| AI cho Tester | 8 | Cơ bản | Workflow, skill, rule và agent để dùng AI vào việc test |
 | Phụ lục dùng chung | 5 | Tra cứu | Tài liệu, web luyện tập, ghi chú iOS và thiết bị thật |
 
-Tổng cộng **69 bài**.
+Tổng cộng **73 bài**.
 
 ## Cấu trúc mỗi bài
 
